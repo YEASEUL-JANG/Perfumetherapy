@@ -99,13 +99,35 @@ public class OrderDAO {
 		List<CartDTO> list = null;
 		SqlSession session=MybatisManager.getInstance().openSession();
 		try {
-			session.selectList("order.cartView");
+			list = session.selectList("order.cartView");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
 			if(session != null) session.close();
 		}
 		return list;
+	}
+	public void updatenumUp(int idx) {
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			session.update("order.numUp",idx);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+	}
+	public void updatenumDown(int idx) {
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			session.update("order.numDown",idx);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
 	}
 
 }

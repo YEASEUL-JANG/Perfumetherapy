@@ -21,6 +21,30 @@ function cart(){
 	});
 }
 
+function numup(up){
+	 const idx = up;
+	$.ajax({
+		type : "post",
+		data : {idx: idx},
+		url : "${path}/order_servlet/cartnumUp.do",
+		success : function(result){
+			$("#result").html(result);
+		}
+	});
+}
+
+function numdown(down){
+	 const idx = down;
+	$.ajax({
+		type : "post",
+		data : {idx: idx},
+		url : "${path}/order_servlet/cartnumDown.do",
+		success : function(result){
+			$("#result").html(result);
+		}
+	});
+} 
+
 </script>
 <style type="text/css">
 

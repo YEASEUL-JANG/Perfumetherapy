@@ -44,7 +44,19 @@
  
  <select id="cartView" resultType="order.dto.CartDTO">
   select * from p_cart
+  order by cartid
  </select>
  
+ <update id="numUp">
+  update p_cart
+  set num = num+1
+  where idx = #{idx}
+ </update>
+ 
+  <update id="numDown">
+  update p_cart
+  set num = num-1
+  where idx = #{idx}
+ </update>
  
  </mapper>

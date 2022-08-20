@@ -92,7 +92,24 @@ public class orderController extends HttpServlet {
 			String page="/myweb/cart_sub.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
-			
+		}else if(uri.indexOf("cartnumUp.do") != -1 ){
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			dao.updatenumUp(idx);
+			List<CartDTO> list=dao.cartview();
+			request.setAttribute("list", list);
+			request.setAttribute("count", list.size());
+			String page="/myweb/cart_sub.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response);
+		}else if(uri.indexOf("cartnumDown.do") != -1 ){
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			dao.updatenumDown(idx);
+			List<CartDTO> list=dao.cartview();
+			request.setAttribute("list", list);
+			request.setAttribute("count", list.size());
+			String page="/myweb/cart_sub.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response);
 		}
 		
 	}
