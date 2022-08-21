@@ -63,7 +63,8 @@ text-align: right;
 background: #fafafa;
 border-bottom: 1px solid #e8e8e8;}
 #cartable .p{
-width: 9%;}
+width: 10%;
+text-align: right;}
 #counter{
 display: flex;
 border: 1px solid #999;
@@ -76,13 +77,96 @@ border-bottom : 1px solid #999;
 cursor: pointer;}
 #counter tr:last-child td{
 border: none;}
+.total_sum{
+border: none;
+background: #fafafa;
+font-weight: bold;
+font-size: 15px;
+text-align: right;
+}
+#cartable2{
+margin-top: 50px;
+border-top: 1px solid black;
+border-bottom: 1px solid black;
+font-size: 25px;
+}
+#cartable2 .aa{
+border-bottom: 1px solid #e8e8e8;
+padding: 15px;
+background: #fafafa;
+font-size: 15px;
+color: #b6b6b6}
+#cartable2 .total_sum2{
+font-size: 25px;
+padding: 25px;
+}
+
 </style>
 <script type="text/javascript">
+$(function(){
+	var tt = "${cart}";
+    if (tt == 'false') {
+        $("#allCheck").prop("checked", false);
+    } else {
+        $("#allCheck").prop("checked", true);
+        $(".chkbox").prop("checked", true);
+        itemSum();
+    }
 
+	$("#allCheck").click(function () {
+    var chk = $("#allCheck").prop("checked");
+    if (chk) {
+        $(".chkbox").prop("checked", true);
+        itemSum();
+    } else {
+        $(".chkbox").prop("checked", false);
+        itemSum();
+    }
+	});
+	
+	$(".chkbox").click(function () {
+   		 $("#allCheck").prop("checked", false);
+	});
+	
+	$("#orderAll").click(function () {
+		$(".chkbox").prop("checked", true);
+		var checkArr = new Array();
+		$("input[class='chkbox']:checked").each(function () {
+            checkArr.push($(this).attr("data-cartid"));
+        });
+		 $.ajax({
+	            dataType :'json',
+	            type:'POST',
+	            traditional: true,
+	            url: '${path }/order_servlet/order.do',
+	            data:{chk:checkArr},
+	            success: function(){
+	            	
+	            }
+	         })
+	});
+});
+function itemSum() {
+    var str = "";
+    var sum = 0;
+    var count = $(".chkbox").length;
+    for (var i = 0; i < count; i++) {
+        if ($(".chkbox")[i].checked == true) {
+            sum += parseInt($(".chkbox")[i].value);
+        }
+    }
+    var result = sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    $(".total_sum").val(result);
+    $(".total_sum2").html(result+"원");
+}
 </script>
+
+
 </head>
 <body>
-
+<!-- hidden form -->
+ <form action="${path }/order_servlet/order.do" method="post" autocomplete="off" id="orderForm">
+    <input type="hidden" name="chk[]" id="chk" value="" /></form>
 
  <table id="cart_cat">
     <colgroup>
@@ -97,7 +181,7 @@ border: none;}
 
 <table id="cartable">
     <tr >
-    <th class="a"><input type="checkbox"></th>
+    <th class="a"><input type="checkbox" id="allCheck" checked ></th>
     <th class="a ">이미지</th>
     <th class="a col-4">상품정보</th>
     <th class="a ">판매가</th>
@@ -110,10 +194,11 @@ border: none;}
     </tr>
 	<c:forEach var="cart" items="${list }">
     <!--hidden data  -->
- 	<input type= "hidden" id="saleprice" value="${cart.sale_price }">
  	<input type="hidden" id="hid_idx" value="${cart.idx }">
+ 	<input type= "hidden" id="saleprice" value="${cart.sale_price }">
     <tr >
-    <td class="b" rowspan="2"><input type="checkbox"></td>
+    <td class="b" rowspan="2"><input type="checkbox" class="chkbox" onclick="itemSum()" data-cartid="${cart.cartid}" value="${cart.sale_price * cart.num }"></td>
+    
     <td class="b" rowspan="2"><img src="image/${cart.picture }" style="width: 70px;height: 70px;"></td>
     <td class="b w" rowspan="2">${cart.iname }</td>
     <td class="b w" rowspan="2"><fmt:formatNumber type="number" maxFractionDigits="3" value="${cart.sale_price }"/>원</td>
@@ -130,18 +215,49 @@ border: none;}
     <td class="b w" rowspan="2">기본배송</td>
     <td class="b w" rowspan="2">무료</td>
     <td class="b p" rowspan="2"><input type="text" id="total" value="
-    <fmt:formatNumber type="number" maxFractionDigits="3" value="${cart.sale_price * cart.num }"/>" size="7">원</td>
+    <fmt:formatNumber type="number" maxFractionDigits="3" value="${cart.sale_price * cart.num }"/>" size="9">원</td>
     <td ><input type="button" value="주문하기" id="btnorder"></td>
     </tr><tr>
-    <td class="b w"><input type="button" value="삭제" id="btndelete"></td>
+    <td class="b w"><input type="button" value="삭제" id="delete_${cart.cartid}_btn" data-cartid="${cart.cartid}"></td>
     </tr>
+    <script>
+    $("#delete_${cart.cartid}_btn").click(function () {
+    var confirm_val = confirm("정말 삭제하시겠습니까?");
+    if (confirm_val) {
+        var checkArr = $(this).attr("data-cartid");
+          $.ajax({
+            url: "${path}/order_servlet/deletecart.do",
+            type: "post",
+            data: { chbox: checkArr },
+            success: function () {
+                    location.href = "cart.jsp";
+            	}
+        	});  
+    	}
+	});
+    </script>
     </c:forEach>
     <tr >
     <td class="c" colspan="6"></td>
-    <td class="c" colspan="5">상품구매금액 <input type="text" id="c_price" value="" size="5">
-    +배송비 0(무료) = 합계 : <input type="text" id="c_total"value="" size="5"></td>
+    <td class="c" colspan="5">상품구매금액 <input class="total_sum" size="6">원
+    +배송비 0(무료) = 합계 : <input class="total_sum"  size="6">원</td>
     </tr>
     </table>
-
+   	
+   	<table id="cartable2" style="width:100%; text-align: center;">
+   	 <tr>
+   	 <td class="aa" style="width:20%;">총 상품금액</td>
+   	 <td class="aa" style="width:20%;">총 배송비</td>
+   	 <td class="aa" style="width:60%;">결제예정금액</td>
+   	 </tr>
+   	 <tr>
+   	 <td class="bb total_sum2"></td>
+   	 <td class="bb">+0원</td>
+   	 <td class="bb total_sum2"></td>
+   	 </tr>
+   	</table>
+   	<input type="button" value="전체상품주문" id="orderAll">
+   	<input type="button" value="선택상품주문" id="orderSelect">
+   	<br><input type="button" value="쇼핑계속하기">
 </body>
 </html>

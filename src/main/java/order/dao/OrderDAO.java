@@ -129,5 +129,17 @@ public class OrderDAO {
 			if(session != null) session.close();
 		}
 	}
+	public void deleteCart(int cartid) {
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			session.delete("order.deleteCart",cartid);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		
+	}
 
 }

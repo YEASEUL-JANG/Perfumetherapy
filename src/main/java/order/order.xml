@@ -59,4 +59,10 @@
   where idx = #{idx}
  </update>
  
+ <delete id="deleteCart">
+   delete from p_cart
+   where cartid=#{cartid}
+ </delete>
+ 
+ 
  </mapper>

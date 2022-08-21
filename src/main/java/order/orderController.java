@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import items.itemsDAO;
-import items.itemsDTO;
 import order.dao.OrderDAO;
 import order.dto.CartDTO;
 import order.dto.OrderDTO;
@@ -110,6 +108,27 @@ public class orderController extends HttpServlet {
 			String page="/myweb/cart_sub.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
+		}else if(uri.indexOf("deletecart.do") != -1 ){
+			int cartid = Integer.parseInt(request.getParameter("chbox"));
+			System.out.println("cartid : "+cartid);
+			dao.deleteCart(cartid);
+		//카트상품 주문하기
+		}else if(uri.indexOf("order.do") != -1 ){
+			HttpSession session = request.getSession();
+			String userid = (String)session.getAttribute("userid");
+			if(userid == null) {
+				response.sendRedirect(request.getContextPath()+"/myweb/session_check.jsp");
+			}else {
+				String[] chArr = request.getParameterValues("chk");
+				int cartid = 0;
+				for(String i : chArr) {
+					cartid = Integer.parseInt(i);
+					System.out.println("cartid : "+cartid);
+				}
+			}
+			
+			
+			
 		}
 		
 	}

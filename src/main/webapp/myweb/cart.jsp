@@ -7,6 +7,7 @@
 <title>Perfumetherapy</title>
 <%@ include file="../include/header.jsp" %>
 <script src="../include/jquery-3.3.1.min.js"></script>
+<link rel="icon" type="image/x-icon" href="../Resources/assets/favicon.ico.png" />
 <script type="text/javascript">
 $(function(){
 	cart();
