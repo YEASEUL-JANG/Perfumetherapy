@@ -64,5 +64,36 @@
    where cartid=#{cartid}
  </delete>
  
+ <select id="orderSeq" resultType="int">
+ select p_order_seq.nextval
+ from dual
+ </select>
+ 
+ <insert id="addorderList">
+  insert into p_order(orderid, userid, sum_price)
+  values (#{trade_code},#{userid},#{total_price})
+ </insert>
+ 
+ <insert id="addDetailorder">
+  insert into p_detailorder(cartid, num, idx, picture, iname, sale_price, point, volume)
+  select cartid, num, idx, picture, iname, sale_price, point, volume
+  from p_cart
+  where cartid = #{cartid}
+ </insert>
+ 
+ <update id="updateDetailorder">
+  update p_detailorder set orderid = #{trade_code}, userid=#{userid}
+  where cartid=#{cartid}
+ </update>
+ 
+ <select id="orderdetail" resultType="order.dto.OrderdetailDTO">
+  select * from p_detailorder
+  where userid = #{userid}
+ </select>
+ 
+ <select id="getuser" resultType="user.userDTO">
+  select * from users
+  where userid = #{userid}
+ </select>
  
  </mapper>

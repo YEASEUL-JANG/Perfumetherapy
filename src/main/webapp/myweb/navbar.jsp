@@ -23,8 +23,17 @@ $(function(){
 		$("#joinli").show();
 		$("#logoutli").hide();
 	}
+	cartnum();
 });
-
+function cartnum(){
+	$.ajax({
+		type : "post",
+		url : "${path}/order_servlet/cartnum.do",
+		success : function(result){
+			$("#cartnum").html(result);
+		}
+	});
+}
 function mypage(){//마이페이지 클릭 시
 	if(${sessionScope.userid != null}){
 		location.href="${path}/order_servlet/mypage.do";
@@ -37,7 +46,7 @@ function mypage(){//마이페이지 클릭 시
     <!-- 메뉴바-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="#!">Perfumetherapy</a>
+            <a class="navbar-brand" href="index.jsp">Perfumetherapy</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
@@ -82,13 +91,12 @@ function mypage(){//마이페이지 클릭 시
                        	  </ul>
                    		 </li>
                     </ul>
-                <form class="d-flex">
-                    <button class="btn btn-outline-dark" type="submit">
-                        <i class="bi-cart-fill me-1"></i>
+                    <button class="btn btn-outline-dark" onclick="location.href='cart.jsp';">
+                        <i class="fa-solid fa-cart-shopping"></i>
                         Cart
-                        <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                        <span class="badge bg-dark text-white ms-1 rounded-pill"><div id="cartnum"></div></span>
                     </button>
-                </form>
+                
                 <form name = "mypageform" method="post">
                  <input type="hidden" value="${sessionScope.userid }" id="id" name="id">
                 </form>

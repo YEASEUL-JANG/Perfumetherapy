@@ -8,7 +8,9 @@ import org.apache.ibatis.session.SqlSession;
 
 import order.dto.CartDTO;
 import order.dto.OrderDTO;
+import order.dto.OrderdetailDTO;
 import sqlmap.MybatisManager;
+import user.userDTO;
 
 public class OrderDAO {
 
@@ -140,6 +142,79 @@ public class OrderDAO {
 			if(session != null) session.close();
 		}
 		
+	}
+	public int order_seq() {
+		int key = 0;
+		SqlSession session=MybatisManager.getInstance().openSession();
+		key=session.selectOne("order.orderSeq");
+		session.close();
+		return key;
+	}
+	public void addorderList(String trade_code, String userid, int total_price) {
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			Map<Object,Object> map = new HashMap<>();
+			map.put("trade_code", trade_code);
+			map.put("userid", userid);
+			map.put("total_price", total_price);
+			session.insert("order.addorderList",map);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		
+	}
+	public void addDetailorder(int cartid) {
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			session.insert("order.addDetailorder",cartid);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+	}
+	public void updateDetailorder(String trade_code, String userid, int cartid) {
+		Map<String,Object> map=new HashMap<>();
+		map.put("trade_code", trade_code);
+		map.put("userid", userid);
+		map.put("cartid", cartid);
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			session.update("order.updateDetailorder",map);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+	}
+	public List<OrderdetailDTO> orderdetail(String userid) {
+		List<OrderdetailDTO> list = null;
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			list = session.selectList("order.orderdetail",userid);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		return list;
+	}
+	public userDTO getuser(String userid) {
+		userDTO dto = null;
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			dto = session.selectOne("order.getuser",userid);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		return dto;
 	}
 
 }

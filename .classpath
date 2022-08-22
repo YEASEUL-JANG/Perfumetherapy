@@ -9,6 +9,6 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/work_java/jsp02/src/main/java/memo/webapp/WEB-INF/lib/mybatis-3.5.10.jar"/>
+	<classpathentry kind="lib" path="C:/work_java/myproject/src/main/webapp/WEB-INF/lib/mybatis-3.5.10.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

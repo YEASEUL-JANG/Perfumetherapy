@@ -134,7 +134,7 @@ color:#424242 }
      <col width="25%">
    </colgroup>
     <tr>
-    <td class="img" onclick="location.href='orderlist.jsp'"><i class="fa-solid fa-basket-shopping"></i></td>
+    <td class="img" onclick="location.href='orderlist.jsp';"><i class="fa-solid fa-basket-shopping"></i></td>
     <td class="img"><i class="fa-solid fa-address-card"></i></td>
     <td class="img"><i class="fa-solid fa-heart"></i></td>
     <td class="img"><i class="fa-solid fa-pen-to-square"></i></td>

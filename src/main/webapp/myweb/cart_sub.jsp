@@ -89,30 +89,30 @@ margin-top: 50px;
 border-top: 1px solid black;
 border-bottom: 1px solid black;
 font-size: 25px;
+border-collapse: collapse;
 }
 #cartable2 .aa{
 border-bottom: 1px solid #e8e8e8;
 padding: 15px;
 background: #fafafa;
 font-size: 15px;
-color: #b6b6b6}
+color: #A4A4A4;}
 #cartable2 .total_sum2{
 font-size: 25px;
 padding: 25px;
 }
-
 </style>
 <script type="text/javascript">
 $(function(){
 	var tt = "${cart}";
-    if (tt == 'false') {
+    if (tt == 'false') {//카트상품이 없으면
         $("#allCheck").prop("checked", false);
-    } else {
+    } else {//있다면 기본적으로 allcheck
         $("#allCheck").prop("checked", true);
         $(".chkbox").prop("checked", true);
         itemSum();
     }
-
+//모두선택을 클릭할 때
 	$("#allCheck").click(function () {
     var chk = $("#allCheck").prop("checked");
     if (chk) {
@@ -123,29 +123,43 @@ $(function(){
         itemSum();
     }
 	});
-	
+//개별 체크박스를 클릭할 때	
 	$(".chkbox").click(function () {
    		 $("#allCheck").prop("checked", false);
 	});
-	
-	$("#orderAll").click(function () {
-		$(".chkbox").prop("checked", true);
-		var checkArr = new Array();
-		$("input[class='chkbox']:checked").each(function () {
-            checkArr.push($(this).attr("data-cartid"));
-        });
-		 $.ajax({
-	            dataType :'json',
-	            type:'POST',
-	            traditional: true,
-	            url: '${path }/order_servlet/order.do',
-	            data:{chk:checkArr},
-	            success: function(){
-	            	
-	            }
-	         })
-	});
 });
+//주문하기
+function orderitem(result){
+	if(result != null){ //전체상품주문 클릭시
+	$(".chkbox").prop("checked", true);
+	}
+	var checkArr = new Array();
+	$("input[class='chkbox']:checked").each(function () {
+        checkArr.push($(this).attr("data-cartid"));
+    });
+	var total_price = $("#tot_price").val();
+	 $.ajax({
+            type:'post',
+            traditional: true,
+            url: '${path }/order_servlet/order.do',
+            data:{chk:checkArr,
+            	t_price : total_price},
+            success: function(data){
+            	var result = data;
+            	alert(result);
+            	if(result==0){//세션아이디가 없을때
+            		location.href="session_check.jsp"; 
+            	}else if(result == 1){
+            	location.href="${path}/order_servlet/orderform.do";
+            	}
+            },
+    		error: function(){
+    			alert("에러.");
+    		}
+         });
+}
+
+
 function itemSum() {
     var str = "";
     var sum = 0;
@@ -155,19 +169,14 @@ function itemSum() {
             sum += parseInt($(".chkbox")[i].value);
         }
     }
+    $("#tot_price").val(sum.toString());
     var result = sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     $(".total_sum").val(result);
     $(".total_sum2").html(result+"원");
 }
 </script>
-
-
 </head>
 <body>
-<!-- hidden form -->
- <form action="${path }/order_servlet/order.do" method="post" autocomplete="off" id="orderForm">
-    <input type="hidden" name="chk[]" id="chk" value="" /></form>
-
  <table id="cart_cat">
     <colgroup>
      <col width="15%">
@@ -194,8 +203,7 @@ function itemSum() {
     </tr>
 	<c:forEach var="cart" items="${list }">
     <!--hidden data  -->
- 	<input type="hidden" id="hid_idx" value="${cart.idx }">
- 	<input type= "hidden" id="saleprice" value="${cart.sale_price }">
+ 	<input type="hidden" id="tot_price" >
     <tr >
     <td class="b" rowspan="2"><input type="checkbox" class="chkbox" onclick="itemSum()" data-cartid="${cart.cartid}" value="${cart.sale_price * cart.num }"></td>
     
@@ -240,7 +248,7 @@ function itemSum() {
     <tr >
     <td class="c" colspan="6"></td>
     <td class="c" colspan="5">상품구매금액 <input class="total_sum" size="6">원
-    +배송비 0(무료) = 합계 : <input class="total_sum"  size="6">원</td>
+    +배송비 0(무료) = 합계 : <input class="total_sum" id="total_price" size="6">원</td>
     </tr>
     </table>
    	
@@ -256,8 +264,8 @@ function itemSum() {
    	 <td class="bb total_sum2"></td>
    	 </tr>
    	</table>
-   	<input type="button" value="전체상품주문" id="orderAll">
-   	<input type="button" value="선택상품주문" id="orderSelect">
+   	<input type="button" value="전체상품주문" onclick="orderitem('all')">
+   	<input type="button" value="선택상품주문" onclick="orderitem()">
    	<br><input type="button" value="쇼핑계속하기">
 </body>
 </html>
