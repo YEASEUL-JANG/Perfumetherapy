@@ -85,9 +85,9 @@ function mypage(){//마이페이지 클릭 시
                             <li id="loginli"><a class="dropdown-item" href="login.jsp">로그인</a></li>
                             <li id="joinli"><a class="dropdown-item" href="join.jsp">회원가입</a></li>
                             <li id="logoutli"><a class="dropdown-item" href="#" onclick="location.href='${path}/user_servlet/logout.do'">로그아웃</a></li>
-                            <li><a class="dropdown-item" href="#!">장바구니</a></li>
-                            <li><a class="dropdown-item" href="#!">주문조회</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="mypage()">마이페이지</a></li>
+                            <li><a class="dropdown-item" href="cart.jsp">장바구니</a></li>
+                            <li><a class="dropdown-item" href="orderlist.jsp">주문조회</a></li>
+                            <li><a class="dropdown-item" href="mypage.jsp">마이페이지</a></li>
                        	  </ul>
                    		 </li>
                     </ul>

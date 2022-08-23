@@ -72,6 +72,7 @@ public class OrderDAO {
 		}
 		return list;
 	}
+	//카트테이블에 아이템 insert
 	public void addcartItem(int idx) {
 		SqlSession session=MybatisManager.getInstance().openSession();
 		try {
@@ -83,6 +84,7 @@ public class OrderDAO {
 			if(session != null) session.close();
 		}
 	}
+	//카트테이블에 카트번호 업데이트
 	public void addcartid(int num, int idx) {
 		Map<String,Object> map=new HashMap<>();
 		map.put("num", num);
@@ -215,6 +217,63 @@ public class OrderDAO {
 			if(session != null) session.close();
 		}
 		return dto;
+	}
+	public void deleteorder(String userid, String orderid) {
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			Map<String, Object> map = new HashMap<>();
+			map.put("userid", userid);
+			map.put("orderid", orderid);
+			session.delete("order.deleteorder",map);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		
+	}
+	public void deletedetailorder(String userid, String orderid) {
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			Map<String, Object> map = new HashMap<>();
+			map.put("userid", userid);
+			map.put("orderid", orderid);
+			session.delete("order.deletedetailorder",map);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		
+	}
+	//장바구니에 아이템 다시넣기(주문번호로)
+	public void addcartagain(String orderid) {
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			session.insert("order.addcartagain",orderid);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+	}
+	public List<OrderdetailDTO> viewdetailorder(String userid, String orderid) {
+		List<OrderdetailDTO> list = null;
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			Map<String, Object> map = new HashMap<>();
+			map.put("userid", userid);
+			map.put("orderid", orderid);
+			list=session.selectList("order.viewdetailorder",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		return list;
 	}
 
 }

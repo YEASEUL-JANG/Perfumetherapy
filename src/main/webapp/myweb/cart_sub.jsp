@@ -132,12 +132,12 @@ $(function(){
 function orderitem(result){
 	if(result != null){ //전체상품주문 클릭시
 	$(".chkbox").prop("checked", true);
-	}
+	}//선택된 상품의 cartid를 배열에 넣음
 	var checkArr = new Array();
 	$("input[class='chkbox']:checked").each(function () {
         checkArr.push($(this).attr("data-cartid"));
     });
-	var total_price = $("#tot_price").val();
+	var total_price = $("#tot_price").val();//총 상품금액
 	 $.ajax({
             type:'post',
             traditional: true,
@@ -146,11 +146,10 @@ function orderitem(result){
             	t_price : total_price},
             success: function(data){
             	var result = data;
-            	alert(result);
-            	if(result==0){//세션아이디가 없을때
-            		location.href="session_check.jsp"; 
-            	}else if(result == 1){
-            	location.href="${path}/order_servlet/orderform.do";
+            	if(result==0){//세션아이디가 없으면
+            		location.href="session_check.jsp";//세션체크페이지
+            	}else if(result == 1){//있으면 주문페이지 이동
+            	location.href="orderform.jsp";
             	}
             },
     		error: function(){
@@ -158,8 +157,7 @@ function orderitem(result){
     		}
          });
 }
-
-
+//총 상품금액 계산
 function itemSum() {
     var str = "";
     var sum = 0;

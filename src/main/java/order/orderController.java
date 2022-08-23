@@ -41,7 +41,7 @@ public class orderController extends HttpServlet {
 			request.setAttribute("status1", status1);
 			request.setAttribute("status2", status2);
 			request.setAttribute("status3", status3);
-			String page="/myweb/mypage.jsp";
+			String page="/myweb/mypage_sub.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
 			
@@ -137,27 +137,30 @@ public class orderController extends HttpServlet {
 				String page="/myweb/orderresult.jsp";
 				RequestDispatcher rd=request.getRequestDispatcher(page);
 				rd.forward(request, response);
-			}else {//세션아이디가 있을 때
-				String[] chArr = request.getParameterValues("chk");
-				
-				 int total_price = Integer.parseInt(request.getParameter("t_price"));
+			}else{//세션아이디가 있을 때
+				String[] chArr = request.getParameterValues("chk");//카트아이디(배열)
+				 int total_price = Integer.parseInt(request.getParameter("t_price"));//총주문금액
 				 System.out.println("tot_price: "+total_price);
 				//주문번호 생성
 				Date date = new Date();
 				SimpleDateFormat today = new SimpleDateFormat("yyyyMMdd");
 				String o_date = today.format(date);
 				int seq_key = dao.order_seq();
-				String trade_code = o_date+"_"+seq_key;
+				String trade_code = o_date+"-"+seq_key;
 				System.out.println("주문번호 : "+trade_code);
 				//주문테이블 추가
 				dao.addorderList(trade_code, userid, total_price);
-				//주문상세테이블에 카트상품 추가
+				
 				int cartid = 0;
 				for(String i : chArr) {
 					cartid = Integer.parseInt(i);
+					System.out.println(cartid);
+					//주문상세테이블에 카트상품 추가
 					dao.addDetailorder(cartid); 
 					dao.updateDetailorder(trade_code, userid, cartid);
 					System.out.println("cartid : "+cartid+", 주문번호 : "+trade_code+" 추가 완료");
+					//장바구니 비우기
+					dao.deleteCart(cartid);
 				}
 				request.setAttribute("data",1);
 				String page="/myweb/orderresult.jsp";
@@ -166,14 +169,13 @@ public class orderController extends HttpServlet {
 			}
 		//주문 폼 이동	
 		}else if(uri.indexOf("orderform.do") != -1 ){
-			System.out.println("orderform으로 이동");
 			HttpSession session = request.getSession();
 			String userid = (String)session.getAttribute("userid");
 			List<OrderdetailDTO> list = dao.orderdetail(userid);
 			userDTO dto = dao.getuser(userid);
 			request.setAttribute("list", list);
 			request.setAttribute("dto", dto);
-			String page="/myweb/orderform.jsp";
+			String page="/myweb/orderform_sub.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
 			
@@ -182,6 +184,39 @@ public class orderController extends HttpServlet {
 			List<CartDTO> list=dao.cartview();
 			request.setAttribute("num", list.size());
 			String page="/myweb/cart_num.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response);
+		
+		//주문취소
+		}else if(uri.indexOf("cancel.do") != -1 ){
+			HttpSession session = request.getSession();
+			String userid = (String)session.getAttribute("userid");
+			String orderid = request.getParameter("orderid");
+			System.out.println("userid : "+userid+", orderid : "+orderid);
+			//다시 장바구니 넣기
+			 dao.addcartagain(orderid);
+			
+			//주문내역 삭제
+			 dao.deleteorder(userid,orderid); 
+			 dao.deletedetailorder(userid,orderid);
+			
+			//메시지출력
+			 String msg = "장바구니로 이동합니다.";
+			request.setAttribute("msg", msg);
+			request.setAttribute("url","myweb/cart.jsp");
+			//페이지 이동
+			String page="/myweb/alert.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response);
+		}else if(uri.indexOf("modalview.do") != -1 ){
+			String orderid = request.getParameter("orderid");
+			System.out.println(orderid);
+			HttpSession session = request.getSession();
+			String userid = (String)session.getAttribute("userid");
+			List<OrderdetailDTO> list = dao.viewdetailorder(userid,orderid);
+			request.setAttribute("list", list);
+			request.setAttribute("orderid", orderid);
+			String page="/myweb/orderlist_sub2.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
 		}

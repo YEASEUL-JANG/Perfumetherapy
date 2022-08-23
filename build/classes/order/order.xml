@@ -96,4 +96,26 @@
   where userid = #{userid}
  </select>
  
+  <delete id="deleteorder">
+   delete from p_order
+   where orderid=#{orderid} and userid = #{userid}
+ </delete>
+ 
+ <delete id="deletedetailorder">
+   delete from p_detailorder
+   where orderid=#{orderid} and userid = #{userid}
+ </delete>
+ 
+ <insert id="addcartagain">
+  insert into p_cart(cartid, num, idx, picture, iname, sale_price, point, volume)
+  select cartid, num, idx, picture, iname, sale_price, point, volume
+  from p_detailorder
+  where orderid = #{orderid}
+ </insert>
+ 
+ <select id="viewdetailorder" resultType="order.dto.OrderdetailDTO">
+  select * from p_detailorder
+  where userid = #{userid} and orderid=#{orderid}
+ </select>
+ 
  </mapper>

@@ -81,6 +81,21 @@ cursor: pointer;
 font-size: 40px;
 color:#424242 }
 </style>
+<script type="text/javascript">
+$(function(){
+	state();
+});
+function state(){
+	$.ajax({
+		type : "post",
+		url : "${path}/order_servlet/mypage.do",
+		success : function(result){
+			$("#mydeliveryState").html(result);
+		}
+	});
+}
+
+</script>
 </head>
 <body>
 <!-- nav -->
@@ -102,26 +117,7 @@ color:#424242 }
     </tr>
     <tr>
     <td>
-    <table id="ordertable_sub">
-    <colgroup>
-     <col width="25%">
-     <col width="25%">
-     <col width="25%">
-     <col width="25%">
-    </colgroup>
-    <tr>
-    <td class="li">입금전</td>
-    <td class="li">상품준비중</td>
-    <td class="li">배송중</td>
-    <td class="li">배송완료</td>
-	</tr>
-	<tr>
-    <td>0</td>
-    <td>${status1 }</td>
-    <td>${status2 }</td>
-    <td>${status3 } </td>
-    </tr>
-    </table>
+    <div id="mydeliveryState" style="width:100%;"></div>
     </td>
     </tr>
    </table>

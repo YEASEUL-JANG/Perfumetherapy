@@ -61,6 +61,7 @@ function view_orderlist(){
 			$("#th_cancel").css("color","#333");
 			$("#th_return").css("background","#fbfbfb");
 			$("#th_return").css("color","#333");
+			$("#view").html("");
 		}
 	});
 }
@@ -76,6 +77,7 @@ function view_cancellist(){
 			$("#th_order").css("color","#333");
 			$("#th_return").css("background","#fbfbfb");
 			$("#th_return").css("color","#333");
+			$("#view").html("");
 		}
 	});
 }
@@ -91,8 +93,33 @@ function view_return(){
 			$("#th_order").css("color","#333");
 			$("#th_cancel").css("background","#fbfbfb");
 			$("#th_cancel").css("color","#333");
+			$("#view").html("");
 		}
 	});
+}
+
+function viewdetail(orderid){
+	 const key = orderid;
+	$.ajax({
+		type : "post",
+		data : {orderid : key},
+		url : "${path}/order_servlet/modalview.do",
+		success : function(res){
+			$("#view").html(res);
+		}
+	});
+}  
+function cancelOrder(delivery){
+	var demand = $("#cancelOrder").val();
+	if(demand=="return"){
+		if(delivery!="배송완료"){
+			alert(delivery+"인 상태에서는 반품진행이 불가합니다.");
+		}
+	}else if(demand=="cancel"){
+		if(delivery!="상품 준비중"){
+			alert(delivery+"인 상태에서는 주문취소가 불가합니다.");
+		}
+	}
 }
 </script>
 </head>
@@ -106,7 +133,7 @@ function view_return(){
   <div class="container px-4 px-lg-5 mt-5">
    <div class="justify-content-center flex-sm-column d-sm-flex align-items-center">
    <h2 class="fw-bold ">마이 쇼핑</h2></div>
-   <div class="script mt-5">* 주문번호를 클릭하면 상세 주문페이지로 넘어갑니다.</div>
+   <div class="script mt-5">* 주문번호를 클릭하면 상세 주문내역 확인이 가능합니다.</div>
     <table id="order_cat">
     <colgroup>
      <col width="25%">
@@ -123,9 +150,12 @@ function view_return(){
    
    <br>
     <div id="result" style="width:100%;"></div>
-   
+    
+   <div id="view" style="width: 100%;"></div>
+ 
    </div>
  </section>
+ 
  
  <!-- Footer-->
   <footer>
