@@ -8,7 +8,34 @@ public class userDTO {
 	private String address;
 	private String phone;
 	private String email;
+	private String postcode;
+	private String detailaddress;
+	private String extraaddress;
 	
+	public String getPostcode() {
+		return postcode;
+	}
+
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
+	}
+
+	public String getDetailaddress() {
+		return detailaddress;
+	}
+
+	public void setDetailaddress(String detailaddress) {
+		this.detailaddress = detailaddress;
+	}
+
+	public String getExtraaddress() {
+		return extraaddress;
+	}
+
+	public void setExtraaddress(String extraaddress) {
+		this.extraaddress = extraaddress;
+	}
+
 	public userDTO() {
 		// TODO Auto-generated constructor stub
 	}

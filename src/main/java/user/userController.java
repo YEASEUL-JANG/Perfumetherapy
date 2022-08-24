@@ -1,7 +1,7 @@
 package user;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,6 +28,9 @@ public class userController extends HttpServlet {
 			String passwd = request.getParameter("passwd");
 			String uname = request.getParameter("uname");
 			String gender = request.getParameter("gender");
+			String postcode = request.getParameter("postcode");
+			String detailaddress = request.getParameter("detailAddress");
+			String extraaddress = request.getParameter("extraAddress");
 			String address = request.getParameter("address");
 			String phone = request.getParameter("phone");
 			String email = request.getParameter("email");
@@ -37,6 +40,9 @@ public class userController extends HttpServlet {
 			dto.setUname(uname);
 			dto.setGender(gender);
 			dto.setAddress(address);
+			dto.setPostcode(postcode);
+			dto.setDetailaddress(detailaddress);
+			dto.setExtraaddress(extraaddress);
 			dto.setPhone(phone);
 			dto.setEmail(email);
 			System.out.println(dto.toString());
@@ -44,14 +50,12 @@ public class userController extends HttpServlet {
 			request.setAttribute("dto", dto);
 			HttpSession session = request.getSession();
 			session.setAttribute("userid", userid);
-			//메시지 출력
-			String msg = "가입이 완료되었습니다. 환영합니다!";
-			request.setAttribute("msg", msg);
-			request.setAttribute("url","myweb/welcome.jsp");
 			//페이지 이동
-			String page="/myweb/alert.jsp";
+			String page="/myweb/welcome.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
+			
+		//아이디찾기
 		}else if(uri.indexOf("idcheck.do") != -1 ) {
 			String id = request.getParameter("id");
 			System.out.println(id);
@@ -60,6 +64,8 @@ public class userController extends HttpServlet {
 			String page="/myweb/idresult.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
+			
+		//로그인
 		}else if(uri.indexOf("login.do") != -1 ) {
 			String userid = request.getParameter("userid");
 			String passwd = request.getParameter("passwd");
@@ -78,6 +84,7 @@ public class userController extends HttpServlet {
 			String page="/myweb/alert.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
+		//로그아웃	
 		}else if(uri.indexOf("logout.do") != -1 ) {
 			HttpSession session = request.getSession();
 			session.invalidate();
@@ -89,6 +96,7 @@ public class userController extends HttpServlet {
 			String page="/myweb/alert.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
+		//아이디찾기	
 		}else if(uri.indexOf("searchId.do") != -1 ) {
 			String uname = request.getParameter("uname");
 			String email = request.getParameter("email");
@@ -108,6 +116,7 @@ public class userController extends HttpServlet {
 			String page="/myweb/alert.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
+		//비밀번호 찾기	
 		}else if(uri.indexOf("searchPasswd.do") != -1 ) {
 			String uname = request.getParameter("uname");
 			String userid = request.getParameter("userid");
@@ -127,6 +136,7 @@ public class userController extends HttpServlet {
 			String page="/myweb/alert.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
+		//카카오로그인	
 		}else if(uri.indexOf("kakaoLogin.do") != -1 ) {
 			String uname = request.getParameter("k_uname");//필수값
 			String email = request.getParameter("k_email");//선택값
@@ -144,6 +154,7 @@ public class userController extends HttpServlet {
 			String page="/myweb/alert.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
+		//네이버로그인	
 		}else if(uri.indexOf("naverLogin.do") != -1 ) {
 			String uname = request.getParameter("name");
 			String email = request.getParameter("email");
@@ -162,8 +173,64 @@ public class userController extends HttpServlet {
 			session.setAttribute("userid", email);
 			}
 		
+		}else if(uri.indexOf("passwdck.do") != -1 ) {
+			HttpSession session = request.getSession();
+			String userid = (String)session.getAttribute("userid");
+			String userpasswd = request.getParameter("passwd");
+			System.out.println("userid : "+userid+", 들어온 passwd : "+userpasswd);
+			int result = dao.passwdcheck(userid,userpasswd);
+			System.out.println("비밀번호 맞으면 1, 아니면 0의 결과값 : "+result);
+			if(result != 0) {//비밀번호가 맞음
+				//회원정보 불러오기
+				userDTO dto = dao.getuser(userid);
+				request.setAttribute("dto", dto);
+				//페이지 이동
+				String page="/myweb/reviseme.jsp";
+				RequestDispatcher rd=request.getRequestDispatcher(page);
+				rd.forward(request, response);
+			}else {//비밀번호가 다름
+				String msg = "비밀번호가 맞지 않습니다.";
+				request.setAttribute("msg", msg);
+				request.setAttribute("url","myweb/revise.jsp");
+				String page="/myweb/alert.jsp";
+				RequestDispatcher rd=request.getRequestDispatcher(page);
+				rd.forward(request, response);
+			}
+		}else if(uri.indexOf("reviseme.do") != -1 ) {
+			String userid = request.getParameter("userid");
+			String passwd = request.getParameter("passwd");
+			String uname = request.getParameter("uname");
+			String postcode = request.getParameter("postcode");
+			String detailaddress = request.getParameter("detailAddress");
+			String extraaddress = request.getParameter("extraAddress");
+			String address = request.getParameter("address");
+			String phone = request.getParameter("phone");
+			String email = request.getParameter("email");
+			userDTO dto = new userDTO();
+			dto.setUserid(userid);
+			dto.setUname(uname);
+			dto.setAddress(address);
+			dto.setPostcode(postcode);
+			dto.setDetailaddress(detailaddress);
+			dto.setExtraaddress(extraaddress);
+			dto.setPhone(phone);
+			dto.setEmail(email);
+			if(passwd != "") {//비번이 변경되었을 때 
+				dto.setPasswd(passwd);
+				dao.updatepasswd(dto);
+			}else {
+				dao.updateme(dto);
+			}
+			request.setAttribute("dto", dto);
+			String message = "수정이 완료되었습니다.";
+			request.setAttribute("message", message);
+			//페이지 이동
+			String page="/myweb/reviseme.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response);
 		}
 	}
+
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {

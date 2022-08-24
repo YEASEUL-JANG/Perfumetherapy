@@ -105,6 +105,8 @@ public class orderController extends HttpServlet {
 			String page="/myweb/cart_sub.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
+			
+		//카트아이템 수량+1	
 		}else if(uri.indexOf("cartnumUp.do") != -1 ){
 			int idx = Integer.parseInt(request.getParameter("idx"));
 			dao.updatenumUp(idx);
@@ -114,6 +116,8 @@ public class orderController extends HttpServlet {
 			String page="/myweb/cart_sub.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
+			
+		//카트아이템 수량 -1
 		}else if(uri.indexOf("cartnumDown.do") != -1 ){
 			int idx = Integer.parseInt(request.getParameter("idx"));
 			dao.updatenumDown(idx);
@@ -123,6 +127,8 @@ public class orderController extends HttpServlet {
 			String page="/myweb/cart_sub.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
+		
+			//카트아이템 삭제	
 		}else if(uri.indexOf("deletecart.do") != -1 ){
 			int cartid = Integer.parseInt(request.getParameter("chbox"));
 			System.out.println("cartid : "+cartid);
@@ -150,7 +156,6 @@ public class orderController extends HttpServlet {
 				System.out.println("주문번호 : "+trade_code);
 				//주문테이블 추가
 				dao.addorderList(trade_code, userid, total_price);
-				
 				int cartid = 0;
 				for(String i : chArr) {
 					cartid = Integer.parseInt(i);
@@ -208,6 +213,7 @@ public class orderController extends HttpServlet {
 			String page="/myweb/alert.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
+			
 		}else if(uri.indexOf("modalview.do") != -1 ){
 			String orderid = request.getParameter("orderid");
 			System.out.println(orderid);
@@ -217,6 +223,44 @@ public class orderController extends HttpServlet {
 			request.setAttribute("list", list);
 			request.setAttribute("orderid", orderid);
 			String page="/myweb/orderlist_sub2.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response); 
+		
+		//주문취소 신청
+		}else if(uri.indexOf("withdrawal.do") != -1 ){
+			HttpSession session = request.getSession();
+			String userid = (String)session.getAttribute("userid");
+			String orderid = request.getParameter("orderid");
+			System.out.println("userid : "+userid+", orderid : "+orderid);
+			
+			//주문상태 업데이트
+			 dao.withdrawalorder(userid,orderid); 
+			 
+			//메시지출력
+			 String msg = "주문취소 신청이 완료되었습니다..";
+			request.setAttribute("msg", msg);
+			request.setAttribute("url","myweb/orderlist.jsp");
+			//페이지 이동
+			String page="/myweb/alert.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response);
+			
+	    // 반품요청
+		}else if(uri.indexOf("takeback.do") != -1 ){
+			HttpSession session = request.getSession();
+			String userid = (String)session.getAttribute("userid");
+			String orderid = request.getParameter("orderid");
+			System.out.println("userid : "+userid+", orderid : "+orderid);
+			
+			//주문상태 업데이트
+			 dao.takebackorder(userid,orderid); 
+			 
+			//메시지출력
+			 String msg = "반품요청이 완료되었습니다..";
+			request.setAttribute("msg", msg);
+			request.setAttribute("url","myweb/orderlist.jsp");
+			//페이지 이동
+			String page="/myweb/alert.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
 		}

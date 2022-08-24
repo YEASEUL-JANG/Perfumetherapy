@@ -216,9 +216,6 @@ function join(){
 	if(user_email != "" && email_address != "") {
 		$("#totalemail").val(user_email+middle+email_address);
 	}
-	if(address != "") {
-		$("#totaladdress").val(address+" "+detailAddress+" "+extraAddress);
-	}
 	//이용약관 확인
 	if($("#check_1").is(':checked') && $("#check_2").is(':checked') ){
 		alert("가입하시겠습니까?");
@@ -277,12 +274,11 @@ function join(){
     </tr>
     <tr>
      <th>주소<span class="i">*</span></th>
-     <td><input type="text" id="postcode" placeholder="우편번호">
+     <td><input type="text" id="postcode" placeholder="우편번호" name="postcode">
 		<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
-		<input type="text" id="address" placeholder="주소"><br>
-		<input type="text" id="detailAddress" placeholder="상세주소">
-		<input type="text" id="extraAddress">
-		<input type="hidden" id="totaladdress" name="address"></td>
+		<input type="text" id="address" placeholder="주소" name="address"><br>
+		<input type="text" id="detailAddress" name = "detailAddress"placeholder="상세주소">
+		<input type="text" id="extraAddress" name = "extraAddress"></td>
     </tr>
     <tr>
      <th>일반전화</th>

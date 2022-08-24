@@ -11,22 +11,22 @@
  </select>
   <select id="count3" resultType="int">
   select count(*) from p_order
-  where delivery = '배송완료' and userid = #{userid}
+  where delivery = '배송 완료' and userid = #{userid}
  </select>
  
  <select id="orderlist" resultType="order.dto.OrderDTO">
   select * from p_order
-  where userid= #{userid} and delivery in('상품 준비중','배송중','배송완료')
+  where userid= #{userid} and delivery in('상품 준비중','배송중','배송 완료')
  </select>
  
  <select id="cancellist" resultType="order.dto.OrderDTO">
   select * from p_order
-  where userid= #{userid} and delivery = '주문취소'
+  where userid= #{userid} and delivery in('주문 취소중','주문취소 완료')
  </select>
  
  <select id="returnlist" resultType="order.dto.OrderDTO">
   select * from p_order
-  where userid= #{userid} and delivery in('반품신청', '반품완료')
+  where userid= #{userid} and delivery in('반품 요청중', '반품 완료')
  </select>
  
  <insert id="addcartItem">
@@ -117,5 +117,17 @@
   select * from p_detailorder
   where userid = #{userid} and orderid=#{orderid}
  </select>
+ 
+ <update id="updateorder">
+  update p_order
+   set delivery='주문 취소중'
+   where orderid=#{orderid} and userid = #{userid}
+ </update>
+ 
+ <update id="takebackorder">
+  update p_order
+   set delivery='반품 요청중'
+   where orderid=#{orderid} and userid = #{userid}
+ </update>
  
  </mapper>

@@ -23,10 +23,10 @@
     <td class="li">배송완료</td>
 	</tr>
 	<tr>
-    <td>0</td>
-    <td>${status1 }</td>
-    <td>${status2 }</td>
-    <td>${status3 } </td>
+    <td style="cursor: pointer;"onclick="location.href='orderlist.jsp';">0</td>
+    <td style="cursor: pointer;"onclick="location.href='orderlist.jsp';">${status1 }</td>
+    <td style="cursor: pointer;"onclick="location.href='orderlist.jsp';">${status2 }</td>
+    <td style="cursor: pointer;"onclick="location.href='orderlist.jsp';">${status3 } </td>
     </tr>
     </table>
 </body>

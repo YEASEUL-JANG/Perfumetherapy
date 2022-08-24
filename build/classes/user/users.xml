@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="users">
  <insert id="insert">
-  insert into users(userid, passwd, uname, gender, address, phone, email) 
-  values (#{userid}, #{passwd}, #{uname}, #{gender}, #{address}, #{phone}, #{email})
+  insert into users(userid, passwd, uname, gender, address, postcode, detailaddress, extraaddress, phone, email) 
+  values (#{userid}, #{passwd}, #{uname}, #{gender}, #{address},#{postcode},#{detailaddress},#{extraaddress}, #{phone}, #{email})
  </insert>
  
  <select id="idcheck" resultType="int">
@@ -26,4 +26,26 @@
   where userid = #{userid} and uname = #{uname}
  </select>
 
+  <select id="passwdcheck" resultType="int">
+  select count(*) from users
+  where userid = #{userid} and passwd = #{userpasswd}
+ </select>
+ 
+ <select id="getuser" resultType="user.userDTO">
+  select * from users
+  where userid = #{userid} 
+ </select>
+ 
+ <update id="updatepasswd">
+  update users set passwd = #{passwd}, uname=#{uname},postcode=#{postcode},address=#{address},
+  detailaddress=#{detailaddress}, extraaddress=#{extraaddress}, phone=#{phone}, email=#{email}
+  where userid=#{userid}
+ </update>
+ 
+ <update id="updateme">
+  update users set uname=#{uname},postcode=#{postcode},address=#{address},
+  detailaddress=#{detailaddress}, extraaddress=#{extraaddress}, phone=#{phone}, email=#{email}
+  where userid=#{userid}
+ </update>
+ 
 </mapper>

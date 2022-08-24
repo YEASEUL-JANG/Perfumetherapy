@@ -275,5 +275,35 @@ public class OrderDAO {
 		}
 		return list;
 	}
+	//order테이블 주문취소상태로 변경
+	public void withdrawalorder(String userid, String orderid) {
+		Map<String,Object> map=new HashMap<>();
+		map.put("userid", userid);
+		map.put("orderid", orderid);
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			session.update("order.updateorder",map);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		
+	}
+	public void takebackorder(String userid, String orderid) {
+		Map<String,Object> map=new HashMap<>();
+		map.put("userid", userid);
+		map.put("orderid", orderid);
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			session.update("order.takebackorder",map);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+	}
 
 }

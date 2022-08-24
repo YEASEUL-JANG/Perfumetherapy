@@ -1,5 +1,9 @@
 package user;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 
 import sqlmap.MybatisManager;
@@ -61,4 +65,57 @@ public class userDAO {
 		return passwd;
 	}
 
+
+	public int passwdcheck(String userid, String userpasswd) {
+		int result = 0;
+		SqlSession session = MybatisManager.getInstance().openSession();
+		try {
+			Map<String, Object> map = new HashMap<>();
+			map.put("userid", userid);
+			map.put("userpasswd", userpasswd);
+			result = session.selectOne("users.passwdcheck",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		return result;
+	}
+
+	public userDTO getuser(String userid) {
+		userDTO dto = null;
+		SqlSession session = MybatisManager.getInstance().openSession();
+		try {
+			dto = session.selectOne("users.getuser",userid);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		return dto;
+	}
+
+	public void updatepasswd(userDTO dto) {
+		SqlSession session = MybatisManager.getInstance().openSession();
+		try {
+			session.update("users.updatepasswd",dto);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+	}
+
+	public void updateme(userDTO dto) {
+		SqlSession session = MybatisManager.getInstance().openSession();
+		try {
+			session.update("users.updateme",dto);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+	}
 }

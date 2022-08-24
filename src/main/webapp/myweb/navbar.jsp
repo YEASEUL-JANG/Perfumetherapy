@@ -82,16 +82,16 @@ function mypage(){//마이페이지 클릭 시
                         <li class="nav-item dropdown">
                          <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i></a>
                           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li id="loginli"><a class="dropdown-item" href="login.jsp">로그인</a></li>
-                            <li id="joinli"><a class="dropdown-item" href="join.jsp">회원가입</a></li>
+                            <li id="loginli"><a class="dropdown-item" href="${path }/myweb/login.jsp">로그인</a></li>
+                            <li id="joinli"><a class="dropdown-item" href="${path }/myweb/join.jsp">회원가입</a></li>
                             <li id="logoutli"><a class="dropdown-item" href="#" onclick="location.href='${path}/user_servlet/logout.do'">로그아웃</a></li>
-                            <li><a class="dropdown-item" href="cart.jsp">장바구니</a></li>
-                            <li><a class="dropdown-item" href="orderlist.jsp">주문조회</a></li>
-                            <li><a class="dropdown-item" href="mypage.jsp">마이페이지</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/cart.jsp">장바구니</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/orderlist.jsp">주문조회</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/mypage.jsp">마이페이지</a></li>
                        	  </ul>
                    		 </li>
                     </ul>
-                    <button class="btn btn-outline-dark" onclick="location.href='cart.jsp';">
+                    <button class="btn btn-outline-dark" onclick="location.href='${path }/myweb/cart.jsp';">
                         <i class="fa-solid fa-cart-shopping"></i>
                         Cart
                         <span class="badge bg-dark text-white ms-1 rounded-pill"><div id="cartnum"></div></span>

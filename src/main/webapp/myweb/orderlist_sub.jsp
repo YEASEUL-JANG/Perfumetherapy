@@ -61,9 +61,9 @@ padding: 15px;}
     <td><a href="#" onclick="viewdetail('${o.orderid}')" >${o.orderid}</a></td>
     <td>${o.order_date}</td>
     <td><fmt:formatNumber type="number" maxFractionDigits="3" value="${o.sum_price }"/>원</td>
-    <td>${o.delivery }</td>
+    <td class="deliveryState">${o.delivery }</td>
     <td>
-    <select id="cancelOrder" name = "cancelOrder" onchange="cancelOrder('${o.delivery }')">
+    <select id="cancelOrder" name = "cancelOrder" onchange="cancelOrder('${o.delivery }','${o.orderid }')">
      <option value="" selected>==선택==</option>
      <option value="return">반품신청</option>
      <option value="cancel">취소요청</option>
