@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import order.dto.CartDTO;
+
 
 
 
@@ -184,6 +186,23 @@ public class itemsController extends HttpServlet {
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
 			
+		}else if(uri.indexOf("likenumUp.do") != -1) {
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			dao.updatenumUp(idx);
+			int num = dao.getnum(idx);
+			request.setAttribute("num", num);
+			String page="/myweb/wishlist_count.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response);
+			
+		}else if(uri.indexOf("likenumDown.do") != -1) {
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			dao.updatenumDown(idx);
+			int num = dao.getnum(idx);
+			request.setAttribute("num", num);
+			String page="/myweb/wishlist_count.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response);
 		}
 		
 	}

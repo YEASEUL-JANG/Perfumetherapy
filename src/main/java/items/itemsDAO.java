@@ -165,4 +165,40 @@ public class itemsDAO {
 		session.close();
 		return list;
 	}
+	//찜테이블 수량up
+	public void updatenumUp(int idx) {
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			session.update("items.numUp",idx);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+	}
+	//찜테이블 수량Down
+	public void updatenumDown(int idx) {
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			session.update("items.numDown",idx);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+	}
+	public int getnum(int idx) {
+		int num = 0;
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			num = session.selectOne("items.getnum",idx);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		return num;
+	}
 }

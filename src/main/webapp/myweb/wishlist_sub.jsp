@@ -98,21 +98,24 @@ font-size: 20px;
   position:relative; top:50%; left:50%;
   margin-top:-200px; margin-left:-275px;
   text-align:left;
-  box-sizing:border-box; padding:10px ;
+  box-sizing:border-box; padding:20px;
   line-height:23px; 
 }
-.modaltable{
-margin: 10px;
+#modaltable{
+margin: 0px;
 width: 100%;}
 .modalitem{
-padding: 15px 10px;
-height: 180px;
+padding: 10px;
+height: 150px;
 background: #f9f9f9;
+}
+.tot_price, .num{
+display: inline;
 }
 </style>
 <script type="text/javascript">
 $(function(){
-	count();
+	
 	var tt = "${like}";
     if (tt == 'false') {//카트상품이 없으면
         $("#allCheck").prop("checked", false);
@@ -176,14 +179,6 @@ function orderitem(result){
          });
 }
 
-function count(){
-	var count = Number($("#inputQuantity").val());
-	var price = Number($("#price").val());
-	var total =count*price;
-	const result= total.toLocaleString();
-	$("#m_total").val(result);
-}
-
 //총 상품금액 계산
 function itemSum() {
     var str = "";
@@ -199,6 +194,37 @@ function itemSum() {
     $(".total_sum").val(result);
     $(".total_sum2").html(result+"원");
 }
+function numup(up, price){
+	 const idx = up;
+	$.ajax({
+		type : "post",
+		data : {idx: idx},
+		url : "${path}/item_servlet/likenumUp.do",
+		success : function(num){
+			const total =num*price;
+			const tot_price= total.toLocaleString();
+			const tot_num = num.toString();
+			 $(".num").html(tot_num);
+			 $(".tot_price").html(tot_price);
+		}
+	});
+}
+
+function numdown(down, price){
+	 const idx = down;
+	$.ajax({
+		type : "post",
+		data : {idx: idx},
+		url : "${path}/item_servlet/likenumDown.do",
+		success : function(num){
+			const total =num*price;
+			const tot_price= total.toLocaleString();
+			const tot_num = num.toString();
+			 $(".num").html(tot_num);
+			 $(".tot_price").html(tot_price);
+		}
+	});
+} 
 </script>
 </head>
 <body>
@@ -217,7 +243,7 @@ function itemSum() {
     </tr>
 	<c:forEach var="like" items="${list }">
     <!--hidden data  -->
- 	<input type="hidden" id="tot_price" >
+ 	<input type="hidden" id="hid_idx" value="${like.idx }" >
     <tr >
     <td class="b" rowspan="2"><input type="checkbox" class="chkbox" onclick="itemSum()" data-cartid="${like.likeid}" value="${like.sale_price}"></td>
     
@@ -238,28 +264,37 @@ function itemSum() {
     <div class="close_modal"><i class="fa-solid fa-circle-xmark"></i></div>
     <table id="modaltable" style="border-collapse: collapse;">
     <tr>
-    <td colspan="4" style="font-size: 24px; font-weight: lighter;">${like.iname }</td>
+    <td colspan="5" style="font-size: 24px; font-weight: lighter;">${like.iname }</td>
     </tr>
      <tr>
-     <td colspan="4"><hr></td>
+     <td colspan="5"><hr></td>
      </tr>
      <tr>
      <td class="modalitem"><img src="image/${like.picture }"style="width: 70px;height: 70px;"></td>
      <td class="modalitem" style="font-weight: bold; width:50%;">${like.iname }<br>-${like.volume }ml</td>
+     <td class="modalitem"><div class="num">${like.num }</div></td>
      <td class="modalitem">
-     <input class="form-control text-center me-3" onclick="count(") 
-     id="inputQuantity" type="number" value="1" style="max-width: 4rem" /></td>
-     <td class="modalitem"><input type="text" size="4" id="price" value="${like.sale_price }"></td>
+     <table id="counter">
+     <tr>
+     <td onclick="numup('${like.idx}','${like.sale_price }')"><i class="fa-solid fa-angle-up"></i></td></tr><tr>
+     <td onclick="numdown('${like.idx}','${like.sale_price }')"><i class="fa-solid fa-angle-down"></i></td>
+     </tr>
+     </table>
+     </td>
+     <td class="modalitem"><div class="tot_price"><fmt:formatNumber type="number" maxFractionDigits="3" value="${like.sale_price}"/></div>원</td>
      </tr>
      <tr>
-     <td colspan="4"><hr></td>
+     <td colspan="5"><hr></td>
      </tr>
      <tr>
-     <td colspan="4" style="text-align: right;"> 총 상품금액(수량) : 
-     <input  type="text" name="total" id="m_total" name="total_price" value="${like.sale_price }" readonly size="6">원</td>
+     <td colspan="5" style="text-align: right;"> 
+     총 상품금액(수량) : <div class="tot_price" style="font-weight: bold; font-size: 15px;"><fmt:formatNumber type="number" maxFractionDigits="3" 
+     value="${like.sale_price}"/></div>원(<div class="num">${like.num }</div>개)</td>
      </tr>
      <tr>
-     <td colspan="4" style="text-align: center;"><input type="button" value="바로 구매하기"><input type="button" value="장바구니 담기"></td>
+     <td colspan="5" style="text-align: center;">
+     <input type="button" value="바로 구매하기">
+     <input type="button" value="장바구니 담기"></td>
      </tr>
     </table>
   	 </div>

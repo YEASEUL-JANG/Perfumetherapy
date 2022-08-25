@@ -8,6 +8,14 @@ public class wishDTO {
 	private int sale_price;
 	private int point;
 	private int volume;
+	private int num;
+	
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
+	}
 	public wishDTO() {
 		// TODO Auto-generated constructor stub
 	}

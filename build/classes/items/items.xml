@@ -103,4 +103,22 @@
   select * from p_like order by likeid
  </select>
  
+ <update id="numUp">
+  update p_like
+  set num = num+1
+  where idx = #{idx}
+ </update>
+ 
+ <update id="numDown">
+  update p_like
+  set num = num-1
+  where idx = #{idx}
+ </update>
+ 
+ <select id="getnum" resultType="int">
+  select num
+  from p_like
+  where idx = #{idx}
+ </select>
+ 
 </mapper>
