@@ -122,7 +122,6 @@ $(function(){
     } else {//있다면 기본적으로 allcheck
         $("#allCheck").prop("checked", true);
         $(".chkbox").prop("checked", true);
-        itemSum();
     }
 //모두선택을 클릭할 때
 	$("#allCheck").click(function () {
@@ -178,21 +177,24 @@ function orderitem(result){
     		}
          });
 }
-
-//총 상품금액 계산
-function itemSum() {
-    var str = "";
-    var sum = 0;
-    var count = $(".chkbox").length;
-    for (var i = 0; i < count; i++) {
-        if ($(".chkbox")[i].checked == true) {
-            sum += parseInt($(".chkbox")[i].value);
-        }
-    }
-    $("#tot_price").val(sum.toString());
-    var result = sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    $(".total_sum").val(result);
-    $(".total_sum2").html(result+"원");
+function goorder(id){
+	var cartid = id;
+	$.ajax({
+        type:'post',
+        url: '${path }/order_servlet/wishpurchase.do',
+        data:{cartid : cartid},
+        success: function(data){
+        	var result = data;
+        	if(result==0){//세션아이디가 없으면
+        		location.href="session_check.jsp";//세션체크페이지
+        	}else if(result == 1){//있으면 주문페이지 이동
+        	 location.href="orderform.jsp"; 
+        	}
+        },
+		error: function(){
+			alert("에러.");
+		}
+     });
 }
 function numup(up, price){
 	 const idx = up;
@@ -245,7 +247,7 @@ function numdown(down, price){
     <!--hidden data  -->
  	<input type="hidden" id="hid_idx" value="${like.idx }" >
     <tr >
-    <td class="b" rowspan="2"><input type="checkbox" class="chkbox" onclick="itemSum()" data-cartid="${like.likeid}" value="${like.sale_price}"></td>
+    <td class="b" rowspan="2"><input type="checkbox" class="chkbox" onclick="itemSum()" data-cartid="${like.cartid}" value="${like.sale_price}"></td>
     
     <td class="b" rowspan="2"><img src="image/${like.picture }" style="width: 70px;height: 70px;"></td>
     <td class="b w" rowspan="2">${like.iname }</td>
@@ -292,8 +294,8 @@ function numdown(down, price){
      value="${like.sale_price}"/></div>원(<div class="num">${like.num }</div>개)</td>
      </tr>
      <tr>
-     <td colspan="5" style="text-align: center;">
-     <input type="button" value="바로 구매하기">
+     <td colspan="5" style="text-align: center;padding-top: 30px;">
+     <input type="button" value="바로 구매하기" onclick="goorder('${like.cartid}')">
      <input type="button" value="장바구니 담기"></td>
      </tr>
     </table>
@@ -303,7 +305,7 @@ function numdown(down, price){
     
     </td>
     </tr><tr>
-    <td class="b w"><input type="button" value="삭제" id="delete_${like.likeid}_btn" data-cartid="${like.likeid}"></td>
+    <td class="b w"><input type="button" value="삭제" id="delete_${like.cartid}_btn" data-cartid="${like.cartid}"></td>
     </tr>
     <script>
     $("#delete_${cart.cartid}_btn").click(function () {

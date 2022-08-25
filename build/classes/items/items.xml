@@ -95,12 +95,12 @@
  
  <update id="addlikeid">
  update p_like 
- set likeid = (select nvl( max(likeid)+1, 1) from p_like)
+ set cartid = (select nvl( max(cartid)+1, 1) from p_like)
  where idx=#{idx}
  </update>
  
  <select id="wishview" resultType="items.wishDTO">
-  select * from p_like order by likeid
+  select * from p_like order by cartid
  </select>
  
  <update id="numUp">

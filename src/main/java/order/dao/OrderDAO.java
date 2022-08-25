@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import items.wishDTO;
 import order.dto.CartDTO;
 import order.dto.OrderDTO;
 import order.dto.OrderdetailDTO;
@@ -133,6 +134,7 @@ public class OrderDAO {
 			if(session != null) session.close();
 		}
 	}
+	//카트테이블 상품삭제
 	public void deleteCart(int cartid) {
 		SqlSession session=MybatisManager.getInstance().openSession();
 		try {
@@ -298,6 +300,59 @@ public class OrderDAO {
 		SqlSession session=MybatisManager.getInstance().openSession();
 		try {
 			session.update("order.takebackorder",map);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+	}
+	//관심상품 리스트 가져오기
+	public wishDTO getwish(int cartid) {
+		wishDTO dto = null;
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			dto = session.selectOne("order.getwish",cartid);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		return dto;
+	}
+	//상세주문테이블에 찜목록 삽입
+	public void addDetailwish(int cartid) {
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			session.insert("order.addDetailwish",cartid);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+	}
+	//상세주문테이블에 찜목록 업데이트
+	public void updateDetailwish(String trade_code, String userid, int cartid) {
+		Map<String,Object> map=new HashMap<>();
+		map.put("trade_code", trade_code);
+		map.put("userid", userid);
+		map.put("cartid", cartid);
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			session.update("order.updateDetailwish",map);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+	}
+	//관심상품 테이블 삭제
+	public void deleteWish(int cartid) {
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			session.delete("order.deleteWish",cartid);
 			session.commit();
 		} catch (Exception e) {
 			e.printStackTrace();

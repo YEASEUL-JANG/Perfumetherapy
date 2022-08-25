@@ -1,7 +1,7 @@
 package items;
 
 public class wishDTO {
-	private int likeid;
+	private int cartid;
 	private int idx;
 	private String picture;
 	private String iname;
@@ -19,11 +19,11 @@ public class wishDTO {
 	public wishDTO() {
 		// TODO Auto-generated constructor stub
 	}
-	public int getLikeid() {
-		return likeid;
+	public int getCartid() {
+		return cartid;
 	}
-	public void setLikeid(int likeid) {
-		this.likeid = likeid;
+	public void setCartid(int cartid) {
+		this.cartid = cartid;
 	}
 	public int getIdx() {
 		return idx;
@@ -63,7 +63,7 @@ public class wishDTO {
 	}
 	@Override
 	public String toString() {
-		return "wishDTO [likeid=" + likeid + ", idx=" + idx + ", picture=" + picture + ", iname=" + iname
+		return "wishDTO [likeid=" + cartid + ", idx=" + idx + ", picture=" + picture + ", iname=" + iname
 				+ ", sale_price=" + sale_price + ", point=" + point + ", volume=" + volume + "]";
 	}
 	

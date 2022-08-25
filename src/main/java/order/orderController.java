@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import items.wishDTO;
 import order.dao.OrderDAO;
 import order.dto.CartDTO;
 import order.dto.OrderDTO;
@@ -262,7 +263,46 @@ public class orderController extends HttpServlet {
 			//페이지 이동
 			String page="/myweb/alert.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
-			rd.forward(request, response);
+			rd.forward(request, response); 
+		//개별구매
+		}else if(uri.indexOf("wishpurchase.do") != -1 ){
+			int cartid = Integer.parseInt(request.getParameter("cartid"));
+			System.out.println("들어온 cartid : "+cartid);
+			HttpSession session = request.getSession();
+			String userid = (String)session.getAttribute("userid");
+			if(userid == null) {//세션아이디가 없을때
+				request.setAttribute("data",0);
+				String page="/myweb/orderresult.jsp";
+				RequestDispatcher rd=request.getRequestDispatcher(page);
+				rd.forward(request, response);
+			}else{//세션아이디가 있을 때
+				//관심상품의 갯수
+				wishDTO dto = dao.getwish(cartid);
+				int num = dto.getNum();
+				int sale_price = dto.getSale_price();
+				int total_price = num*sale_price;
+				System.out.println("num : "+num+" * price : "+sale_price+" = totalprice:"+total_price);
+				//주문번호 생성
+				Date date = new Date();
+				SimpleDateFormat today = new SimpleDateFormat("yyyyMMdd");
+				String o_date = today.format(date);
+				int seq_key = dao.order_seq();
+				String trade_code = o_date+"-"+seq_key;
+				System.out.println("주문번호 : "+trade_code);
+				//주문테이블 추가
+				dao.addorderList(trade_code, userid, total_price);
+				//주문상세테이블에 카트상품 추가
+				dao.addDetailwish(cartid); 
+				dao.updateDetailwish(trade_code, userid, cartid);
+				System.out.println("likeid : "+cartid+", 주문번호 : "+trade_code+" 추가 완료");
+				//장바구니 비우기
+				dao.deleteWish(cartid);
+				//주문페이지로 이동
+				request.setAttribute("data",1);
+				String page="/myweb/orderresult.jsp";
+				RequestDispatcher rd=request.getRequestDispatcher(page);
+				rd.forward(request, response);
+			}
 		}
 		
 	}

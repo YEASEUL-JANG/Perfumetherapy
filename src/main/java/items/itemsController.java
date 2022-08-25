@@ -203,6 +203,7 @@ public class itemsController extends HttpServlet {
 			String page="/myweb/wishlist_count.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
+			
 		}
 		
 	}

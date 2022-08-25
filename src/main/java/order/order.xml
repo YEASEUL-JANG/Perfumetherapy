@@ -128,6 +128,29 @@
   update p_order
    set delivery='반품 요청중'
    where orderid=#{orderid} and userid = #{userid}
+ </update> 
+ 
+ <select id="getwish" resultType="items.wishDTO">
+  select *
+  from p_like
+  where cartid = #{cartid}
+ </select>
+ 
+ <insert id="addDetailwish">
+  insert into p_detailorder(cartid, num, idx, picture, iname, sale_price, point, volume)
+  select cartid, num, idx, picture, iname, sale_price, point, volume
+  from p_like
+  where cartid = #{cartid}
+ </insert>
+ 
+ <update id="updateDetailwish">
+  update p_detailorder set orderid = #{trade_code}, userid=#{userid}
+  where cartid=#{cartid}
  </update>
+ 
+ <delete id="deleteWish">
+  delete from p_like
+  where cartid = #{cartid}
+ </delete>
  
  </mapper>
