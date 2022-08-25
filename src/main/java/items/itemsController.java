@@ -46,7 +46,6 @@ public class itemsController extends HttpServlet {
 					request.setAttribute("list", list);
 					request.setAttribute("page", pager);
 					request.setAttribute("count", count);
-					System.out.println(list);
 					String page="/myweb/item_list.jsp";
 					RequestDispatcher rd=request.getRequestDispatcher(page);
 					rd.forward(request, response);
@@ -137,8 +136,6 @@ public class itemsController extends HttpServlet {
 			String brand = request.getParameter("brand");
 			String memo = request.getParameter("memo");
 			
-			System.out.println("picture : "+picture);
-			
 			itemsDTO dto = new itemsDTO();
 			dto.setIdx(idx);
 			dto.setIname(iname);
@@ -172,6 +169,21 @@ public class itemsController extends HttpServlet {
 			String page = "/myweb/item_detail.jsp"; 
 			RequestDispatcher rd = request.getRequestDispatcher(page); 
 			rd.forward(request, response);
+		//관심상품에 추가
+		}else if(uri.indexOf("likeit.do") != -1) {
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			System.out.println("idx: "+idx);
+			dao.addlike(idx);
+			dao.addlikeid(idx);
+		//관심상품 리스트
+		}else if(uri.indexOf("viewwish.do") != -1) {
+			List<wishDTO> list=dao.wishview();
+			request.setAttribute("list", list);
+			request.setAttribute("count", list.size());
+			String page="/myweb/wishlist_sub.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response);
+			
 		}
 		
 	}

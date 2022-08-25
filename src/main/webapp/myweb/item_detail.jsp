@@ -35,6 +35,17 @@ function addcart(){
 		document.orderform.submit();
 	}
 }
+function likeit(idx){
+	var data = idx;
+	$.ajax({
+		type: "post",
+		url: "${path}/item_servlet/likeit.do",
+		data: {idx: data},
+		success: function(){
+			alert("관심상품에 추가되었습니다.");
+		}
+	});   
+}
 </script>
 </head>
 <body>
@@ -94,7 +105,7 @@ function addcart(){
        <input type="hidden" value="" name="num" id="num">
        <input type="hidden" value="${item.idx }" name="idx"></form>
        <div class="d-flex purchase">
-           <button class="btn btn-outline-dark flex-shrink-0" type="button">
+           <button class="btn btn-outline-dark flex-shrink-0" type="button" onclick="likeit(${item.idx})">
               <i class="fa-brands fa-gratipay"></i>
                관심상품
            </button>
@@ -107,6 +118,6 @@ function addcart(){
      </div>
     </div>
 </section>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

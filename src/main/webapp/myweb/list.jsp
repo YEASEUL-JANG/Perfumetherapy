@@ -102,6 +102,17 @@ function detailview(idx){
 	document.idxform.action = "${path}/item_servlet/detailItem.do";
 	document.idxform.submit();
 } 
+function likeit(idx){
+	var data = idx;
+	$.ajax({
+		type: "post",
+		url: "${path}/item_servlet/likeit.do",
+		data: {idx: data},
+		success: function(){
+			alert("관심상품에 추가되었습니다.");
+		}
+	});   
+}
 </script>
 <style type="text/css">
 #category{

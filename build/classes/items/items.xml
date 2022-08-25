@@ -86,7 +86,21 @@
   where idx=#{idx}
  </delete>
  
+ <insert id="addlike">
+  insert into p_like(idx, picture, iname, sale_price, point, volume)
+	(select idx, picture, iname, sale_price, point, volume
+	from p_items
+	where idx = #{idx})
+ </insert>
  
+ <update id="addlikeid">
+ update p_like 
+ set likeid = (select nvl( max(likeid)+1, 1) from p_like)
+ where idx=#{idx}
+ </update>
  
+ <select id="wishview" resultType="items.wishDTO">
+  select * from p_like order by likeid
+ </select>
  
 </mapper>

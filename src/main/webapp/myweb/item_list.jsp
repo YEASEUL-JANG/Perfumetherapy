@@ -10,6 +10,24 @@
 <script src="../include/jquery-3.3.1.min.js"></script>
 <%@ include file="../include/header.jsp" %>
 <script src="https://kit.fontawesome.com/fdfee59c02.js" crossorigin="anonymous"></script>
+<style type="text/css">
+.jb-wrap{
+position: relative;}
+.jb-text{
+width: 150px;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate( -50%, -50% );
+visibility: hidden;
+}
+.jb-wrap:hover img{
+opacity: 0.5;
+}
+.jb-wrap:hover .jb-text{
+visibility: visible;
+opacity: 1!important;}
+</style>
 <script type="text/javascript">
 
 </script>
@@ -26,9 +44,18 @@
                 <!-- 상품 -->
                 <c:forEach var="item" items="${list}">
               <div class="col mb-5">
+              
+              
                     <div class="card h-100">
                         <!-- 상품이미지-->
-                        <a href="#" onclick="detailview('${item.idx }')" ><img class="card-img-top" src="image/${item.picture }" alt="..." /></a>
+                        <div class="jb-wrap">
+                        <a href="#" onclick="detailview('${item.idx }')" >
+                        <img class="card-img-top" src="image/${item.picture }" /></a>
+                        <div class="p-4 jb-text text-center">
+                            <a class="btn btn-outline-dark mt-auto" href="#" onclick="likeit(${item.idx})">
+                            <i class="fa-brands fa-gratipay"></i> Like it!</a>
+                        </div>
+                        </div>
                         <!-- 상품디테일-->
                         <div class="card-body p-4">
                             <div class="text-center">
@@ -40,10 +67,10 @@
                             </div>
                         </div>
                         <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a></div>
-                        </div>
+                        
                     </div>
+                    
+                    
                 </div>
                </c:forEach> 
 <!-- 페이지 네비게이션 -->

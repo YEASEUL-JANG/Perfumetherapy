@@ -61,7 +61,6 @@ public class itemsDAO {
 		map.put("end", end);
 		map.put("searchkey", searchkey);
 		map.put("search", "%"+search+"%");
-		System.out.println(map);
 		 list=session.selectList("items.itemTable", map);
 		for(itemsDTO dto : list) {
 			String iname = dto.getIname();
@@ -136,9 +135,34 @@ public class itemsDAO {
 		Map<String,Object> map=new HashMap<>();
 		map.put("category", category);
 		map.put("big_category", big_category);
-		System.out.println(map);
 		int count=session.selectOne("items.listCatCount",map);
 		session.close();
 		return count;
+	}
+	//찜목록에 아이템 추가
+	public void addlike(int idx) {
+		SqlSession session = MybatisManager.getInstance().openSession();
+		try {
+			session.insert("items.addlike",idx);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+	}
+	//찜목록에 찜테이블id추가
+	public void addlikeid(int idx) {
+		SqlSession session = MybatisManager.getInstance().openSession();
+		session.update("items.addlikeid",idx);
+		session.commit();
+		session.close();
+	}
+	public List<wishDTO> wishview() {
+		List<wishDTO> list = null;
+		SqlSession session = MybatisManager.getInstance().openSession();
+		list = session.selectList("items.wishview");
+		session.close();
+		return list;
 	}
 }
