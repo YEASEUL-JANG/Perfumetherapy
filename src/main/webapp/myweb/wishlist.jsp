@@ -21,7 +21,18 @@ function wishlist(){
 		}
 	});
 }
-
+//개별 장바구니 추가
+function addcart(cartid){
+	$.ajax({
+		type : "post",
+		data : {cartid: cartid},
+		url : "${path}/order_servlet/pluscart.do",
+		success : function(){
+			alert("장바구니에 추가되었습니다.");
+			location.href="${path}/myweb/wishlist.jsp";
+		}
+	});
+}
 </script>
 </head>
 <body>

@@ -148,8 +148,8 @@ function orderitem(result){
             	var result = data;
             	if(result==0){//세션아이디가 없으면
             		location.href="session_check.jsp";//세션체크페이지
-            	}else if(result == 1){//있으면 주문페이지 이동
-            	location.href="orderform.jsp";
+            	}else{//있으면 주문페이지 이동
+            	location.href="orderform.jsp?orderid="+result;
             	}
             },
     		error: function(){

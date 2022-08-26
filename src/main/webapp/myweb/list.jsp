@@ -15,10 +15,6 @@
 <link rel="icon" type="image/x-icon" href="../Resources/assets/favicon.ico.png" />
 <link href="../Resources/css/styles.css" rel="stylesheet" />
 <script type="text/javascript">
-$(function(){
-	cat_all();
-});
-
 function cat_all(){
 	$.ajax({
 		type : "post",
@@ -124,6 +120,33 @@ float: left;
 margin: 10px;
 }
 </style>
+<c:choose>
+ <c:when test="${param.category == 'green'}">
+   <script type="text/javascript">
+    cat_green();
+   </script>
+ </c:when>
+ <c:when test="${param.category == 'all'}">
+   <script type="text/javascript">
+   cat_all();
+   </script>
+ </c:when>
+ <c:when test="${param.category == 'pink'}">
+   <script type="text/javascript">
+    cat_pink();
+   </script>
+ </c:when>
+ <c:when test="${param.category == 'white'}">
+   <script type="text/javascript">
+   cat_white();
+   </script>
+ </c:when>
+ <c:when test="${param.category == 'gold'}">
+   <script type="text/javascript">
+   cat_gold();
+   </script>
+ </c:when>
+</c:choose>
 </head>
 <body>
 <header>

@@ -75,20 +75,21 @@
  </insert>
  
  <insert id="addDetailorder">
-  insert into p_detailorder(cartid, num, idx, picture, iname, sale_price, point, volume)
-  select cartid, num, idx, picture, iname, sale_price, point, volume
-  from p_cart
-  where cartid = #{cartid}
+  insert into p_detailorder(orderid, userid,cartid)
+  values(#{trade_code},#{userid},#{cartid})
  </insert>
  
  <update id="updateDetailorder">
-  update p_detailorder set orderid = #{trade_code}, userid=#{userid}
-  where cartid=#{cartid}
+  update p_detailorder set (num, idx, picture, iname, sale_price, point, volume)
+  = (select num, idx, picture, iname, sale_price, point, volume
+  from p_cart
+  where cartid=#{cartid})
+  where orderid = #{trade_code} and cartid = #{cartid}
  </update>
  
  <select id="orderdetail" resultType="order.dto.OrderdetailDTO">
   select * from p_detailorder
-  where userid = #{userid}
+  where userid = #{userid} and orderid= #{orderid}
  </select>
  
  <select id="getuser" resultType="user.userDTO">
@@ -98,11 +99,6 @@
  
   <delete id="deleteorder">
    delete from p_order
-   where orderid=#{orderid} and userid = #{userid}
- </delete>
- 
- <delete id="deletedetailorder">
-   delete from p_detailorder
    where orderid=#{orderid} and userid = #{userid}
  </delete>
  
@@ -138,19 +134,27 @@
  
  <insert id="addDetailwish">
   insert into p_detailorder(cartid, num, idx, picture, iname, sale_price, point, volume)
-  select cartid, num, idx, picture, iname, sale_price, point, volume
-  from p_like
-  where cartid = #{cartid}
+  
  </insert>
  
  <update id="updateDetailwish">
-  update p_detailorder set orderid = #{trade_code}, userid=#{userid}
-  where cartid=#{cartid}
+  update p_detailorder set (cartid, num, idx, picture, iname, sale_price, point, volume)
+  =(select cartid, num, idx, picture, iname, sale_price, point, volume
+  from p_like
+  where cartid = #{cartid})
+  where orderid = #{trade_code}
  </update>
  
  <delete id="deleteWish">
   delete from p_like
   where cartid = #{cartid}
  </delete>
+ 
+ <insert id="wishaddcart">
+  insert into p_cart(cartid, num, idx, picture, iname, sale_price, point, volume)
+ (select cartid, num, idx, picture, iname, sale_price, point, volume
+ from p_like
+ where cartid = #{cartid})
+ </insert>
  
  </mapper>

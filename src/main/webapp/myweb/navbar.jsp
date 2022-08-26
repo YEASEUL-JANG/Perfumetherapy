@@ -56,12 +56,12 @@ function mypage(){//마이페이지 클릭 시
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">For Her</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">All Products</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/list.jsp?category=all">All Products</a></li>
                             <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item" href="#">시트러스|그린</a></li>
-                            <li><a class="dropdown-item" href="#">플로럴|화이트플로럴</a></li>
-                            <li><a class="dropdown-item" href="#">머스크|앰버</a></li>
-                            <li><a class="dropdown-item" href="#">스위트|바닐라</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/list.jsp?category=green">시트러스|그린</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/list.jsp?category=pink">플로럴|화이트플로럴</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/list.jsp?category=white">머스크|앰버</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/list.jsp?category=gold">스위트|바닐라</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">

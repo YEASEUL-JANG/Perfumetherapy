@@ -170,10 +170,14 @@ public class OrderDAO {
 		}
 		
 	}
-	public void addDetailorder(int cartid) {
+	public void addDetailorder(String trade_code, String userid, int cartid) {
 		SqlSession session=MybatisManager.getInstance().openSession();
 		try {
-			session.insert("order.addDetailorder",cartid);
+			Map<String,Object> map=new HashMap<>();
+			map.put("trade_code", trade_code);
+			map.put("userid", userid);
+			map.put("cartid", cartid);
+			session.insert("order.addDetailorder",map);
 			session.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -181,10 +185,9 @@ public class OrderDAO {
 			if(session != null) session.close();
 		}
 	}
-	public void updateDetailorder(String trade_code, String userid, int cartid) {
+	public void updateDetailorder(String trade_code, int cartid) {
 		Map<String,Object> map=new HashMap<>();
 		map.put("trade_code", trade_code);
-		map.put("userid", userid);
 		map.put("cartid", cartid);
 		SqlSession session=MybatisManager.getInstance().openSession();
 		try {
@@ -196,11 +199,14 @@ public class OrderDAO {
 			if(session != null) session.close();
 		}
 	}
-	public List<OrderdetailDTO> orderdetail(String userid) {
+	public List<OrderdetailDTO> orderdetail(String userid, String orderid) {
 		List<OrderdetailDTO> list = null;
 		SqlSession session=MybatisManager.getInstance().openSession();
+		Map<String, Object> map = new HashMap<>();
+		map.put("userid", userid);
+		map.put("orderid", orderid);
 		try {
-			list = session.selectList("order.orderdetail",userid);
+			list = session.selectList("order.orderdetail",map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -220,6 +226,7 @@ public class OrderDAO {
 		}
 		return dto;
 	}
+	//주문내역 삭제
 	public void deleteorder(String userid, String orderid) {
 		SqlSession session=MybatisManager.getInstance().openSession();
 		try {
@@ -227,21 +234,6 @@ public class OrderDAO {
 			map.put("userid", userid);
 			map.put("orderid", orderid);
 			session.delete("order.deleteorder",map);
-			session.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			if(session != null) session.close();
-		}
-		
-	}
-	public void deletedetailorder(String userid, String orderid) {
-		SqlSession session=MybatisManager.getInstance().openSession();
-		try {
-			Map<String, Object> map = new HashMap<>();
-			map.put("userid", userid);
-			map.put("orderid", orderid);
-			session.delete("order.deletedetailorder",map);
 			session.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -320,23 +312,10 @@ public class OrderDAO {
 		}
 		return dto;
 	}
-	//상세주문테이블에 찜목록 삽입
-	public void addDetailwish(int cartid) {
-		SqlSession session=MybatisManager.getInstance().openSession();
-		try {
-			session.insert("order.addDetailwish",cartid);
-			session.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			if(session != null) session.close();
-		}
-	}
 	//상세주문테이블에 찜목록 업데이트
-	public void updateDetailwish(String trade_code, String userid, int cartid) {
+	public void updateDetailwish(String trade_code, int cartid) {
 		Map<String,Object> map=new HashMap<>();
 		map.put("trade_code", trade_code);
-		map.put("userid", userid);
 		map.put("cartid", cartid);
 		SqlSession session=MybatisManager.getInstance().openSession();
 		try {
@@ -353,6 +332,17 @@ public class OrderDAO {
 		SqlSession session=MybatisManager.getInstance().openSession();
 		try {
 			session.delete("order.deleteWish",cartid);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+	}
+	public void wishaddcart(int cartid) {
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			session.insert("order.wishaddcart",cartid);
 			session.commit();
 		} catch (Exception e) {
 			e.printStackTrace();

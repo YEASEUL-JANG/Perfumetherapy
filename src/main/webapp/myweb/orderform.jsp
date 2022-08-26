@@ -9,11 +9,13 @@
 <script src="../include/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
 $(function(){
-	orderform();
+	 var orderid = $("#orderid").val();
+	 orderform(orderid);
 });
-function orderform(){
+function orderform(orderid){
 	$.ajax({
 		type : "post",
+		data : {orderid : orderid},
 		url : "${path}/order_servlet/orderform.do",
 		success : function(result){
 			$("#result").html(result);
@@ -31,9 +33,12 @@ function goorder(){
 </script>
 </head>
 <body>
+<!-- hidden orderid -->
+<input type="hidden" id="orderid" value=${param.orderid }>
 <header>
   <jsp:include page="navbar.jsp"></jsp:include>
   </header>
+  
   <!-- content -->
   <section class="py-5">
   <div class="container px-4 px-lg-5 mt-5">

@@ -139,15 +139,20 @@ $(function(){
    		 $("#allCheck").prop("checked", false);
 	});
 	
-//주문하기 모달창
-  $("button").click(function(){
-	    $(".modal").fadeIn();
-	  });
+  //모달창 닫기설정
   $(".close_modal").click(function(){
        $(".modal").fadeOut();
      });
   
 });
+
+//개별모달창 열기
+function showmodal(index){
+	var x = index;
+	$("#modalid"+x).fadeIn();
+}
+
+
 //주문하기
 function orderitem(result){
 	if(result != null){ //전체상품주문 클릭시
@@ -187,8 +192,8 @@ function goorder(id){
         	var result = data;
         	if(result==0){//세션아이디가 없으면
         		location.href="session_check.jsp";//세션체크페이지
-        	}else if(result == 1){//있으면 주문페이지 이동
-        	 location.href="orderform.jsp"; 
+        	}else{//있으면 주문페이지 이동
+        		location.href="orderform.jsp?orderid="+result; 
         	}
         },
 		error: function(){
@@ -227,6 +232,7 @@ function numdown(down, price){
 		}
 	});
 } 
+
 </script>
 </head>
 <body>
@@ -243,7 +249,7 @@ function numdown(down, price){
     <th class="a ">합계</th>
     <th class="a ">선택</th>
     </tr>
-	<c:forEach var="like" items="${list }">
+	<c:forEach var="like" items="${list }" varStatus="vs">
     <!--hidden data  -->
  	<input type="hidden" id="hid_idx" value="${like.idx }" >
     <tr >
@@ -259,9 +265,9 @@ function numdown(down, price){
     <fmt:formatNumber type="number" maxFractionDigits="3" value="${like.sale_price}"/>" size="9">원</td>
     <td >
     
-    <button>주문하기</button>
+    <button onclick="showmodal(${vs.index})">주문하기</button>
     
-    <div class="modal">
+    <div id="modalid${vs.index }" class="modal">
   	<div class="modal_content">
     <div class="close_modal"><i class="fa-solid fa-circle-xmark"></i></div>
     <table id="modaltable" style="border-collapse: collapse;">
@@ -296,7 +302,7 @@ function numdown(down, price){
      <tr>
      <td colspan="5" style="text-align: center;padding-top: 30px;">
      <input type="button" value="바로 구매하기" onclick="goorder('${like.cartid}')">
-     <input type="button" value="장바구니 담기"></td>
+     <input type="button" value="장바구니 담기" onclick="addcart('${like.cartid}')"></td>
      </tr>
     </table>
   	 </div>
@@ -308,16 +314,16 @@ function numdown(down, price){
     <td class="b w"><input type="button" value="삭제" id="delete_${like.cartid}_btn" data-cartid="${like.cartid}"></td>
     </tr>
     <script>
-    $("#delete_${cart.cartid}_btn").click(function () {
-    var confirm_val = confirm("정말 삭제하시겠습니까?");
+    $("#delete_${like.cartid}_btn").click(function () {
+    var confirm_val = confirm("해당상품을 삭제하시겠습니까?");
     if (confirm_val) {
-        var checkArr = $(this).attr("data-cartid");
+        var cartid = $(this).attr("data-cartid");
           $.ajax({
-            url: "${path}/order_servlet/deletecart.do",
+            url: "${path}/order_servlet/deletelike.do",
             type: "post",
-            data: { chbox: checkArr },
+            data: { cartid: cartid },
             success: function () {
-                    location.href = "cart.jsp";
+                    location.href = "${path}/myweb/wishlist.jsp";
             	}
         	});  
     	}

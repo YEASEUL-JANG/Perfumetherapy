@@ -82,7 +82,7 @@ public class orderController extends HttpServlet {
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
 			
-		//장바구니 추가
+		//아이템페이지에서 장바구니 추가
 		}else if(uri.indexOf("addcart.do") != -1 ){
 			int idx = Integer.parseInt(request.getParameter("idx"));
 			int num = Integer.parseInt(request.getParameter("num"));
@@ -162,13 +162,13 @@ public class orderController extends HttpServlet {
 					cartid = Integer.parseInt(i);
 					System.out.println(cartid);
 					//주문상세테이블에 카트상품 추가
-					dao.addDetailorder(cartid); 
-					dao.updateDetailorder(trade_code, userid, cartid);
+					dao.addDetailorder(trade_code, userid,cartid); 
+					dao.updateDetailorder(trade_code, cartid);
 					System.out.println("cartid : "+cartid+", 주문번호 : "+trade_code+" 추가 완료");
 					//장바구니 비우기
 					dao.deleteCart(cartid);
 				}
-				request.setAttribute("data",1);
+				request.setAttribute("data",trade_code);
 				String page="/myweb/orderresult.jsp";
 				RequestDispatcher rd=request.getRequestDispatcher(page);
 				rd.forward(request, response);
@@ -177,7 +177,8 @@ public class orderController extends HttpServlet {
 		}else if(uri.indexOf("orderform.do") != -1 ){
 			HttpSession session = request.getSession();
 			String userid = (String)session.getAttribute("userid");
-			List<OrderdetailDTO> list = dao.orderdetail(userid);
+			String orderid = request.getParameter("orderid");
+			List<OrderdetailDTO> list = dao.orderdetail(userid,orderid);
 			userDTO dto = dao.getuser(userid);
 			request.setAttribute("list", list);
 			request.setAttribute("dto", dto);
@@ -204,7 +205,6 @@ public class orderController extends HttpServlet {
 			
 			//주문내역 삭제
 			 dao.deleteorder(userid,orderid); 
-			 dao.deletedetailorder(userid,orderid);
 			
 			//메시지출력
 			 String msg = "장바구니로 이동합니다.";
@@ -292,17 +292,29 @@ public class orderController extends HttpServlet {
 				//주문테이블 추가
 				dao.addorderList(trade_code, userid, total_price);
 				//주문상세테이블에 카트상품 추가
-				dao.addDetailwish(cartid); 
-				dao.updateDetailwish(trade_code, userid, cartid);
+				
+				dao.addDetailorder(trade_code, userid,cartid);  
+				dao.updateDetailwish(trade_code, cartid);
 				System.out.println("likeid : "+cartid+", 주문번호 : "+trade_code+" 추가 완료");
 				//장바구니 비우기
 				dao.deleteWish(cartid);
 				//주문페이지로 이동
-				request.setAttribute("data",1);
+				request.setAttribute("data",trade_code);
 				String page="/myweb/orderresult.jsp";
 				RequestDispatcher rd=request.getRequestDispatcher(page);
 				rd.forward(request, response);
 			}
+		//찜목록에서 장바구니 추가
+		}else if(uri.indexOf("pluscart.do") != -1 ){
+			int cartid = Integer.parseInt(request.getParameter("cartid"));
+			System.out.println("들어온 cartid : "+cartid);
+			dao.wishaddcart(cartid);
+			
+		//찜목록에서 삭제
+		}else if(uri.indexOf("deletelike.do") != -1 ){
+			int cartid = Integer.parseInt(request.getParameter("cartid"));
+			System.out.println("들어온 cartid : "+cartid);
+			dao.deleteWish(cartid);
 		}
 		
 	}
