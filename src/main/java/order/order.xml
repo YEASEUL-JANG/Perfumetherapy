@@ -138,11 +138,11 @@
  </insert>
  
  <update id="updateDetailwish">
-  update p_detailorder set (cartid, num, idx, picture, iname, sale_price, point, volume)
-  =(select cartid, num, idx, picture, iname, sale_price, point, volume
+  update p_detailorder set (num, idx, picture, iname, sale_price, point, volume)
+  =(select num, idx, picture, iname, sale_price, point, volume
   from p_like
   where cartid = #{cartid})
-  where orderid = #{trade_code}
+  where orderid = #{trade_code} and cartid = #{cartid}
  </update>
  
  <delete id="deleteWish">
@@ -156,5 +156,19 @@
  from p_like
  where cartid = #{cartid})
  </insert>
+ 
+  <select id="getcart" resultType="order.dto.CartDTO">
+  select *
+  from p_cart
+  where cartid = #{cartid}
+ </select>
+ 
+ <delete id="deleteAllcart">
+  delete from p_cart
+ </delete>
+ 
+  <delete id="deleteAllwish">
+  delete from p_like
+ </delete>
  
  </mapper>

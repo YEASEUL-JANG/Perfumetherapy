@@ -133,7 +133,7 @@ function state(){
     <td class="img" onclick="location.href='orderlist.jsp';"><i class="fa-solid fa-basket-shopping"></i></td>
     <td class="img" onclick="location.href='revise.jsp';"><i class="fa-solid fa-address-card"></i></td>
     <td class="img" onclick="location.href='wishlist.jsp';"><i class="fa-solid fa-heart"></i></td>
-    <td class="img" ><i class="fa-solid fa-pen-to-square"></i></td>
+    <td class="img" onclick="location.href='board-list.jsp';"><i class="fa-solid fa-pen-to-square"></i></td>
     </tr>
     <tr>
     <td class="title">Order</td>

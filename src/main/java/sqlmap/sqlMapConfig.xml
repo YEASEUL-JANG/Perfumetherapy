@@ -19,5 +19,6 @@
   <mapper resource="/items/items.xml"/>
   <mapper resource="/user/users.xml"/>
   <mapper resource="/order/order.xml"/>
+  <mapper resource="/review/review.xml"/>
  </mappers>
 </configuration>

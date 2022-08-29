@@ -33,6 +33,18 @@ function addcart(cartid){
 		}
 	});
 }
+function deleteAllwish(){
+	$.ajax({
+        type:'post',
+        url: '${path }/order_servlet/deleteAllwish.do',
+        success: function(){
+        	 location.href="${path}/myweb/wishlist.jsp";
+        },
+		error: function(){
+			alert("에러.");
+		}
+     });
+}
 </script>
 </head>
 <body>

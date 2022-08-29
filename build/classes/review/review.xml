@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="review">
+
+<resultMap type="review.dto.ReviewDTO" id="ReviewDTO">
+  <result column="num" property="num"/>
+  <result column="age" property="age"/>
+  <result column="gender" property="gender"/>
+  <result column="idx" property="idx"/>
+  <result column="review_star" property="review_star"/>
+  <result column="title" property="title"/>
+  <result column="content" property="content"/>
+  <result column="review_count" property="review_count"/>
+  <result column="image_file" property="image_file"/>
+  <result column="reg_date" property="reg_date"/>
+  <collection property="itemsDTO" resultMap="itemsDTO"/>
+</resultMap> 
+
+<resultMap type="items.itemsDTO" id="itemsDTO">
+ <result column="iname" property="iname"/>
+ <result column="volume" property="volume"/>
+ <result column="picture" property="picture"/>
+</resultMap>
+
+
+  <insert id="insert">
+   insert into p_review(num, userid, age, gender, idx, review_star, title, content, image_file)
+   values((select nvl(max(num)+1,1) from p_review),#{userid},#{age},#{gender},#{idx},#{review_star},#{title},
+   #{content},#{image_file})
+  </insert>
+  
+  <select id="count" resultType="int">
+  select count(*) from p_review where userid = #{userid}
+ </select>
+ 
+ <select id="list" resultMap="ReviewDTO">
+  select * 
+	from (
+    select A.*, rownum as rn
+    from (
+        select a.num, a.userid, a.age, a.gender, a.idx, a.review_star, a.title, a.content, a.review_count,
+		a.image_file, a.reg_date, b.iname, b.picture, b.volume
+		from p_review a
+		full outer join p_items b
+		on (a.idx = b.idx)
+		where a.userid =#{userid}) A
+	) where rn between #{start} and #{end}
+ </select>
+ 
+ <select id="searchList" resultMap="ReviewDTO">
+ select a.num, a.userid, a.age, a.gender, a.idx, a.review_star, a.title, a.content, a.review_count,
+		a.image_file, a.reg_date, b.iname, b.picture, b.volume
+		from p_review a
+		full outer join p_items b
+		on (a.idx = b.idx)
+		where a.userid =#{userid} and
+		(a.title like #{keyword} 
+    	or a.content like #{keyword} 
+    	or b.iname like #{keyword})
+ </select>
+ 
+ </mapper>

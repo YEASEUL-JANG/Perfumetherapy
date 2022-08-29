@@ -118,4 +118,16 @@ public class userDAO {
 			if(session != null) session.close();
 		}
 	}
+
+	public void withdraw(String userid) {
+		SqlSession session = MybatisManager.getInstance().openSession();
+		try {
+			session.delete("users.withdraw",userid);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+	}
 }

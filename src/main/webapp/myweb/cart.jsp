@@ -45,7 +45,19 @@ function numdown(down){
 		}
 	});
 } 
-
+//카트 전체 비우기
+function deleteallcart(){
+	$.ajax({
+        type:'post',
+        url: '${path }/order_servlet/deleteallcart.do',
+        success: function(){
+        	 location.href="${path}/myweb/cart.jsp";
+        },
+		error: function(){
+			alert("에러.");
+		}
+     });
+}
 </script>
 <style type="text/css">
 

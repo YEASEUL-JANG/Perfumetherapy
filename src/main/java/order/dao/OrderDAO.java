@@ -350,5 +350,39 @@ public class OrderDAO {
 			if(session != null) session.close();
 		}
 	}
+	public CartDTO getcart(int cartid) {
+		CartDTO dto = null;
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			dto = session.selectOne("order.getcart",cartid);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		return dto;
+	}
+	public void deleteAllcart() {
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			session.delete("order.deleteAllcart");
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+	}
+	public void deleteAllwish() {
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			session.delete("order.deleteAllwish");
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+	}
 
 }

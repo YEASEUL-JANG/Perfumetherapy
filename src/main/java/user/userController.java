@@ -73,6 +73,15 @@ public class userController extends HttpServlet {
 			dto.setUserid(userid);
 			dto.setPasswd(passwd);
 			String name = dao.userlogin(dto);
+			if(name == null) {
+				String msg = "해당 아이디로 가입된 이력이 없습니다.";
+				request.setAttribute("msg", msg);
+				request.setAttribute("url","myweb/login.jsp");
+				//페이지 이동
+				String page="/myweb/alert.jsp";
+				RequestDispatcher rd=request.getRequestDispatcher(page);
+				rd.forward(request, response);
+			}else {
 			//세션저장
 			HttpSession session = request.getSession();
 			session.setAttribute("userid", userid);
@@ -84,6 +93,7 @@ public class userController extends HttpServlet {
 			String page="/myweb/alert.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
+			}
 		//로그아웃	
 		}else if(uri.indexOf("logout.do") != -1 ) {
 			HttpSession session = request.getSession();
@@ -226,6 +236,19 @@ public class userController extends HttpServlet {
 			request.setAttribute("message", message);
 			//페이지 이동
 			String page="/myweb/reviseme.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response); 
+		}else if(uri.indexOf("withdraw.do") != -1 ) {
+			HttpSession session = request.getSession();
+			String userid = (String)session.getAttribute("userid");
+			dao.withdraw(userid);
+			session.invalidate();
+			//메시지 출력
+			String msg = "탈퇴가 정상적으로 처리되었습니다. 감사합니다.";
+			request.setAttribute("msg", msg);
+			request.setAttribute("url","myweb/index.jsp");
+			//페이지 이동
+			String page="/myweb/alert.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
 		}

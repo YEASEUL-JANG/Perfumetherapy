@@ -54,6 +54,16 @@ width: 220px;
 border-radius: 10px;
 margin: 25px;
 }
+#j_out{
+background: white;
+font-size: 15px;
+font-weight: bold;
+color: #222;
+padding: 15px;
+width: 200px;
+margin: 25px;
+border: 2px solid #222;
+}
 .welcomebox{
 width: 100%;
 padding: 20px;
@@ -122,9 +132,12 @@ function revise(){
 		document.input.action="${path}/user_servlet/reviseme.do";
 		document.input.submit(); 
 	}
-		
 }
-
+function withdraw(){
+	if(confirm("정말 탈퇴하시겠습니까?")){
+		location.href="${path}/user_servlet/withdraw.do";
+	}
+}
 </script>
 </head>
 <body>
@@ -187,7 +200,8 @@ function revise(){
     </form>
     <p>
     <div align="center"><input type="button" id="j_button" value="수정" onclick="revise()"></div>
-  
+    <div align="right"><input type="button" id="j_out" value="회원탈퇴" onclick="withdraw()"></div>
+    
    </div>
   </section>
 </body>

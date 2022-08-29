@@ -48,4 +48,10 @@
   where userid=#{userid}
  </update>
  
+ <delete id="withdraw">
+  delete from users
+  where userid = #{userid}
+ </delete>
+ 
+ 
 </mapper>

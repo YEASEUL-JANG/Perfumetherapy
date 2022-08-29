@@ -172,6 +172,28 @@ function itemSum() {
     $(".total_sum").val(result);
     $(".total_sum2").html(result+"원");
 }
+//개별주문하기
+function goorder(id){
+	//카트아이디 보냄
+	var cartid = id;
+	$.ajax({
+        type:'post',
+        url: '${path }/order_servlet/cartpurchase.do',
+        data:{cartid : cartid},
+        success: function(data){
+        	var result = data;
+        	if(result==0){//세션아이디가 없으면
+        		location.href="session_check.jsp";//세션체크페이지
+        	}else{//있으면 주문페이지 이동
+        		location.href="orderform.jsp?orderid="+result; 
+        	}
+        },
+		error: function(){
+			alert("에러.");
+		}
+     });
+}
+
 </script>
 </head>
 <body>
@@ -222,7 +244,7 @@ function itemSum() {
     <td class="b w" rowspan="2">무료</td>
     <td class="b p" rowspan="2"><input type="text" id="total" value="
     <fmt:formatNumber type="number" maxFractionDigits="3" value="${cart.sale_price * cart.num }"/>" size="9">원</td>
-    <td ><input type="button" value="주문하기" id="btnorder"></td>
+    <td ><input type="button" value="주문하기" onclick="goorder('${cart.cartid}')"></td>
     </tr><tr>
     <td class="b w"><input type="button" value="삭제" id="delete_${cart.cartid}_btn" data-cartid="${cart.cartid}"></td>
     </tr>
@@ -264,6 +286,6 @@ function itemSum() {
    	</table>
    	<input type="button" value="전체상품주문" onclick="orderitem('all')">
    	<input type="button" value="선택상품주문" onclick="orderitem()">
-   	<br><input type="button" value="쇼핑계속하기">
+   	<br><input type="button" value="장바구니 비우기" onclick="deleteallcart()">
 </body>
 </html>

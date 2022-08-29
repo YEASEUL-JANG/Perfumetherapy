@@ -115,13 +115,13 @@ display: inline;
 </style>
 <script type="text/javascript">
 $(function(){
-	
 	var tt = "${like}";
     if (tt == 'false') {//카트상품이 없으면
         $("#allCheck").prop("checked", false);
     } else {//있다면 기본적으로 allcheck
         $("#allCheck").prop("checked", true);
         $(".chkbox").prop("checked", true);
+        itemSum();
     }
 //모두선택을 클릭할 때
 	$("#allCheck").click(function () {
@@ -145,7 +145,18 @@ $(function(){
      });
   
 });
-
+//가격합계 계산
+function itemSum(){
+    var str = "";
+    var sum = 0;
+    var count = $(".chkbox").length;
+    for (var i = 0; i < count; i++) {
+        if ($(".chkbox")[i].checked == true) {
+            sum += parseInt($(".chkbox")[i].value);
+        }
+    }
+    $("#totalprice").val(sum.toString());
+}
 //개별모달창 열기
 function showmodal(index){
 	var x = index;
@@ -162,19 +173,19 @@ function orderitem(result){
 	$("input[class='chkbox']:checked").each(function () {
         checkArr.push($(this).attr("data-cartid"));
     });
-	var total_price = $("#tot_price").val();//총 상품금액
+	var total_price = $("#totalprice").val();//총 상품금액
 	 $.ajax({
             type:'post',
             traditional: true,
-            url: '${path }/order_servlet/order.do',
+            url: '${path }/order_servlet/wishselect.do',
             data:{chk:checkArr,
             	t_price : total_price},
             success: function(data){
             	var result = data;
             	if(result==0){//세션아이디가 없으면
             		location.href="session_check.jsp";//세션체크페이지
-            	}else if(result == 1){//있으면 주문페이지 이동
-            	location.href="orderform.jsp";
+            	}else{//있으면 주문페이지 이동
+            	location.href="orderform.jsp?orderid="+result;
             	}
             },
     		error: function(){
@@ -239,7 +250,7 @@ function numdown(down, price){
 
 <table id="wishtable">
     <tr >
-    <th class="a"><input type="checkbox" id="allCheck" checked ></th>
+    <th class="a"><input type="checkbox" id="allCheck" ></th>
     <th class="a ">이미지</th>
     <th class="a col-4">상품정보</th>
     <th class="a ">판매가</th>
@@ -266,7 +277,7 @@ function numdown(down, price){
     <td >
     
     <button onclick="showmodal(${vs.index})">주문하기</button>
-    
+    <!-- 모달창 -->
     <div id="modalid${vs.index }" class="modal">
   	<div class="modal_content">
     <div class="close_modal"><i class="fa-solid fa-circle-xmark"></i></div>
@@ -331,9 +342,9 @@ function numdown(down, price){
     </script>
     </c:forEach>
     </table>
-   	
+   	 <input type="hidden" id="totalprice" size="6">
    	<input type="button" value="전체상품주문" onclick="orderitem('all')">
    	<input type="button" value="선택상품주문" onclick="orderitem()">
-   	<br><input type="button" value="쇼핑계속하기">
+   	<br><input type="button" value="찜목록 비우기" onclick="deleteAllwish()">
 </body>
 </html>

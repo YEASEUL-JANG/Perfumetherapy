@@ -264,7 +264,7 @@ public class orderController extends HttpServlet {
 			String page="/myweb/alert.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response); 
-		//개별구매
+		//개별구매(찜목록)
 		}else if(uri.indexOf("wishpurchase.do") != -1 ){
 			int cartid = Integer.parseInt(request.getParameter("cartid"));
 			System.out.println("들어온 cartid : "+cartid);
@@ -292,7 +292,6 @@ public class orderController extends HttpServlet {
 				//주문테이블 추가
 				dao.addorderList(trade_code, userid, total_price);
 				//주문상세테이블에 카트상품 추가
-				
 				dao.addDetailorder(trade_code, userid,cartid);  
 				dao.updateDetailwish(trade_code, cartid);
 				System.out.println("likeid : "+cartid+", 주문번호 : "+trade_code+" 추가 완료");
@@ -315,7 +314,92 @@ public class orderController extends HttpServlet {
 			int cartid = Integer.parseInt(request.getParameter("cartid"));
 			System.out.println("들어온 cartid : "+cartid);
 			dao.deleteWish(cartid);
+			
+		//개별구매(장바구니)
+		}else if(uri.indexOf("cartpurchase.do") != -1 ){
+			int cartid = Integer.parseInt(request.getParameter("cartid"));
+			System.out.println("들어온 cartid : "+cartid);
+			HttpSession session = request.getSession();
+			String userid = (String)session.getAttribute("userid");
+			if(userid == null) {//세션아이디가 없을때
+				request.setAttribute("data",0);
+				String page="/myweb/orderresult.jsp";
+				RequestDispatcher rd=request.getRequestDispatcher(page);
+				rd.forward(request, response);
+			}else{//세션아이디가 있을 때
+				//관심상품의 갯수
+				CartDTO dto = dao.getcart(cartid);
+				int num = dto.getNum();
+				int sale_price = dto.getSale_price();
+				int total_price = num*sale_price;
+				System.out.println("num : "+num+" * price : "+sale_price+" = totalprice:"+total_price);
+				//주문번호 생성
+				Date date = new Date();
+				SimpleDateFormat today = new SimpleDateFormat("yyyyMMdd");
+				String o_date = today.format(date);
+				int seq_key = dao.order_seq();
+				String trade_code = o_date+"-"+seq_key;
+				System.out.println("주문번호 : "+trade_code);
+				//주문테이블 추가
+				dao.addorderList(trade_code, userid, total_price);
+				//주문상세테이블에 카트상품 추가
+				dao.addDetailorder(trade_code, userid,cartid);  
+				dao.updateDetailorder(trade_code, cartid);
+				System.out.println("likeid : "+cartid+", 주문번호 : "+trade_code+" 추가 완료");
+				//장바구니 비우기
+				dao.deleteCart(cartid);
+				//주문페이지로 이동
+				request.setAttribute("data",trade_code);
+				String page="/myweb/orderresult.jsp";
+				RequestDispatcher rd=request.getRequestDispatcher(page);
+				rd.forward(request, response);
+			}
+		//장바구니 비우기
+		}else if(uri.indexOf("deleteallcart.do") != -1 ){
+			dao.deleteAllcart();
+		
+		//찜목록에서 선택상품 구매
+		}else if(uri.indexOf("wishselect.do") != -1 ){
+			HttpSession session = request.getSession();
+			String userid = (String)session.getAttribute("userid");
+			if(userid == null) {//세션아이디가 없을때
+				request.setAttribute("data",0);
+				String page="/myweb/orderresult.jsp";
+				RequestDispatcher rd=request.getRequestDispatcher(page);
+				rd.forward(request, response);
+			}else{//세션아이디가 있을 때
+				String[] chArr = request.getParameterValues("chk");//카트아이디(배열)
+				 int total_price = Integer.parseInt(request.getParameter("t_price"));//총주문금액
+				 System.out.println("tot_price: "+total_price);
+				//주문번호 생성
+				Date date = new Date();
+				SimpleDateFormat today = new SimpleDateFormat("yyyyMMdd");
+				String o_date = today.format(date);
+				int seq_key = dao.order_seq();
+				String trade_code = o_date+"-"+seq_key;
+				System.out.println("주문번호 : "+trade_code);
+				//주문테이블 추가
+				dao.addorderList(trade_code, userid, total_price);
+				int cartid = 0;
+				for(String i : chArr) {
+					cartid = Integer.parseInt(i);
+					System.out.println(cartid);
+					//주문상세테이블에 카트상품 추가
+					dao.addDetailorder(trade_code, userid,cartid); 
+					dao.updateDetailwish(trade_code, cartid);
+					System.out.println("cartid : "+cartid+", 주문번호 : "+trade_code+" 추가 완료");
+					//찜목록 비우기
+					dao.deleteWish(cartid);
+				  }
+				request.setAttribute("data",trade_code);
+				String page="/myweb/orderresult.jsp";
+				RequestDispatcher rd=request.getRequestDispatcher(page);
+				rd.forward(request, response);
+			}
+		}else if(uri.indexOf("deleteAllwish.do") != -1 ){
+			dao.deleteAllwish();
 		}
+			
 		
 	}
 
