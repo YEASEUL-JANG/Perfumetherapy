@@ -59,4 +59,72 @@
     	or b.iname like #{keyword})
  </select>
  
+ <select id="view" resultType="review.dto.ReviewDTO">
+  select * from p_review
+  where num=#{num}
+ </select>
+ 
+ <update id="update">
+  update p_review
+	set  age=#{age}, review_star=#{review_star}
+	   , title=#{title}, content=#{content}
+	   , gender=#{gender}, image_file=#{image_file}
+	where num=#{num}
+ </update>
+ 
+ <select id="getFileName" resultType="String">
+  select image_file
+	from p_review
+	where num=#{num}
+ </select>
+ 
+ <delete id="delete">
+  delete from p_review
+  where num = #{num}
+ </delete>
+ 
+  <select id="commentList" resultType="review.dto.ReviewCommentDTO">
+  select * from review_comment
+  where board_num=#{num}
+ </select>
+ 
+ <!-- 댓글 쓰기 -->
+ <insert id="commentAdd">
+  insert into review_comment
+	(comment_num,board_num,nickname,content) values
+	((select nvl(max(comment_num)+1,1) from review_comment)
+	, #{board_num}, #{nickname}, #{content})
+ </insert>
+ 
+ <select id="countall" resultType="int">
+  select count(*) from p_review
+ </select>
+ 
+ <select id="listall" resultMap="ReviewDTO">
+  select * 
+	from (
+    select A.*, rownum as rn
+    from (
+        select a.num, a.userid, a.age, a.gender, a.idx, a.review_star, a.title, a.content, a.review_count,
+		a.image_file, a.reg_date, b.iname, b.picture, b.volume
+		from p_review a
+		full outer join p_items b
+		on (a.idx = b.idx)
+		where a.num is not null
+        order by num desc) A
+	) where rn between #{start} and #{end}
+ </select>
+ 
+ <select id="searchAll" resultMap="ReviewDTO">
+ select a.num, a.userid, a.age, a.gender, a.idx, a.review_star, a.title, a.content, a.review_count,
+		a.image_file, a.reg_date, b.iname, b.picture, b.volume
+		from p_review a
+		full outer join p_items b
+		on (a.idx = b.idx)
+		where 
+		(a.title like #{keyword} 
+    	or a.content like #{keyword} 
+    	or b.iname like #{keyword})
+ </select>
+ 
  </mapper>

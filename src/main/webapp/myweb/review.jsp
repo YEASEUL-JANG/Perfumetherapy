@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-        <%@ include file="session_check.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +15,7 @@ $(function(){
 function reviewlist(){
 	$.ajax({
 		type : "post",
-		url : "${path}/review_servlet/reviewlist.do",
+		url : "${path}/review_servlet/allReview.do",
 		success : function(res){
 			$(".result2").html(res);
 		}
@@ -25,7 +24,7 @@ function reviewlist(){
 function list(page){
 	$.ajax({
 		type : "post",
-		url : "${path}/review_servlet/reviewlist.do",
+		url : "${path}/review_servlet/allreview.do",
 		data : {curPage:page},
 		success : function(res){
 			$(".result2").html(res);
@@ -36,7 +35,7 @@ function search(){
 	const keyword = $("#keyword").val();
 	$.ajax({
 		type : "post",
-		url : "${path}/review_servlet/search.do",
+		url : "${path}/review_servlet/allSearch.do",
 		data : {keyword:keyword},
 		success : function(res){
 			$(".result2").html(res);
@@ -54,7 +53,7 @@ function search(){
   <section class="py-5">
   <div class="container px-4 px-lg-5 mt-5">
    <div class="justify-content-center flex-sm-column d-sm-flex align-items-center">
-   <h2 class="fw-bold ">게시물 관리</h2></div>
+   <h2 class="fw-bold ">고객 리뷰</h2></div>
    
     
     <div class="result2" style="width: 100%;"></div>

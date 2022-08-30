@@ -249,11 +249,11 @@ function review(index){
       </tr>
        <tr>
        <td>연령대 <select name="age">
-        <option value="ten">10대</option>
-        <option value="twenty" selected>20대</option>
-        <option value="thirty">30대</option>
-        <option value="forty">40대</option>
-        <option value="fifty">50대</option>
+        <option value="10대">10대</option>
+        <option value="20대" selected>20대</option>
+        <option value="30대">30대</option>
+        <option value="40대">40대</option>
+        <option value="50대">50대</option>
        </select></td>
        <td>성별
         <input type="radio" name="gender" value="woman" id="woman"><label for = "woman">여</label>
@@ -276,7 +276,6 @@ function review(index){
   		</td>
   		</tr>
       </table>
-     
      </form>
     </div>
     </div>
