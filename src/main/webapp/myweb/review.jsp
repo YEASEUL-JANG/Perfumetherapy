@@ -8,8 +8,10 @@
 <%@ include file="../include/header.jsp" %>
 <script src="../include/jquery-3.3.1.min.js"></script>
 <link rel="icon" type="image/x-icon" href="../Resources/assets/favicon.ico.png" />
+<link href="../Resources/css/styles.css" rel="stylesheet" />
 <script type="text/javascript">
 $(function(){
+	photoreview();
 	reviewlist();
 });
 function reviewlist(){
@@ -24,10 +26,29 @@ function reviewlist(){
 function list(page){
 	$.ajax({
 		type : "post",
-		url : "${path}/review_servlet/allreview.do",
+		url : "${path}/review_servlet/allReview.do",
 		data : {curPage:page},
 		success : function(res){
 			$(".result2").html(res);
+		}
+	});
+}
+function photoreview(){
+	$.ajax({
+		type : "post",
+		url : "${path}/review_servlet/photoReview.do",
+		success : function(res){
+			$(".result1").html(res);
+		}
+	});
+}
+function list2(page){
+	$.ajax({
+		type : "post",
+		url : "${path}/review_servlet/photoReview.do",
+		data : {curPage:page},
+		success : function(res){
+			$(".result1").html(res);
 		}
 	});
 }
@@ -56,6 +77,7 @@ function search(){
    <h2 class="fw-bold ">고객 리뷰</h2></div>
    
     
+    <div class="result1" style="width: 100%;"></div>
     <div class="result2" style="width: 100%;"></div>
     
     </div>

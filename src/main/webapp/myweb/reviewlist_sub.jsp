@@ -28,7 +28,19 @@ $(function(){
 	//댓글 표시
 	var hid_num = $("#hid_num").val();
 	var hid_index = $("#hid_index").val();
-	
+	//유저아이디 가져오기
+	var count = Number($("#count2").val());
+	for(let i = 0; i<count+1; i++){
+		var num = $("#num2"+i).val();
+		  $.ajax({
+				type : "post",
+				url : "${path}/review_servlet/username2.do",
+				data : {num:num},
+				success : function(res){
+					$("#username2"+i).html(res);
+				}
+			}); 
+	}
 	
 });
 
@@ -83,10 +95,14 @@ function setThumbnail(event) {
 			data : {num:num},
 			success : function(res){
 				$("#commentList"+j).html(res);
-				
+				 var submenu = $("#comment"+j);
+				  if(submenu.is(":visible")){
+					  submenu.slideUp();
+				  }else{
+					  submenu.slideDown();
+				  }
 			}
 		});
-	  $("#comment"+j).toggle();
   }
   function insertcomment(num,index){
 	  var num = num;
@@ -153,7 +169,7 @@ float: right;
 width: 100%;
 height: 100%;}
 #myreview{
-margin-top: 50px;
+margin-top: 10px;
 width: 100%;
 border-top: 2px solid #222;
 border-bottom: 2px solid #222;
@@ -224,6 +240,8 @@ font-weight: bold;
 </style>
 </head>
 <body>
+<div style="font-size: 20px;">REVIEW | 전체 리뷰</div>
+<input type="hidden" value="${count }" id="count2">
 <table id="myreview">
 <tr>
 <td>
@@ -236,10 +254,13 @@ font-weight: bold;
 <td colspan="3"><hr></td>
 </tr>
 <tr>
-<td class="p"style="font-size: 20px; color: #a18672;"><c:forEach var="i" begin="1" end="${re.review_star }">★</c:forEach>
+<td class="p"style="font-size: 20px; color: #a18672;">
+<c:forEach var="i" begin="1" end="${re.review_star }">★</c:forEach>
 ${re.title }</td>
 <td>${re.reg_date }</td>
-<td rowspan="3" style="border-left: 1px solid #c8c9ca;padding-left: 20px;width: 25%;"> <b>${sessionScope.userid }</b> 님의 리뷰입니다.<p>
+<td rowspan="3" style="border-left: 1px solid #c8c9ca;padding-left: 20px;width: 25%;">
+<input type="hidden" id="num2${vs.index }" value="${re.num }" > 
+<div id="username2${vs.index }"></div> 님의 리뷰입니다.<p>
 <table id="review_mini">
 <tr>
 <th>연령대</th><td>${re.age }</td>
@@ -276,7 +297,7 @@ style="width:100px; height:100px; border-radius:10px; cursor: pointer;"></c:if>
 </td>
 </tr>
 <tr>
-<td class="p"><a href="#" onclick="showcomment('${re.num}','${vs.index }')"> 댓글 <i class="fa-solid fa-angle-down"></i> 
+<td class="p"><a href="#" onclick="showcomment('${re.num}','${vs.index }'); return false;"> 댓글 <i class="fa-solid fa-angle-down"></i> 
 <c:if test="${re.comment_count > 0}">
 <span style="font-weight: bold;">(${re.comment_count})</span>
 </c:if>

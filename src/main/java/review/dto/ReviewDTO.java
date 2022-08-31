@@ -6,7 +6,7 @@ import items.itemsDTO;
 
 public class ReviewDTO {
 	private int num;//리뷰번호
-	private String userid;//아이디
+	private String username;//아이디
 	private String age;//연령대
 	private String gender;//성별
 	private int idx;//상품번호
@@ -19,6 +19,13 @@ public class ReviewDTO {
 	private int comment_count;//답변갯수
 	private itemsDTO itemsDTO;
 	
+	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 	public itemsDTO getItemsDTO() {
 		return itemsDTO;
 	}
@@ -31,12 +38,7 @@ public class ReviewDTO {
 	public void setNum(int num) {
 		this.num = num;
 	}
-	public String getUserid() {
-		return userid;
-	}
-	public void setUserid(String userid) {
-		this.userid = userid;
-	}
+	
 	public String getAge() {
 		return age;
 	}

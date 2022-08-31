@@ -65,7 +65,7 @@ public class reviewController extends HttpServlet {
 				e.printStackTrace();
 			}
 			ReviewDTO dto = new ReviewDTO();
-			dto.setUserid(userid);
+			dto.setUsername(userid);
 			dto.setAge(age);
 			dto.setTitle(title);
 			dto.setReview_star(review_star);
@@ -104,12 +104,15 @@ public class reviewController extends HttpServlet {
 			
 			List<ReviewDTO> list=dao.list(start,end,userid);
 			request.setAttribute("list", list);
+			request.setAttribute("count", list.size());
 			//페이지 네비게이션 출력을 위한 정보 전달
 			request.setAttribute("page", pager);
 			
 			String page="/myweb/reviewlist_sub.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
+			
+	    //키워드찾기
 		}else if(url.indexOf("search.do") != -1) {
 			HttpSession session = request.getSession();
 			String userid = (String)session.getAttribute("userid");
@@ -117,8 +120,9 @@ public class reviewController extends HttpServlet {
 			String keyword=request.getParameter("keyword");
 			List<ReviewDTO> list=dao.searchList(keyword, userid);
 			request.setAttribute("list", list);
+			request.setAttribute("count", list.size());
 			request.setAttribute("keyword", keyword);
-			String page="/myweb/searched_review.jsp";
+			String page="/myweb/search_review.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
 		}else if(url.indexOf("modify.do") != -1) {
@@ -215,6 +219,8 @@ public class reviewController extends HttpServlet {
 			dto.setContent(content);
 			dto.setNickname(nickname);
 			dao.commentAdd(dto);
+		
+	    //전체 고객리뷰
 		}else if(url.indexOf("allReview.do") != -1) {
 		//레코드 갯수 계산
 		int count=dao.countall();
@@ -227,22 +233,69 @@ public class reviewController extends HttpServlet {
 		Pager pager=new Pager(count, curPage);
 		int start=pager.getPageBegin();
 		int end=pager.getPageEnd();
-		
 		List<ReviewDTO> list=dao.listall(start,end);
 		request.setAttribute("list", list);
+		request.setAttribute("count", list.size());
 		//페이지 네비게이션 출력을 위한 정보 전달
 		request.setAttribute("page", pager);
 		
 		String page="/myweb/reviewlist_sub.jsp";
 		RequestDispatcher rd=request.getRequestDispatcher(page);
 		rd.forward(request, response);
+		
+		
 		}else if(url.indexOf("allSearch.do") != -1) {
 			//검색옵션과 검색 키워드
 			String keyword=request.getParameter("keyword");
 			List<ReviewDTO> list=dao.searchAll(keyword);
+			
 			request.setAttribute("list", list);
+			request.setAttribute("count", list.size());
 			request.setAttribute("keyword", keyword);
-			String page="/myweb/searched_review.jsp";
+			String page="/myweb/search_review.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response);
+			
+		//포토리뷰
+		}else if(url.indexOf("photoReview.do") != -1) {
+			//레코드 갯수 계산
+			int count=dao.countphoto();
+			//페이지 나누기를 위한 처리
+			int curPage=1;
+			//숫자 처리는 null포인트 익셉션이 잘 일어나기 때문에 if문 처리해주는게 좋다.
+			if(request.getParameter("curPage") != null) {
+				curPage=Integer.parseInt(request.getParameter("curPage"));
+			}
+			Pager pager=new Pager(count, curPage);
+			int start=pager.getPageBegin();
+			int end=pager.getPageEnd();
+			
+			List<ReviewDTO> list=dao.photolist(start,end);
+			
+			request.setAttribute("list", list);
+			request.setAttribute("count", list.size());
+			//페이지 네비게이션 출력을 위한 정보 전달
+			request.setAttribute("page", pager);
+			
+			String page="/myweb/photoreview.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response);
+		
+		//아이디찾기
+		}else if(url.indexOf("username.do") != -1) {
+			int num = Integer.parseInt(request.getParameter("num"));
+			System.out.println("num : " +num);
+			String username = dao.getusername(num);
+			request.setAttribute("username", username);
+			String page="/myweb/test.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response);
+		}else if(url.indexOf("username2.do") != -1) {
+			int num = Integer.parseInt(request.getParameter("num"));
+			System.out.println("num : " +num);
+			String username = dao.getusername2(num);
+			request.setAttribute("username", username);
+			String page="/myweb/test.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
 		}

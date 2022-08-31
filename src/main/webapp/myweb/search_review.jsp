@@ -28,6 +28,20 @@ $(function(){
 	//댓글 표시
 	var hid_num = $("#hid_num").val();
 	var hid_index = $("#hid_index").val();
+	//유저아이디 가져오기
+	var count = Number($("#count2").val());
+	for(let i = 0; i<count+1; i++){
+		var num = $("#num2"+i).val();
+		  $.ajax({
+				type : "post",
+				url : "${path}/review_servlet/username2.do",
+				data : {num:num},
+				success : function(res){
+					$("#username2"+i).html(res);
+				}
+			}); 
+	}
+	
 });
 
 //개별모달창 열기
@@ -81,10 +95,14 @@ function setThumbnail(event) {
 			data : {num:num},
 			success : function(res){
 				$("#commentList"+j).html(res);
-				
+				 var submenu = $("#comment"+j);
+				  if(submenu.is(":visible")){
+					  submenu.slideUp();
+				  }else{
+					  submenu.slideDown();
+				  }
 			}
 		});
-	  $("#comment"+j).toggle();
   }
   function insertcomment(num,index){
 	  var num = num;
@@ -103,7 +121,6 @@ function setThumbnail(event) {
 			}
 		});
   }
-
 </script>
 <style type="text/css">
 .comment{
@@ -111,7 +128,7 @@ width: 100%;
 display: none;}
 /* 주문하기 모달창 */
 .modal{ 
-  position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.8); top:0; left:0; 
+  position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.7); top:0; left:0; 
   display:none;
 }
 .close_modal{
@@ -152,6 +169,7 @@ float: right;
 width: 100%;
 height: 100%;}
 #myreview{
+margin-top: 10px;
 width: 100%;
 border-top: 2px solid #222;
 border-bottom: 2px solid #222;
@@ -222,10 +240,12 @@ font-weight: bold;
 </style>
 </head>
 <body>
+<div style="font-size: 20px;">REVIEW | 전체 리뷰</div>
+<input type="hidden" value="${count }" id="count2">
 <table id="myreview">
 <tr>
 <td>
-<input id="keyword" name="keyword" placeholder="리뷰 키워드 또는 상품명 검색">
+<input id="keyword" name="keyword"  value="${keyword }">
 <button id="btnSearch" onclick="search()">검색</button>
 </td>
 
@@ -234,17 +254,20 @@ font-weight: bold;
 <td colspan="3"><hr></td>
 </tr>
 <tr>
-<td class="p"style="font-size: 20px; color: #a18672;"><c:forEach var="i" begin="1" end="${re.review_star }">★</c:forEach>
+<td class="p"style="font-size: 20px; color: #a18672;">
+<c:forEach var="i" begin="1" end="${re.review_star }">★</c:forEach>
 ${re.title }</td>
 <td>${re.reg_date }</td>
-<td rowspan="3" style="border-left: 1px solid #c8c9ca;padding-left: 20px;width: 25%;"> ${re.userid } 님의 리뷰입니다.<p>
+<td rowspan="3" style="border-left: 1px solid #c8c9ca;padding-left: 20px;width: 25%;">
+<input type="hidden" id="num2${vs.index }" value="${re.num }" > 
+<div id="username2${vs.index }"></div> 님의 리뷰입니다.<p>
 <table id="review_mini">
 <tr>
 <th>연령대</th><td>${re.age }</td>
 </tr><tr>
 <th>성별</th><td>${re.gender }</td>
 </tr><tr>
-<th>회원등급</th><td>FAMILY</td>
+<th>회원등급</th><td> FAMILY</td>
 </tr><tr>
 <th>용량</th><td>${re.itemsDTO.volume }ml</td>
 </tr>
@@ -261,20 +284,20 @@ ${re.itemsDTO.iname }</td>
 </tr>
 <tr>
 <td class="p">
-<c:if test="${re.image_file != ' '}">
+ <c:if test="${re.image_file != ' '}">
 <img src="image/${re.image_file }" onclick="showmodal(${vs.index})" 
 style="width:100px; height:100px; border-radius:10px; cursor: pointer;"></c:if>
 <!--이미지 모달창  -->
 <div id="modalid${vs.index }" class="modal">
-<div class="close_modal">X</div>
-  	<div class="modal_content">
-  	<img src="image/${re.image_file }">
-  	</div>
-  	</div>
+ <div class="close_modal">X</div>
+ <div class="modal_content">
+ <img src="image/${re.image_file }">
+ </div>
+</div>
 </td>
 </tr>
 <tr>
-<td class="p"><a href="#" onclick="showcomment('${re.num}','${vs.index }')"> 댓글 <i class="fa-solid fa-angle-down"></i> 
+<td class="p"><a href="#" onclick="showcomment('${re.num}','${vs.index }'); return false;"> 댓글 <i class="fa-solid fa-angle-down"></i> 
 <c:if test="${re.comment_count > 0}">
 <span style="font-weight: bold;">(${re.comment_count})</span>
 </c:if>
@@ -390,6 +413,7 @@ style="width:100px; height:100px; border-radius:10px; cursor: pointer;"></c:if>
     </td>
 </tr>
 </c:forEach>
+</tr>
 </table>
 </body>
 </html>

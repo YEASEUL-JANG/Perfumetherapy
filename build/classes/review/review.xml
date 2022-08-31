@@ -24,13 +24,13 @@
 
 
   <insert id="insert">
-   insert into p_review(num, userid, age, gender, idx, review_star, title, content, image_file)
+   insert into p_review(num, username, age, gender, idx, review_star, title, content, image_file)
    values((select nvl(max(num)+1,1) from p_review),#{userid},#{age},#{gender},#{idx},#{review_star},#{title},
    #{content},#{image_file})
   </insert>
   
   <select id="count" resultType="int">
-  select count(*) from p_review where userid = #{userid}
+  select count(*) from p_review where username = #{userid}
  </select>
  
  <select id="list" resultMap="ReviewDTO">
@@ -38,22 +38,22 @@
 	from (
     select A.*, rownum as rn
     from (
-        select a.num, a.userid, a.age, a.gender, a.idx, a.review_star, a.title, a.content, a.review_count,
+        select a.num, a.username, a.age, a.gender, a.idx, a.review_star, a.title, a.content, a.review_count,
 		a.image_file, a.reg_date, b.iname, b.picture, b.volume
 		from p_review a
 		full outer join p_items b
 		on (a.idx = b.idx)
-		where a.userid =#{userid}) A
+		where a.username =#{userid}) A
 	) where rn between #{start} and #{end}
  </select>
  
  <select id="searchList" resultMap="ReviewDTO">
- select a.num, a.userid, a.age, a.gender, a.idx, a.review_star, a.title, a.content, a.review_count,
+ select a.num, a.username, a.age, a.gender, a.idx, a.review_star, a.title, a.content, a.review_count,
 		a.image_file, a.reg_date, b.iname, b.picture, b.volume
 		from p_review a
 		full outer join p_items b
 		on (a.idx = b.idx)
-		where a.userid =#{userid} and
+		where a.username =#{userid} and
 		(a.title like #{keyword} 
     	or a.content like #{keyword} 
     	or b.iname like #{keyword})
@@ -105,7 +105,7 @@
 	from (
     select A.*, rownum as rn
     from (
-        select a.num, a.userid, a.age, a.gender, a.idx, a.review_star, a.title, a.content, a.review_count,
+        select a.num, a.username, a.age, a.gender, a.idx, a.review_star, a.title, a.content, a.review_count,
 		a.image_file, a.reg_date, b.iname, b.picture, b.volume
 		from p_review a
 		full outer join p_items b
@@ -116,7 +116,7 @@
  </select>
  
  <select id="searchAll" resultMap="ReviewDTO">
- select a.num, a.userid, a.age, a.gender, a.idx, a.review_star, a.title, a.content, a.review_count,
+ select a.num, a.username, a.age, a.gender, a.idx, a.review_star, a.title, a.content, a.review_count,
 		a.image_file, a.reg_date, b.iname, b.picture, b.volume
 		from p_review a
 		full outer join p_items b
@@ -125,6 +125,37 @@
 		(a.title like #{keyword} 
     	or a.content like #{keyword} 
     	or b.iname like #{keyword})
+ </select>
+ 
+ <select id="countphoto" resultType="int">
+  select count(*) from p_review
+  where image_file != ' '
+ </select>
+ 
+ <select id="photolist" resultMap="ReviewDTO">
+  select * 
+	from (
+    select A.*, rownum as rn
+    from (
+        select a.num, a.username, a.age, a.gender, a.idx, a.review_star, a.title, a.content, a.review_count,
+		a.image_file, a.reg_date, b.iname, b.picture, b.volume
+		from p_review a
+		full outer join p_items b
+		on (a.idx = b.idx)
+		where a.image_file != ' '
+        order by num desc) A
+	) where rn between #{start} and #{end}
+ </select> 
+ 
+ <select id="getusername" resultType="String">
+  select username from p_review
+  where image_file != ' '
+  and num = #{num}
+ </select> 
+ 
+  <select id="getusername2" resultType="String">
+  select username from p_review
+  where num = #{num}
  </select>
  
  </mapper>

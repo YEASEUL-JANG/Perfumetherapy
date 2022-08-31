@@ -214,6 +214,53 @@ public class ReviewDAO {
 		}
 		return list;
 	}
+
+	public int countphoto() {
+		int result=0;
+		try(SqlSession session=MybatisManager.getInstance().openSession()){
+			result=session.selectOne("review.countphoto");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}//finally절 생략 가능
+		return result;
+	}
+
+	public List<ReviewDTO> photolist(int start, int end) {
+		List<ReviewDTO> list=null;
+		SqlSession session=null;
+		try {
+			session=MybatisManager.getInstance().openSession();
+			Map<String,Object> map=new HashMap<>();
+			map.put("start", start);
+			map.put("end", end);
+			list=session.selectList("review.photolist", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(session != null) session.close();
+		}
+		return list;
+	}
+
+	public String getusername(int num) {
+		String username = "";
+		try(SqlSession session=MybatisManager.getInstance().openSession()){
+			username=session.selectOne("review.getusername",num);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return username;
+	}
+
+	public String getusername2(int num) {
+		String username = "";
+		try(SqlSession session=MybatisManager.getInstance().openSession()){
+			username=session.selectOne("review.getusername2",num);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return username;
+	}
 	
 
 }
