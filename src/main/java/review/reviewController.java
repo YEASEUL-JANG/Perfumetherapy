@@ -74,7 +74,7 @@ public class reviewController extends HttpServlet {
 			dto.setIdx(idx);
 			//파일 첨부를 하지 않을 경우
 			if(image_file == null || image_file.trim().equals("")) {
-				image_file="-";
+				image_file=" ";
 			}
 			dto.setImage_file(image_file);
 			dao.insert(dto);
