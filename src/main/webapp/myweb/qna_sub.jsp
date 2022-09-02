@@ -62,7 +62,12 @@ $(function(){
   <td><c:if test="${q.picture != null }"> <img src="image/${q.picture }" 
   style="width:50px;heifht:50px; border-radius: 25px; border:1px solid #e8e8e8;"> ${q.iname }</c:if></td>
   <td>${q.category }</td>
-  <td><a href="${path}/myweb/qnapasswd.jsp?num=${q.num}">${q.title }</a>
+  <td>
+  <!-- 답글 들여쓰기 -->
+   <c:forEach var="i" begin="1" end="${q.re_level}">
+     &nbsp;&nbsp;&nbsp;&nbsp;
+   </c:forEach> 
+  <a href="${path}/myweb/qnapasswd.jsp?num=${q.num}">${q.title }</a>
   <c:if test="${q.comment_count > 0}">
 	<span style="color: green;">(${q.comment_count})</span>
 	</c:if></td>
@@ -80,9 +85,9 @@ $(function(){
   <c:otherwise>
     <tr>
    <td>${q.num }</td>
-   <td><c:if test="${q.picture != null }"> <img src="image/${q.picture }"> ${q.iname }</c:if></td>
+   <td></td>
    <td>${q.category }</td>
-   <td>삭제된 글 입니다.</td>
+   <td>[삭제된 글 입니다.]</td>
    <td>${q.writer }</td>
    <td></td>
    <td>${q.reg_date }</td>

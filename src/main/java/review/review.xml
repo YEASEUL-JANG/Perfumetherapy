@@ -25,7 +25,7 @@
 
   <insert id="insert">
    insert into p_review(num, username, age, gender, idx, review_star, title, content, image_file)
-   values((select nvl(max(num)+1,1) from p_review),#{userid},#{age},#{gender},#{idx},#{review_star},#{title},
+   values((select nvl(max(num)+1,1) from p_review),#{username},#{age},#{gender},#{idx},#{review_star},#{title},
    #{content},#{image_file})
   </insert>
   
@@ -43,7 +43,8 @@
 		from p_review a
 		full outer join p_items b
 		on (a.idx = b.idx)
-		where a.username =#{userid}) A
+		where a.username =#{userid}
+		order by a.num desc) A
 	) where rn between #{start} and #{end}
  </select>
  

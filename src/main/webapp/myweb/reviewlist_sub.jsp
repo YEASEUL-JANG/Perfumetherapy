@@ -297,7 +297,8 @@ style="width:100px; height:100px; border-radius:10px; cursor: pointer;"></c:if>
 </td>
 </tr>
 <tr>
-<td class="p"><a href="#" onclick="showcomment('${re.num}','${vs.index }'); return false;"> 댓글 <i class="fa-solid fa-angle-down"></i> 
+<td class="p">
+<a href="#" onclick="showcomment('${re.num}','${vs.index }'); return false;"> 댓글 <i class="fa-solid fa-angle-down"></i> 
 <c:if test="${re.comment_count > 0}">
 <span style="font-weight: bold;">(${re.comment_count})</span>
 </c:if>
@@ -393,7 +394,9 @@ style="width:100px; height:100px; border-radius:10px; cursor: pointer;"></c:if>
        ${re.image_file} <input type="checkbox" name="fileDel">첨부파일 삭제
     	</c:if>
        <input type="file" id = "image" name="image" style="width:50%;" onchange="setThumbnail(event);"/>
-       </td></tr><tr><td colspan="2">
+       </td></tr>
+       <tr>
+       <td colspan="2">
        <div id="image_container">
        <c:if test="${re.image_file != ' '}">
        <img src="image/${re.image_file }" style="width:80px;height:80px;"></c:if>

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
+import review.dto.ReviewDTO;
 import sqlmap.MybatisManager;
 
 public class itemsDAO {
@@ -200,5 +201,12 @@ public class itemsDAO {
 			if(session != null) session.close();
 		}
 		return num;
+	}
+	public List<ReviewDTO> itemcomment(int idx) {
+		List<ReviewDTO> list = null;
+		SqlSession session = MybatisManager.getInstance().openSession();
+		list = session.selectList("items.itemcomment",idx);
+		session.close();
+		return list;
 	}
 }

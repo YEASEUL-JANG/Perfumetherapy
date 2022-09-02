@@ -443,6 +443,13 @@ textarea {
   line-height: inherit;
 }
 
+.buttonstyle{
+	width : 100px;
+	padding: 20px;
+	border-radius: 10px;
+	border: 1px solid #e8e8e8;
+}
+
 button,
 select {
   text-transform: none;

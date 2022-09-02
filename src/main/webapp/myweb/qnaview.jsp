@@ -10,7 +10,29 @@
 <script type="text/javascript" src="../Resources/smartEditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <link rel="icon" type="image/x-icon" href="../Resources/assets/favicon.ico.png" />
 <link href="../Resources/css/styles.css" rel="stylesheet" />
+<script type="text/javascript">
+$(function(){
+	comment_list();
+	$("#reply").click(function(){
+		location.href="${path}/qna_servlet/reply.do?num=${dto.num}";
+	});
+	$("#modify").click(function(){
+		location.href="${path}/qna_servlet/modify.do?num=${dto.num}";
+	});
+});	
 
+function comment_list(){
+	$.ajax({
+		type: "post",
+		url: "${path}/qna_servlet/qnacomment.do",
+		data: "num=${dto.num}",
+		success: function(result){
+			$("#commentList").html(result);
+		}
+	});
+}
+
+</script>
 <style type="text/css">
 #write{
 margin-top: 30px;
@@ -42,6 +64,7 @@ border-bottom: 1px solid #e8e8e8;}
    <div class="justify-content-center flex-sm-column d-sm-flex align-items-center">
    <h2 class="fw-bold" style="font-size: 40px;">Q&A</h2>
    <h2 class="fw-light " style="font-size: 18px; margin-top: 20px;">상품에 관한 Q&A 게시판입니다</h2></div>
+    
     <!-- 게시판 글쓰기 -->
     <table id="write" style="width:100%;">
     <tr>
@@ -74,8 +97,13 @@ border-bottom: 1px solid #e8e8e8;}
      </c:if> </td>
      </tr>
     </table>
-     <div align="left" style="margin-top:20px;"><button id="writeInsert" 
-     onclick="location.href='${path }/myweb/qna.jsp';">목록</button>
+    <div id="commentList"></div>
+     <div align="right" style="margin-top:20px;">
+     <button class="buttonstyle" onclick="location.href='${path }/myweb/qna.jsp';">목록</button>
+     <div align="center">
+     <button class="buttonstyle" id="modify" >수정하기</button>
+     <button  class="buttonstyle" id="reply">답변하기</button>
+     </div>
     </div>
     </div>
     </section>

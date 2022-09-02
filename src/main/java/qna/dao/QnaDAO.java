@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 
+import qna.dto.QnaCommentDTO;
 import qna.dto.QnaDTO;
 import sqlmap.MybatisManager;
 
@@ -149,6 +150,75 @@ public class QnaDAO {
 			if(session != null) session.close();
 		}
 		return result;
+	}
+
+	public List<QnaCommentDTO> commentList(int num) {
+		List<QnaCommentDTO> list=null;
+		SqlSession session=null;
+		try {
+			session=MybatisManager.getInstance().openSession();
+			list=session.selectList("qna.commentList", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(session != null) session.close();
+		}
+		return list;
+	}
+
+	public void updateStep(int ref, int re_step) {
+		SqlSession session=null;
+		try {
+			session=MybatisManager.getInstance().openSession();
+			QnaDTO dto=new QnaDTO();
+			dto.setRef(ref);
+			dto.setRe_step(re_step);
+			session.update("qna.updateStep", dto);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(session != null) session.close();
+		}
+	}
+
+	public void reply(QnaDTO dto) {
+		SqlSession session=null;
+		try {
+			session=MybatisManager.getInstance().openSession();
+			session.insert("qna.reply", dto);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(session != null) session.close();
+		}
+	}
+
+	public void update(QnaDTO dto) {
+		SqlSession session=null;
+		try {
+			session=MybatisManager.getInstance().openSession();
+			session.update("qna.update", dto);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(session != null) session.close();
+		}
+	}
+
+	public void delete(int num) {
+		SqlSession session=null;
+		try {
+			session=MybatisManager.getInstance().openSession();
+			session.update("qna.delete", num);//진짜삭제가 아니기에 update()
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(session != null) session.close();
+		}
 	}
 
 }

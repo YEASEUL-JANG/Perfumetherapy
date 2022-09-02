@@ -14,6 +14,15 @@ font-size: 20px;}
 <script type="text/javascript">
 $(function(){
 	count();
+	var idx = "${item.idx}";
+	$.ajax({
+		type: "post",
+		url: "${path}/item_servlet/itemcomment.do",
+		data: {idx: idx},
+		success: function(res){
+			$("#commentzone").html(res);
+		}
+	});   
 });
 function count(){
 	var count = Number($("#inputQuantity").val());
@@ -116,7 +125,9 @@ function likeit(idx){
        </div>
      </div>
      </div>
+    <div id="commentzone" style="width: 100%;"></div>
     </div>
+    
 </section>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

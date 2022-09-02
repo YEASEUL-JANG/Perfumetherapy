@@ -21,6 +21,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import common.Constants;
 import items.Pager;
 import qna.dao.QnaDAO;
+import qna.dto.QnaCommentDTO;
 import qna.dto.QnaDTO;
 
 @WebServlet("/qna_servlet/*")
@@ -205,6 +206,154 @@ public class qnaController extends HttpServlet {
 				RequestDispatcher rd=request.getRequestDispatcher(page);
 				rd.forward(request, response);
 			}
+		}else if(url.indexOf("qnacomment.do") != -1) {
+			int num=Integer.parseInt(request.getParameter("num"));
+			System.out.println("댓글을 위한 게시물번호 : "+num);
+			//댓글 목록 리턴
+			List<QnaCommentDTO> list=dao.commentList(num);
+			request.setAttribute("list", list);
+			String page="/myweb/qnacomment_list.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response);
+		}else if(url.indexOf("reply.do") != -1) {
+			int num=Integer.parseInt(request.getParameter("num"));
+			QnaDTO dto=dao.view(num);
+			dto.setContent(dto.getContent()+"\n===================게시물 내용===================\n\n");
+			request.setAttribute("dto", dto);
+			String page="/myweb/qnareply.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response);
+		}else if(url.indexOf("insertReply.do") != -1) {
+			int num=Integer.parseInt(request.getParameter("num"));
+			QnaDTO dto=dao.view(num);
+			int ref=dto.getRef(); //답변 그룹 번호
+			int re_step=dto.getRe_step()+1; //출력순번(수정 +1)
+			int re_level=dto.getRe_level()+1; //답변 단계(수정 +1)
+			String writer=request.getParameter("writer");
+			String title=request.getParameter("title");
+			String content=request.getParameter("content");
+			String category=request.getParameter("category");
+			String passwd=request.getParameter("passwd");
+			dto.setWriter(writer);
+			dto.setCategory(category);
+			dto.setTitle(title);
+			dto.setContent(content);
+			dto.setPasswd(passwd);
+			dto.setRef(ref);
+			dto.setRe_step(re_step);
+			dto.setRe_level(re_level);
+			//첨부파일 관련 정보
+			dto.setFilename(" ");
+			dto.setFilesize(0);
+			dto.setDown(0);
+			//답글 순서 조정
+			dao.updateStep(ref, re_step);
+			//답글 쓰기
+			dao.reply(dto);
+			//메시지출력
+			 String msg = "답변이 등록되었습니다.";
+			request.setAttribute("msg", msg);
+			request.setAttribute("url","myweb/qna.jsp");
+			//페이지 이동
+			String page="/myweb/alert.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response);
+		}else if(url.indexOf("modify.do") != -1) {
+			int num=Integer.parseInt(request.getParameter("num"));
+			request.setAttribute("dto", dao.view(num));
+			String page="/myweb/qnaedit.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response);
+		}else if(url.indexOf("updateQna.do") != -1) {
+			File uploadDir=new File(Constants.UPLOAD_PATH);
+			if(!uploadDir.exists()) {//업로드디렉토리가 존재하지 않으면
+				uploadDir.mkdir();//디렉토리를 만듦
+			}
+			//request를 확장시킨 MultipartRequest 생성
+			//new MultipartRequest(request,"업로드디렉토리",제한용량,"인코딩",파일명중복방지처리옵션)
+			MultipartRequest multi=new MultipartRequest(request, Constants.UPLOAD_PATH, 
+					Constants.MAX_UPLOAD, "utf-8", new DefaultFileRenamePolicy());
+			
+			int num=Integer.parseInt(multi.getParameter("num"));
+			System.out.println("num : "+num);
+			String writer = multi.getParameter("writer");
+			String title = multi.getParameter("title");
+			String content = multi.getParameter("content");
+			String passwd = multi.getParameter("passwd");
+			String category = multi.getParameter("category");
+			String filename=" ";
+			int filesize=0;
+			try {
+				//첨부파일의 집합
+				Enumeration files=multi.getFileNames();
+				//다음요소가 있으면
+				while (files.hasMoreElements()) {
+					String file1 = (String)files.nextElement();
+					filename=multi.getFilesystemName(file1);
+					File f1=multi.getFile(file1);
+					if(f1 != null) {
+						filesize=(int)f1.length();//파일 사이즈 저장
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			QnaDTO dto = new QnaDTO();
+			dto.setNum(num);
+			dto.setWriter(writer);
+			dto.setPasswd(passwd);
+			dto.setCategory(category);
+			dto.setContent(content);
+			dto.setTitle(title);
+			if(filename == null || filename.trim().equals("")) {
+				//새로운 첨부파일이 없을 때(테이블의 기존정보를 가져옴)
+				QnaDTO dto2=dao.view(num);
+				String fName=dto2.getFilename();
+				int fSize=dto2.getFilesize();
+				int fDown=dto2.getDown();
+				dto.setFilename(fName);
+				dto.setFilesize(fSize);
+				dto.setDown(fDown);
+			}else {//새로운 첨부파일이 있을 때
+				dto.setFilename(filename);
+				dto.setFilesize(filesize);
+			}
+			
+			//첨부파일 삭제 처리
+			String fileDel = multi.getParameter("fileDel");
+			//체크박스에 체크되어있으면, value없이 썼기 때문에 on이 디폴트가 됨
+			if(fileDel != null && fileDel.equals("on")) {
+				String fileName=dao.getFileName(num);
+				File f=new File(Constants.UPLOAD_PATH+fileName);
+				f.delete();//파일 삭제
+				//첨부파일 정보를 지움
+				dto.setFilename(" ");
+				dto.setFilesize(0);
+				dto.setDown(0);
+			}
+			System.out.println(dto.toString());
+			//레코드 수정
+			dao.update(dto);
+			 String msg = "수정완료되었습니다.";
+				request.setAttribute("msg", msg);
+				request.setAttribute("url","qna_servlet/passwdck.do?num="+num+"&passwd="+passwd);
+				//페이지 이동
+				String page="/myweb/alert.jsp";
+				RequestDispatcher rd=request.getRequestDispatcher(page);
+				rd.forward(request, response);
+		}else if(url.indexOf("deleteQna.do") != -1) {
+			MultipartRequest multi=new MultipartRequest(request, Constants.UPLOAD_PATH, 
+					Constants.MAX_UPLOAD, "utf-8", new DefaultFileRenamePolicy());
+			//삭제할 게시물 번호
+			int num=Integer.parseInt(multi.getParameter("num"));
+			dao.delete(num);
+			String msg = "삭제가 완료되었습니다.";
+			request.setAttribute("msg", msg);
+			request.setAttribute("url","myweb/qna.jsp");
+			//페이지 이동
+			String page="/myweb/alert.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response);
 		}
 	}
 

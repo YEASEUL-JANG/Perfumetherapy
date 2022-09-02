@@ -140,4 +140,12 @@ public class QnaDTO {
 	public void setReg_date(Date reg_date) {
 		this.reg_date = reg_date;
 	}
+	@Override
+	public String toString() {
+		return "QnaDTO [num=" + num + ", writer=" + writer + ", title=" + title + ", category=" + category
+				+ ", content=" + content + ", passwd=" + passwd + ", filename=" + filename + ", filesize=" + filesize
+				+ ", down=" + down + "]";
+	}
+	
+	
 }

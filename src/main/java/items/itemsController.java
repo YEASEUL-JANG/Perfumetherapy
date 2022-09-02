@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import order.dto.CartDTO;
+import review.dto.ReviewDTO;
 
 
 
@@ -202,8 +202,16 @@ public class itemsController extends HttpServlet {
 			request.setAttribute("num", num);
 			String page="/myweb/wishlist_count.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
-			rd.forward(request, response);
-			
+			rd.forward(request, response); 
+		//상품 리뷰
+		}else if(uri.indexOf("itemcomment.do") != -1) {
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			System.out.println("idx: "+idx);
+			List<ReviewDTO> list = dao.itemcomment(idx);
+			request.setAttribute("list", list);
+			String page="/myweb/itemcomment.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response); 
 		}
 		
 	}

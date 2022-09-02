@@ -119,6 +119,12 @@
   select num
   from p_like
   where idx = #{idx}
+ </select> 
+ 
+ <select id="itemcomment" resultType="review.dto.ReviewDTO">
+  select * from p_review
+  where idx = #{idx}
  </select>
+ 
  
 </mapper>

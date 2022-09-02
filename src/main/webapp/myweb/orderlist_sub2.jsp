@@ -220,7 +220,7 @@ function review(index){
   	<div id="reviewtitle">후기 남기기
     <div class="close_modal">X</div>
   	</div>
-  	<!--폼영역  -->
+    	<!--폼영역  -->
      <form name="form${vs.index }" id="form${vs.index }"enctype="multipart/form-data" action="${path }/review_servlet/review.do" method="post">
       <table id="reviewtable">
       <tr>

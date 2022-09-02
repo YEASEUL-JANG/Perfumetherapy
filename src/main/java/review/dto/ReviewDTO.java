@@ -102,4 +102,10 @@ public class ReviewDTO {
 	public ReviewDTO() {
 		// TODO Auto-generated constructor stub
 	}
+	@Override
+	public String toString() {
+		return "ReviewDTO [num=" + num + ", username=" + username + ", age=" + age + ", gender=" + gender + ", idx="
+				+ idx + ", review_star=" + review_star + ", title=" + title + ", content=" + content + ", image_file="
+				+ image_file + ", reg_date=" + reg_date + ", itemsDTO=" + itemsDTO + "]";
+	}
 }

@@ -74,5 +74,44 @@ values
   select passwd from p_qna
   where num=#{num} and passwd=#{passwd}
  </select>
+ 
+  <!-- 댓글 목록 -->
+ <select id="commentList" resultType="qna.dto.QnaCommentDTO">
+  select * from qna_comment
+  where qna_num=#{num}
+ </select>
+  
+  <!-- 답글 순서 조정 -->
+ <update id="updateStep">
+  update p_qna 
+	set re_step=re_step+1
+	where ref=#{ref} and re_step >= #{re_step}
+ </update>
+  
+  <!-- 답글 쓰기 -->
+ <insert id="reply">
+  insert into p_qna  
+		  (num,writer,title,passwd,category,ref
+		  ,re_step,re_level,content,filename,filesize)
+		values
+		  ( (select nvl(max(num)+1,1) from p_qna)
+		    ,#{writer},#{title}, #{passwd}, #{category}
+		    , #{ref}, #{re_step}, #{re_level}
+		    , #{content}, #{filename}, #{filesize} )	
+ </insert>
+  
+ <update id="update">
+  update p_qna
+	set writer=#{writer}, title=#{title}, passwd=#{passwd}
+	   , content=#{content}, filename=#{filename}
+	   , filesize=#{filesize}, down=#{down}, category = #{category}
+	where num=#{num}
+ </update>
+  
+   <!-- 게시물 삭제(진짜 삭제 X) -->
+ <update id="delete">
+  update p_qna set show='n' 
+  where num=#{num}
+ </update>
   
  </mapper>

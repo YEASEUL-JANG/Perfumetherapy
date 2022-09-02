@@ -77,6 +77,7 @@ public class reviewController extends HttpServlet {
 				image_file=" ";
 			}
 			dto.setImage_file(image_file);
+			System.out.println(dto.toString());
 			dao.insert(dto);
 			//메시지출력
 			 String msg = "소중한 리뷰 감사합니다.";
