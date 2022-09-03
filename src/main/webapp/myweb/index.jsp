@@ -13,6 +13,10 @@
 <!-- Favicon-->
 <link rel="icon" type="image/x-icon" href="../Resources/assets/favicon.ico.png" />
 <link href="../Resources/css/styles.css" rel="stylesheet" />
+<style type="text/css">
+
+
+</style>
 </head>
   <body>
   <!-- nav -->

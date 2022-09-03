@@ -10,7 +10,7 @@ margin:0px;}
 
 [name="slide"]{display:none;}
 
-.slidebox{max-width:1200px; width:100%;margin:0px;text-align:center;}
+.slidebox{max-width:100%; width:100%;margin:0px;text-align:center;}
 .slidebox img{max-width:100%;
 }
 .slidebox .slidelist{
