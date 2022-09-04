@@ -21,7 +21,7 @@ function cat_all(){
 		url : "${path}/item_servlet/list.do",
 		data: {
 			category: "all",
-			big_category: "woman"},
+			big_category: "man"},
 		success : function(result){
 			$("#result").html(result);
 		    $("#hid_nav").val("all");
@@ -33,22 +33,22 @@ function cat_green(){
 		type : "post",
 		url : "${path}/item_servlet/list.do",
 		data: {category: "green",
-			big_category: "woman"},
+			big_category: "man"},
 		success : function(result){
 			$("#result").html(result);
 			$("#hid_nav").val("green");
 		}
 	});
 }
-function cat_pink(){
+function cat_brown(){
 	$.ajax({
 		type : "post",
 		url : "${path}/item_servlet/list.do",
-		data: {category: "pink",
-			big_category: "woman"},
+		data: {category: "brown",
+			big_category: "man"},
 		success : function(result){
 			$("#result").html(result);
-			$("#hid_nav").val("pink");
+			$("#hid_nav").val("brown");
 		}
 	});
 }
@@ -57,22 +57,22 @@ function cat_white(){
 		type : "post",
 		url : "${path}/item_servlet/list.do",
 		data: {category: "white",
-			big_category: "woman"},
+			big_category: "man"},
 		success : function(result){
 			$("#result").html(result);
 			$("#hid_nav").val("white");
 		}
 	});
 }
-function cat_gold(){
+function cat_red(){
 	$.ajax({
 		type : "post",
 		url : "${path}/item_servlet/list.do",
-		data: {category: "gold",
-			big_category: "woman"},
+		data: {category: "red",
+			big_category: "man"},
 		success : function(result){
 			$("#result").html(result);
-			$("#hid_nav").val("gold");
+			$("#hid_nav").val("red");
 		}
 	});
 }
@@ -80,7 +80,7 @@ function cat_gold(){
 function table(curPage){
 	var cat=$("#hid_nav").val();
 	if(category != null){
-		param= "curPage="+curPage+"&big_category=woman&category="+cat;
+		param= "curPage="+curPage+"&big_category=man&category="+cat;
 	}
 	$.ajax({
 		type: "post",
@@ -134,9 +134,9 @@ margin: 20px;
    cat_all();
    </script>
  </c:when>
- <c:when test="${param.category == 'pink'}">
+ <c:when test="${param.category == 'brown'}">
    <script type="text/javascript">
-    cat_pink();
+    cat_brown();
    </script>
  </c:when>
  <c:when test="${param.category == 'white'}">
@@ -144,9 +144,9 @@ margin: 20px;
    cat_white();
    </script>
  </c:when>
- <c:when test="${param.category == 'gold'}">
+ <c:when test="${param.category == 'red'}">
    <script type="text/javascript">
-   cat_gold();
+   cat_red();
    </script>
  </c:when>
 </c:choose>
@@ -168,9 +168,9 @@ margin: 20px;
  <ul style="list-style: none">
   <li><a href="#" onclick="cat_all()">ALL</a></li>
   <li><a href="#" onclick="cat_green()"> 시트러스 | 그린 </a></li>
-  <li><a href="#" onclick="cat_pink()"> 플로럴 | 화이트플로럴 </a></li>
-  <li><a href="#" onclick="cat_white()"> 머스크 | 앰버 </a></li>
-  <li><a href="#" onclick="cat_gold()"> 스위트 | 바닐라</a></li>
+  <li><a href="#" onclick="cat_brown()"> 우디 | 베티버 </a></li>
+  <li><a href="#" onclick="cat_red()"> 웜스파이시 | 통카빈 </a></li>
+  <li><a href="#" onclick="cat_white()"> 머스크 | 앰버</a></li>
  </ul>
  </div>
  <!-- 상품 -->

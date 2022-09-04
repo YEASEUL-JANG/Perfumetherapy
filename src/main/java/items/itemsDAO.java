@@ -209,4 +209,57 @@ public class itemsDAO {
 		session.close();
 		return list;
 	}
+	public int listBrandCount(String brand) {
+		SqlSession session=MybatisManager.getInstance().openSession();
+		int count=session.selectOne("items.listBrandCount",brand);
+		session.close();
+		return count;
+	}
+	public List<itemsDTO> listbranditem(int start, int end, String brand) {
+		SqlSession session = MybatisManager.getInstance().openSession();
+		List<itemsDTO> list = null;
+		try {
+			Map<String,Object> map=new HashMap<>();
+				map.put("start", start);
+				map.put("end", end);
+				map.put("brand", brand);
+		      list=session.selectList("items.brandlist",map);
+			for(itemsDTO dto : list) {//for문으로 처리
+				String memo= dto.getMemo(); 
+				memo=memo.replace("  ","&nbsp;&nbsp;");
+				 memo=memo.replace("<", "&lt"); 
+				 memo=memo.replace(">", "&gt");
+				 dto.setMemo(memo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		return list;
+	}
+	public List<itemsDTO> newlist(int start, int end, String category, String order) {
+		SqlSession session = MybatisManager.getInstance().openSession();
+		List<itemsDTO> list = null;
+		try {
+			Map<String,Object> map=new HashMap<>();
+				map.put("start", start);
+				map.put("end", end);
+				map.put("category", category);
+				map.put("order", order);
+		      list=session.selectList("items.newlist",map);
+			for(itemsDTO dto : list) {//for문으로 처리
+				String memo= dto.getMemo(); 
+				memo=memo.replace("  ","&nbsp;&nbsp;");
+				 memo=memo.replace("<", "&lt"); 
+				 memo=memo.replace(">", "&gt");
+				 dto.setMemo(memo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		return list;
+	}
 }

@@ -37,7 +37,7 @@ opacity: 1!important;}
 </head>
   <body>
     <!-- 컨텐츠페이지-->
-    총 상품수 : ${count }<br>
+    <div style="color: #5a3e19; font-size: 15px;">총 상품수 : ${count }<br></div>
  <section class="py-5">
         <div class="container px-4 px-lg-5 mt-5">
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"> 
@@ -62,7 +62,10 @@ opacity: 1!important;}
                                 <!-- 상품이름-->
                                 <h6 class="fw-bolder">${item.iname }</h6>
                                 <!-- 상품가격-->
-                                <span class="text-muted text-decoration-line-through">${item.o_price }</span>&nbsp;${item.sale_price }
+                                <span class="text-muted text-decoration-line-through">
+                                <fmt:formatNumber type="number" maxFractionDigits="3" value="${item.o_price }"/>원
+                                </span>&nbsp;
+                                <fmt:formatNumber type="number" maxFractionDigits="3" value="${item.sale_price }"/>원
                                 <div class="item_sub">${item.memo }</div>
                             </div>
                         </div>

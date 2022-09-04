@@ -212,6 +212,46 @@ public class itemsController extends HttpServlet {
 			String page="/myweb/itemcomment.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response); 
+		}else if(uri.indexOf("brandList.do") != -1 ){
+			String brand=request.getParameter("brand");
+			int count=0;
+					count = dao.listBrandCount(brand);
+					System.out.println("count : "+count);
+					int curPage=1;
+					if(request.getParameter("curPage") != null) {
+						curPage = Integer.parseInt(request.getParameter("curPage"));
+					}
+					Pager pager=new Pager(count, curPage);
+					int start=pager.getPageBegin();
+					int end=pager.getPageEnd();
+					List<itemsDTO> list=dao.listbranditem(start,end,brand);
+					request.setAttribute("list", list);
+					request.setAttribute("page", pager);
+					request.setAttribute("count", count);
+					String page="/myweb/item_list.jsp";
+					RequestDispatcher rd=request.getRequestDispatcher(page);
+					rd.forward(request, response);
+		}else if(uri.indexOf("newList.do") != -1 ){
+			String category=request.getParameter("category");
+			String order=request.getParameter("order");
+			System.out.println("category : "+category+", order : "+order);
+				int count=20;
+					int curPage=1;
+					if(request.getParameter("curPage") != null) {
+						curPage = Integer.parseInt(request.getParameter("curPage"));
+					}
+					Pager pager=new Pager(count, curPage);
+					int start=pager.getPageBegin();
+					int end=pager.getPageEnd();
+					List<itemsDTO> list=dao.newlist(start,end,category,order);
+					request.setAttribute("list", list);
+					request.setAttribute("page", pager);
+					request.setAttribute("count", count);
+					String page="/myweb/item_list.jsp";
+					RequestDispatcher rd=request.getRequestDispatcher(page);
+					rd.forward(request, response);
+					
+		     
 		}
 		
 	}

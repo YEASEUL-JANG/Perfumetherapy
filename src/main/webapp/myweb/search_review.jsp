@@ -257,10 +257,10 @@ font-weight: bold;
 <td class="p"style="font-size: 20px; color: #a18672;">
 <c:forEach var="i" begin="1" end="${re.review_star }">★</c:forEach>
 ${re.title }</td>
-<td>${re.reg_date }</td>
+<td style="width:12%;">${re.reg_date }</td>
 <td rowspan="3" style="border-left: 1px solid #c8c9ca;padding-left: 20px;width: 25%;">
 <input type="hidden" id="num2${vs.index }" value="${re.num }" > 
-<div id="username2${vs.index }"></div> 님의 리뷰입니다.<p>
+<div id="username2${vs.index }" style="display:inline;"></div> 님의 리뷰입니다.<p>
 <table id="review_mini">
 <tr>
 <th>연령대</th><td>${re.age }</td>

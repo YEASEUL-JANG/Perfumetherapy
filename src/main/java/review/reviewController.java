@@ -249,7 +249,7 @@ public class reviewController extends HttpServlet {
 			//검색옵션과 검색 키워드
 			String keyword=request.getParameter("keyword");
 			List<ReviewDTO> list=dao.searchAll(keyword);
-			
+			System.out.println("keyword : "+keyword);
 			request.setAttribute("list", list);
 			request.setAttribute("count", list.size());
 			request.setAttribute("keyword", keyword);

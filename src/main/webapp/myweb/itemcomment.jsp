@@ -40,8 +40,29 @@ padding: 10px;}
 border-bottom: 2px solid #e8e8e8;}
 #itemcomment .td{
 border-bottom: 1px solid #e8e8e8;}
+
+
+.close_modal{
+text-align: right; 
+cursor: pointer;
+font-size: 40px;
+color: white;
+padding-right: 20px;
+font-weight: lighter;
+display: inline;
+float: right;
+}
+
+#itemcomment a:link{text-decoration: none; color:#959595; }
+#itemcomment a:visited{text-decoration: none; color:#959595; }
+#itemcomment a:hover{text-decoration: underline; color:#836e53; }
 </style>
 <script type="text/javascript">
+$(function(){
+	$(".close_modal").click(function(){
+		  $(".modal").fadeOut();
+		 });
+});
 //댓글 ajax
 function showcomment(num,index){
 	  var num = num;
@@ -53,7 +74,10 @@ function showcomment(num,index){
 			  submenu.slideDown();
 		  }
 	}
-
+function showmodal(index){
+	var x = index;
+	$("#modalid"+x).fadeIn();
+}
 </script>
 </head>
 <body>
@@ -96,11 +120,19 @@ ${c.title }
 </table>
 <div id="content">${c.content }</div>
 <c:if test="${c.image_file != ' ' }">
-<img src="image/${c.image_file }" style="width: 120px;height: 120px;">
+<img src="image/${c.image_file }" onclick="showmodal(${vs.index})" style="width: 120px;height: 120px; cursor: pointer;">
 </c:if>
+</div>
+<!--이미지 모달창  -->
+<div id="modalid${vs.index }" class="modal">
+ <div class="close_modal">X</div>
+ <div class="modal_content">
+ <img src="image/${c.image_file }">
+ </div>
 </div>
 </td>
 </tr>
+
 </c:forEach>
 </table>
 </body>

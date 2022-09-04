@@ -133,7 +133,8 @@ width: 100%; border-radius: 10px; background:#f7f9f8; padding: 10px; margin-top:
  <div class="col mb-5">
    <div class="card2 h-100">
        <!-- Product image-->
-       <img class="card-img-top" src="image/${p.image_file }" onclick="modalreview(${vs.index})" style="cursor:pointer;" />
+       <img class="card-img-top" src="image/${p.image_file }" onclick="modalreview(${vs.index})" 
+       style="cursor:pointer; height: 300px;" />
        <!-- Product details-->
        <div class="card-body p-2">
            <table id="minitable" style=" font-size: 12px;">
@@ -149,7 +150,9 @@ width: 100%; border-radius: 10px; background:#f7f9f8; padding: 10px; margin-top:
            <td colspan="2"><hr></td>
            </tr>
            <tr>
-           <td colspan="2"><img src="image/${p.itemsDTO.picture }" style="width:60px;height:60px;">${p.itemsDTO.iname }</td>
+           <td><img src="image/${p.itemsDTO.picture }" style="width:60px;height:60px;"></td>
+           <td>
+           ${p.itemsDTO.iname }</td>
            </tr>
            </table>
        </div>

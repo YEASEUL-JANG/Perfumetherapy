@@ -57,7 +57,8 @@
 		where a.username =#{userid} and
 		(a.title like #{keyword} 
     	or a.content like #{keyword} 
-    	or b.iname like #{keyword})
+    	or b.iname like #{keyword}
+    	and a.num is not null)
  </select>
  
  <select id="view" resultType="review.dto.ReviewDTO">
@@ -125,7 +126,8 @@
 		where 
 		(a.title like #{keyword} 
     	or a.content like #{keyword} 
-    	or b.iname like #{keyword})
+    	or b.iname like #{keyword}
+    	 and a.num is not null)
  </select>
  
  <select id="countphoto" resultType="int">

@@ -51,8 +51,8 @@ function mypage(){//마이페이지 클릭 시
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">Best 12</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">9월 신상</a></li>
+                    <li class="nav-item"><a class="nav-link" href="${path }/myweb/best20.jsp">Best 20</a></li>
+                    <li class="nav-item"><a class="nav-link" href="${path }/myweb/list_new.jsp">9월 신상</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">For Her</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -67,15 +67,29 @@ function mypage(){//마이페이지 클릭 시
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">For Him</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#!">All Products</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/list2.jsp?category=all">All Products</a></li>
                             <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item" href="#!">시트러스|그린</a></li>
-                            <li><a class="dropdown-item" href="#!">우디|베티버</a></li>
-                            <li><a class="dropdown-item" href="#!">웜스파이시|통카빈</a></li>
-                            <li><a class="dropdown-item" href="#!">머스크|앰버</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/list2.jsp?category=green">시트러스|그린</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/list2.jsp?category=brown">우디|베티버</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/list2.jsp?category=red">웜스파이시|통카빈</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/list2.jsp?category=white">머스크|앰버</a></li>
                         </ul>
                     </li>
-                     <li class="nav-item"><a class="nav-link" href="#!">브랜드별</a></li>
+                       <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">브랜드별</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="${path }/myweb/list3.jsp?brand=구찌">구찌</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/list3.jsp?brand=샤넬">샤넬</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/list3.jsp?brand=딥디크">딥디크</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/list3.jsp?brand=메모">메모</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/list3.jsp?brand=끌로에">끌로에</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/list3.jsp?brand=에르메스">에르메스</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/list3.jsp?brand=메종 마르지엘라">메종 마르지엘라</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/list3.jsp?brand=로에베">로에베</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/list3.jsp?brand=입생로랑">입생로랑</a></li>
+                            <li><a class="dropdown-item" href="${path }/myweb/list3.jsp?brand=불가리">불가리</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item"><a class="nav-link" href="${path }/myweb/review.jsp">고객리뷰</a></li>

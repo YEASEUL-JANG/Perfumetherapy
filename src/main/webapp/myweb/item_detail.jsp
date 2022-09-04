@@ -10,6 +10,21 @@
 border: none;
 font-weight: bold;
 font-size: 20px;}
+.modal_content img{
+width: 100%;
+height: 100%;}
+.modal{ 
+  position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.7); top:0; left:0; 
+  display:none;
+}
+.modal_content{
+  width:500px; height:800px;
+  position:relative; top:50%; left:50%;
+  margin-top:-400px; margin-left:-250px;
+  text-align:left;
+  box-sizing:border-box; padding:0px;
+  line-height:23px; 
+}
 </style>
 <script type="text/javascript">
 $(function(){
@@ -55,6 +70,7 @@ function likeit(idx){
 		}
 	});   
 }
+
 </script>
 </head>
 <body>
@@ -125,7 +141,9 @@ function likeit(idx){
        </div>
      </div>
      </div>
+    <div class="justify-content-center flex-sm-column d-sm-flex align-items-center">
     <div id="commentzone" style="width: 100%;"></div>
+    </div>
     </div>
     
 </section>

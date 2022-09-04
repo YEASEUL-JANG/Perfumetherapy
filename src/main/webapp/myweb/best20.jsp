@@ -15,76 +15,71 @@
 <link rel="icon" type="image/x-icon" href="../Resources/assets/favicon.ico.png" />
 <link href="../Resources/css/styles.css" rel="stylesheet" />
 <script type="text/javascript">
-function cat_all(){
+$(function(){
+	cat_new();
+});
+function cat_new(){
 	$.ajax({
 		type : "post",
-		url : "${path}/item_servlet/list.do",
-		data: {
-			category: "all",
-			big_category: "woman"},
+		url : "${path}/item_servlet/newList.do",
+		data: {category : "idx",
+			 order: "desc"},
 		success : function(result){
 			$("#result").html(result);
-		    $("#hid_nav").val("all");
+			$("#hid_cate").val("idx");
+			$("#hid_order").val("desc");
 		}
 	});
 }
-function cat_green(){
+function cat_name(){
 	$.ajax({
 		type : "post",
-		url : "${path}/item_servlet/list.do",
-		data: {category: "green",
-			big_category: "woman"},
+		url : "${path}/item_servlet/newList.do",
+		data: {category : "iname",
+			 order: "asc"},
 		success : function(result){
 			$("#result").html(result);
-			$("#hid_nav").val("green");
+			$("#hid_cate").val("iname");
+			$("#hid_order").val("asc");
 		}
 	});
 }
-function cat_pink(){
+function cat_lower(){
 	$.ajax({
 		type : "post",
-		url : "${path}/item_servlet/list.do",
-		data: {category: "pink",
-			big_category: "woman"},
+		url : "${path}/item_servlet/newList.do",
+		data: {category : "sale_price",
+			 order: "asc"},
 		success : function(result){
 			$("#result").html(result);
-			$("#hid_nav").val("pink");
+			$("#hid_cate").val("sale_price");
+			$("#hid_order").val("asc");
 		}
 	});
 }
-function cat_white(){
+function cat_higher(){
 	$.ajax({
 		type : "post",
-		url : "${path}/item_servlet/list.do",
-		data: {category: "white",
-			big_category: "woman"},
+		url : "${path}/item_servlet/newList.do",
+		data: {category : "sale_price",
+			 order: "desc"},
 		success : function(result){
 			$("#result").html(result);
-			$("#hid_nav").val("white");
-		}
-	});
-}
-function cat_gold(){
-	$.ajax({
-		type : "post",
-		url : "${path}/item_servlet/list.do",
-		data: {category: "gold",
-			big_category: "woman"},
-		success : function(result){
-			$("#result").html(result);
-			$("#hid_nav").val("gold");
+			$("#hid_cate").val("sale_price");
+			$("#hid_order").val("desc");
 		}
 	});
 }
 
 function table(curPage){
-	var cat=$("#hid_nav").val();
+	var cate=$("#hid_cate").val();
+	var order=$("#hid_order").val();
 	if(category != null){
-		param= "curPage="+curPage+"&big_category=woman&category="+cat;
+		param= "curPage="+curPage+"&category="+cate+"&order="+order;
 	}
 	$.ajax({
 		type: "post",
-		url: "${path}/item_servlet/list.do",
+		url: "${path}/item_servlet/newList.do",
 		dataType: "html",
 		data: param,
 		success: function(result){
@@ -114,42 +109,15 @@ function likeit(idx){
 #category{
 width: 100%;
 display: flex;
-justify-content: center;}
+justify-content: right;}
 #category li{
 float: left;
-margin: 20px;
+margin: 8px;
 }
 #category a:link{text-decoration: none; color:#959595; }
 #category a:visited{text-decoration: none; color:#959595; }
-#category a:hover{text-decoration: underline; color:#836e53; }
+#category a:hover{text-decoration: none; color:#836e53; font-weight: bold;}
 </style>
-<c:choose>
- <c:when test="${param.category == 'green'}">
-   <script type="text/javascript">
-    cat_green();
-   </script>
- </c:when>
- <c:when test="${param.category == 'all'}">
-   <script type="text/javascript">
-   cat_all();
-   </script>
- </c:when>
- <c:when test="${param.category == 'pink'}">
-   <script type="text/javascript">
-    cat_pink();
-   </script>
- </c:when>
- <c:when test="${param.category == 'white'}">
-   <script type="text/javascript">
-   cat_white();
-   </script>
- </c:when>
- <c:when test="${param.category == 'gold'}">
-   <script type="text/javascript">
-   cat_gold();
-   </script>
- </c:when>
-</c:choose>
 </head>
 <body>
 <header>
@@ -163,19 +131,24 @@ margin: 20px;
  <section class="py-5">
   <div class="container px-4 px-lg-5 mt-5">
   <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+  <div class="justify-content-center flex-sm-column d-sm-flex align-items-center">
+   <h2 class="fw-lighter ">9월 신상</h2></div>
  <!--카테고리  -->
  <div id="category" >
  <ul style="list-style: none">
-  <li><a href="#" onclick="cat_all()">ALL</a></li>
-  <li><a href="#" onclick="cat_green()"> 시트러스 | 그린 </a></li>
-  <li><a href="#" onclick="cat_pink()"> 플로럴 | 화이트플로럴 </a></li>
-  <li><a href="#" onclick="cat_white()"> 머스크 | 앰버 </a></li>
-  <li><a href="#" onclick="cat_gold()"> 스위트 | 바닐라</a></li>
+  <li><a href="#" onclick="cat_new()"> 신상품 </a></li>
+  <li> | </li>
+  <li><a href="#" onclick="cat_name()"> 상품명 </a></li>
+  <li> | </li>
+  <li><a href="#" onclick="cat_lower()">낮은가격 </a></li>
+  <li> | </li>
+  <li><a href="#" onclick="cat_higher()"> 높은가격 </a></li>
  </ul>
  </div>
  <!-- 상품 -->
   <div id="result" style="width:100%;"></div> 
-  <input type="hidden" id="hid_nav">
+  <input type="hidden" id="hid_cate">
+  <input type="hidden" id="hid_order">
   </div>
  </div>
 </section>

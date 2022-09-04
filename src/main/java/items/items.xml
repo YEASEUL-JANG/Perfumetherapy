@@ -126,5 +126,37 @@
   where idx = #{idx}
  </select>
  
+ <select id="listBrandCount" resultType="int">
+  select count(*) 
+  from p_items
+  where brand=#{brand}
+ </select>
+ 
+ <select id="brandlist" resultType="items.itemsDTO">
+  select * from (
+	  select A.*, rownum as rn 
+	  from (
+	      select idx, iname, picture, o_price, sale_price, stock, point, volume, post_date, category, big_category, brand, memo
+	      from p_items
+	      where brand= #{brand}
+	      order by idx desc
+	  ) A
+	)
+	where rn between #{start} and #{end} 
+ </select>
+ 
+ <select id="newlist" resultType="items.itemsDTO">
+  select * from (
+	  select A.*, rownum as rn 
+	  from (
+	      select idx, iname, picture, o_price, sale_price, stock, point, volume, post_date, category, big_category, brand, memo
+	      from p_items
+	      where <![CDATA[rownum <= 20]]>
+	      order by idx desc
+	  ) A
+	)
+	where rn between #{start} and #{end} 
+	order by ${category} ${order}
+ </select>
  
 </mapper>
