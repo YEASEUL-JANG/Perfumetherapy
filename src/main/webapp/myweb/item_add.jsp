@@ -130,7 +130,6 @@ function check(){
 </head>
 <body>
 
-<div id="layoutSidenav_content">
  <main>
      <div class="container-fluid px-4" >
          <h2 class="mt-4 fw-bold">상품 등록하기</h2>
@@ -224,6 +223,5 @@ function check(){
          </div>
      </div>
  </main>
-</div>
 </body>
 </html>

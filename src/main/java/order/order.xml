@@ -171,4 +171,25 @@
   delete from p_like
  </delete>
  
+ <select id="allorder" resultType="order.dto.OrderDTO">
+   select * from (
+	  select A.*, rownum as rn 
+	  from (
+	      select *
+	      from p_order
+	      order by orderid desc
+	  ) A
+	)
+	where rn between #{start} and #{end} 
+ </select>
+ 
+ <select id="count" resultType="int">
+  select count(*) from p_order
+ </select>
+ 
+ <select id="admindetailorder" resultType="order.dto.OrderdetailDTO">
+  select * from p_detailorder
+  where orderid=#{orderid}
+ </select>
+ 
  </mapper>

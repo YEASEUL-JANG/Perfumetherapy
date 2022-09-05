@@ -221,4 +221,34 @@ public class QnaDAO {
 		}
 	}
 
+	public int mycount(String userid) {
+		int result=0;
+		try(SqlSession session=MybatisManager.getInstance().openSession()){
+			result=session.selectOne("qna.mycount",userid);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}//finally절 생략 가능
+		return result;
+	}
+
+	public List<QnaDTO> mylist(int start, int end, String userid) {
+		List<QnaDTO> list=null;
+		SqlSession session=null;
+		//혹시 있을지 모를 예외발생 처리하기 위해 try문 쓰는게 좋다.
+		try {
+			session=MybatisManager.getInstance().openSession();
+			Map<String,Object> map=new HashMap<>();
+			map.put("start", start);
+			map.put("end", end);
+			map.put("userid", userid);
+			list=session.selectList("qna.mylist", map);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(session != null) session.close();
+		}
+		return list;
+	}
+
 }

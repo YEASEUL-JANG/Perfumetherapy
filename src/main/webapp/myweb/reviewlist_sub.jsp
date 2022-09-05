@@ -237,6 +237,16 @@ background: #222;
 border-radius: 7px;
 font-weight: bold;
 }
+#myreview a:link{text-decoration: none; color:#959595; }
+#myreview a:visited{text-decoration: none; color:#959595; }
+#myreview a:hover{text-decoration: underline; color:#836e53; }
+#btnSearch, #btnModify{
+padding: 5px;
+width: 50px;
+color: #222;
+border-radius: 7px;
+border: 1px solid #222;
+}
 </style>
 </head>
 <body>
@@ -245,7 +255,8 @@ font-weight: bold;
 <table id="myreview">
 <tr>
 <td>
-<input id="keyword" name="keyword" placeholder="리뷰 키워드 또는 상품명 검색">
+<input id="keyword" name="keyword" placeholder="리뷰 키워드 또는 상품명 검색"
+style="padding: 5px; width: 300px; border: 2px solid #e8e8e8; border-radius: 5px;">
 <button id="btnSearch" onclick="search()">검색</button>
 </td>
 
@@ -326,7 +337,7 @@ style="width:100px; height:100px; border-radius:10px; cursor: pointer;"></c:if>
 </td>
 </tr>
 <tr>
-<td><button onclick="modifyreview(${vs.index})">수정</button></td>
+<td colspan="3" align="right"><button id="btnModify" onclick="modifyreview(${vs.index})">수정</button></td>
 </tr>
 <tr>
 <td>

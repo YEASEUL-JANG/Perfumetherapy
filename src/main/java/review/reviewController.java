@@ -240,7 +240,7 @@ public class reviewController extends HttpServlet {
 		//페이지 네비게이션 출력을 위한 정보 전달
 		request.setAttribute("page", pager);
 		
-		String page="/myweb/reviewlist_sub.jsp";
+		String page="/myweb/reviewlist_all.jsp";
 		RequestDispatcher rd=request.getRequestDispatcher(page);
 		rd.forward(request, response);
 		
@@ -253,7 +253,7 @@ public class reviewController extends HttpServlet {
 			request.setAttribute("list", list);
 			request.setAttribute("count", list.size());
 			request.setAttribute("keyword", keyword);
-			String page="/myweb/search_review.jsp";
+			String page="/myweb/searchreview_all.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
 			

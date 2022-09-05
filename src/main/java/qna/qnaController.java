@@ -192,10 +192,8 @@ public class qnaController extends HttpServlet {
 			String result=dao.passwdCheck(num, passwd);
 			String page="";
 			if(result != null) {//비밀번호가 맞으면
-				page="/myweb/qnaview.jsp";
-				request.setAttribute("dto", dao.view(num));
-				RequestDispatcher rd=request.getRequestDispatcher(page);
-				rd.forward(request, response);
+				page="/qna_servlet/view.do?num="+num;
+				response.sendRedirect(contextPath+page);
 			}else {//비밀번호가 틀리면
 				//메시지출력
 				 String msg = "비밀번호가 맞지 않습니다.";
@@ -354,6 +352,50 @@ public class qnaController extends HttpServlet {
 			String page="/myweb/alert.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
+		}else if(url.indexOf("myqnaList.do") != -1) {
+			HttpSession session = request.getSession();
+			String userid = (String)session.getAttribute("userid");
+			System.out.println(userid);
+			int count=dao.mycount(userid);
+			//페이지 나누기를 위한 처리
+			int curPage=1;
+			//숫자 처리는 null포인트 익셉션이 잘 일어나기 때문에 if문 처리해주는게 좋다.
+			if(request.getParameter("curPage") != null) {
+				curPage=Integer.parseInt(request.getParameter("curPage"));
+			}
+			Pager pager=new Pager(count, curPage);
+			int start=pager.getPageBegin();
+			int end=pager.getPageEnd();
+			
+			List<QnaDTO> list=dao.mylist(start,end,userid);
+			request.setAttribute("list", list);
+			request.setAttribute("count", list.size());
+			//페이지 네비게이션 출력을 위한 정보 전달
+			request.setAttribute("page", pager);
+			
+			String page="/myweb/myqna_sub.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response);
+		}else if(url.indexOf("myqnaCate.do") != -1) {
+		String category = request.getParameter("category");
+		String userid = request.getParameter("userid");
+		System.out.println("category: "+category);
+		List<QnaDTO> list = null;
+		Pager pager = null;
+		if(category.equals("전체")) {
+			int count=dao.count();
+			//페이지 나누기를 위한 처리
+			int curPage=1;
+			//숫자 처리는 null포인트 익셉션이 잘 일어나기 때문에 if문 처리해주는게 좋다.
+			if(request.getParameter("curPage") != null) {
+				curPage=Integer.parseInt(request.getParameter("curPage"));
+			}
+			pager=new Pager(count, curPage);
+			int start=pager.getPageBegin();
+			int end=pager.getPageEnd();
+			
+			 list=dao.list(start,end);
+		}
 		}
 	}
 

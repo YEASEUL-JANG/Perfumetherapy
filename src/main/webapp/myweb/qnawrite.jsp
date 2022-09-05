@@ -73,6 +73,11 @@ border-radius: 10px;}
 #write td{
 padding: 10px;
 border-bottom: 1px solid #e8e8e8;}
+#writeInsert{
+width: 80px;
+border: 1px solid #222;
+border-radius: 5px;
+padding: 3px;}
 </style>
 </head>
 <body>

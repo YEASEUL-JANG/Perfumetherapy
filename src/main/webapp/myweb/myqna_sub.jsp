@@ -111,10 +111,10 @@ $(function(){
  <tr>
   <td colspan="8" align="center">
    <c:if test="${page.curPage > 1}">
-    <a href="#" onclick="list('1')">[처음]</a>
+    <a href="#" onclick="list2('1')">[처음]</a>
    </c:if>
    <c:if test="${page.curBlock > 1}">
-    <a href="#" onclick="list('${page.prevPage}')">[이전]</a>
+    <a href="#" onclick="list2('${page.prevPage}')">[이전]</a>
    </c:if>
    <c:forEach var="num" begin="${page.blockStart}" end="${page.blockEnd}">
     <c:choose>
@@ -122,15 +122,15 @@ $(function(){
       <span style="color: red;">${num}</span>
      </c:when>
      <c:otherwise>
-      <a href="#" onclick="list('${num}')">${num}</a>
+      <a href="#" onclick="list2('${num}')">${num}</a>
      </c:otherwise>
     </c:choose>
    </c:forEach>
    <c:if test="${page.curBlock < page.totBlock}">
-    <a href="#" onclick="list('${page.nextPage}')">[다음]</a>
+    <a href="#" onclick="list2('${page.nextPage}')">[다음]</a>
    </c:if>
    <c:if test="${page.curPage < page.totPage}">
-    <a href="#" onclick="list('${page.totPage}')">[끝]</a>
+    <a href="#" onclick="list2('${page.totPage}')">[끝]</a>
    </c:if>
   </td>
  </tr>

@@ -51,6 +51,15 @@ border-radius: 10px;}
 #write td{
 padding: 10px;
 border-bottom: 1px solid #e8e8e8;}
+.butt{
+width: 80px;
+padding: 5px;
+border: 1px solid #6F6E6D;
+border-radius: 5px;
+color: #6F6E6D;}
+#write a:link{text-decoration: none; color:#959595; }
+#write a:visited{text-decoration: none; color:#959595; }
+#write a:hover{text-decoration: underline; color:#836e53; }
 </style>
 </head>
 <body>
@@ -99,10 +108,10 @@ border-bottom: 1px solid #e8e8e8;}
     </table>
     <div id="commentList"></div>
      <div align="right" style="margin-top:20px;">
-     <button class="buttonstyle" onclick="location.href='${path }/myweb/qna.jsp';">목록</button>
+     <button class="butt" onclick="location.href='${path }/myweb/qna.jsp';">목록</button>
      <div align="center">
-     <button class="buttonstyle" id="modify" >수정하기</button>
-     <button  class="buttonstyle" id="reply">답변하기</button>
+     <button class="butt" id="modify" >수정하기</button>
+     <button  class="butt" id="reply">답변하기</button>
      </div>
     </div>
     </div>

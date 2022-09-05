@@ -14,9 +14,6 @@ $(function(){
 	$(".close_modal").click(function(){
 		  $(".modal").fadeOut();
 		 });
-	$(".close_modal2").click(function(){
-		  $(".modal").fadeOut();
-		 });
 	//기본선택
 	var hid_age = $("#hid_age").val();
 	var hid_reviewstar = $("#hid_reviewstar").val();
@@ -41,18 +38,12 @@ $(function(){
 				}
 			}); 
 	}
-	
 });
 
 //개별모달창 열기
 function showmodal(index){
 	var x = index;
 	$("#modalid"+x).fadeIn();
-}
-//수정폼 모달 열기
-function modifyreview(index){
-	var y = index;
-	$("#modify"+y).fadeIn();
 }
 
 function setThumbnail(event) {
@@ -68,21 +59,6 @@ function setThumbnail(event) {
     };
 
     reader.readAsDataURL(event.target.files[0]);
-  }
-  //수정하기
-  function modify(index){
-	  var i = index;
-	  if(confirm("수정하시겠습니까?")){
-		  $("#form"+i).attr("action","${path }/review_servlet/modify.do");
-		  $("#form"+i).submit();
-	  }
-  }
-  function deletereview(index){
-	  var j = index;
-	  if(confirm("삭제하시겠습니까?")){
-		  $("#form"+j).attr("action","${path }/review_servlet/delete.do");
-		  $("#form"+j).submit();
-	  }
   }
 
   //댓글 ajax
@@ -138,13 +114,6 @@ font-size: 40px;
 color: white;
 padding-right: 20px;
 font-weight: lighter;
-display: inline;
-float: right;
-}
-.close_modal2{
-text-align: right; 
-cursor: pointer;
-font-size: 20px;
 display: inline;
 float: right;
 }
@@ -222,22 +191,7 @@ color: white;
 }
 #commenttable{
 width: 100%; border-radius: 10px; background:#f7f9f8; padding: 10px; margin-top: 10px;}
-#btnSave {
-padding: 10px;
-width: 200px;
-border: 2px solid #222;
-background: white;
-border-radius: 7px;
-font-weight: bold;}
-#btnDelete{
-padding: 10px;
-width: 200px;
-color: white;
-background: #222;
-border-radius: 7px;
-font-weight: bold;
-}
-#btnSearch, #btnModify{
+#btnSearch{
 padding: 5px;
 width: 50px;
 color: #222;
@@ -255,7 +209,7 @@ border: 1px solid #222;
 <table id="myreview">
 <tr>
 <td>
-<input id="keyword" name="keyword"  value="${keyword }"
+<input id="keyword" name="keyword" placeholder="리뷰 키워드 또는 상품명 검색" 
 style="padding: 5px; width: 300px; border: 2px solid #e8e8e8; border-radius: 5px;">
 <button id="btnSearch" onclick="search()">검색</button>
 </td>
@@ -308,7 +262,8 @@ style="width:100px; height:100px; border-radius:10px; cursor: pointer;"></c:if>
 </td>
 </tr>
 <tr>
-<td class="p"><a href="#" onclick="showcomment('${re.num}','${vs.index }'); return false;"> 댓글 <i class="fa-solid fa-angle-down"></i> 
+<td class="p">
+<a href="#" onclick="showcomment('${re.num}','${vs.index }'); return false;"> 댓글 <i class="fa-solid fa-angle-down"></i> 
 <c:if test="${re.comment_count > 0}">
 <span style="font-weight: bold;">(${re.comment_count})</span>
 </c:if>
@@ -332,99 +287,40 @@ style="width:100px; height:100px; border-radius:10px; cursor: pointer;"></c:if>
 </table>
 </div>
 
-
 </td>
 </tr>
-<tr>
-<td colspan="3" align="right"><button id="btnModify" onclick="modifyreview(${vs.index})">수정</button></td>
-</tr>
-<tr>
-<td>
-    <!-- 모달창 -->
-    <div id="modify${vs.index }" class="modal">
-  	<div class="review_content">
-  	<div id="reviewtitle">후기 남기기
-    <div class="close_modal2">X</div>
-  	</div>
-  	<!--폼영역  -->
-     <form name="form${vs.index }" id="form${vs.index }"enctype="multipart/form-data" 
-      method="post">
-      <table id="reviewtable">
-      <tr>
-      <td colspan="2"><img src="image/${re.itemsDTO.picture  }" style="width: 70px;height: 70px;">
-      <b>${re.itemsDTO.iname  }</b>
-      <input type="hidden" id="hid_num" name="num" value="${re.num }">
-      <input type="hidden" id="hid_index" value="${vs.index}">
-      </td>
-      </tr>
-      <tr>
-      <td colspan="2"><hr></td>
-      </tr>
-      <tr>
-      <td colspan="2">
-      <div id="reviewstar">
-      <input type="radio" class="reviewStar"name="reviewStar" value="5" id="rate1"><label
-			for="rate1">★</label>
-		<input type="radio" class="reviewStar"name="reviewStar" value="4" id="rate2"><label
-			for="rate2">★</label>
-		<input type="radio" class="reviewStar"name="reviewStar" value="3" id="rate3"><label
-			for="rate3">★</label>
-		<input type="radio" class="reviewStar"name="reviewStar" value="2" id="rate4"><label
-			for="rate4">★</label>
-		<input type="radio" class="reviewStar"name="reviewStar" value="1" id="rate5"><label
-			for="rate5">★</label>
-		  </div></td></tr><tr>
-       <td colspan="2"><input  id="title" name="title" size="40"value="${re.title }"></td>
-      </tr>
-       <tr>
-       <td>연령대 <select name="age" class="age">
-        <option value="10대">10대</option>
-        <option value="20대">20대</option>
-        <option value="30대">30대</option>
-        <option value="40대">40대</option>
-        <option value="50대">50대</option>
-       </select></td>
-       <td>성별
-        <input type="radio" class="gender" name="gender" value="woman" ><label for = "woman">여</label>
-        <input type="radio" class="gender" name="gender" value="man" ><label for = "man">남</label>
-       </td>
-       <td>
-       <input type="hidden" id="hid_age" value="${re.age }">
-       <input type="hidden" id="hid_reviewstar" value="${re.review_star }">
-       <input type="hidden" id="hid_gender" value="${re.gender }">
-       </td>
-       </tr>
-       <tr>
-       <td colspan="2">
-       <textarea id="reviewContents" name="content" >${re.content }</textarea></td>
-       </tr>
-       <tr>
-       <td style="width:100%;" colspan="2">
-       <c:if test="${re.image_file != ' '}">
-       ${re.image_file} <input type="checkbox" name="fileDel">첨부파일 삭제
-    	</c:if>
-       <input type="file" id = "image" name="image" style="width:50%;" onchange="setThumbnail(event);"/>
-       </td></tr><tr><td colspan="2">
-       <div id="image_container">
-       <c:if test="${re.image_file != ' '}">
-       <img src="image/${re.image_file }" style="width:80px;height:80px;"></c:if>
-       </div>
-       </td>
-       </tr>
-       <tr>
-  		<td colspan="2" align="center">
-   		<input type="button" value="수정" id="btnSave" onclick="modify('${vs.index }')">
-   		<input type="button" value="삭제" id="btnDelete" onclick="deletereview('${vs.index }')">
-  		</td>
-  		</tr>
-      </table>
-     </form>
-    </div>
-    </div>
-    </td>
-</tr>
 </c:forEach>
-</tr>
+
+
+
+
+<!-- 페이지 네비게이션 출력, index.jsp에서 자동으로 호출되었던 함수list(curPage)사용 --> 
+ <tr>
+  <td colspan="8" align="center">
+   <c:if test="${page.curPage > 1}">
+    <a href="#" onclick="list('1')">[처음]</a>
+   </c:if>
+   <c:if test="${page.curBlock > 1}">
+    <a href="#" onclick="list('${page.prevPage}')">[이전]</a>
+   </c:if>
+   <c:forEach var="num" begin="${page.blockStart}" end="${page.blockEnd}">
+    <c:choose>
+     <c:when test="${num == page.curPage}">
+      <span style="color: red;">${num}</span>
+     </c:when>
+     <c:otherwise>
+      <a href="#" onclick="list('${num}')">${num}</a>
+     </c:otherwise>
+    </c:choose>
+   </c:forEach>
+   <c:if test="${page.curBlock < page.totBlock}">
+    <a href="#" onclick="list('${page.nextPage}')">[다음]</a>
+   </c:if>
+   <c:if test="${page.curPage < page.totPage}">
+    <a href="#" onclick="list('${page.totPage}')">[끝]</a>
+   </c:if>
+  </td>
+ </tr>
 </table>
 </body>
 </html>

@@ -114,4 +114,26 @@ values
   where num=#{num}
  </update>
   
+  <select id="mycount" resultType="int">
+  select count(*) from p_qna
+  where writer = #{userid}
+ </select>
+  
+  <select id="mylist" resultType="qna.dto.QnaDTO">
+   select * 
+	from (
+    select A.*, rownum as rn
+    from (
+        select num,writer,title,
+        content, review_count, picture,
+        iname, passwd, reg_date,category,
+         filename,filesize,down,re_level
+         ,(select count(*) from qna_comment 
+           where qna_num=num) comment_count, show
+    				from p_qna
+    				where writer = #{userid}
+    				order by ref desc, re_step asc) A
+	) where rn between #{start} and #{end}
+ </select>
+  
  </mapper>

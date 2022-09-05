@@ -14,6 +14,41 @@
 <!-- Favicon-->
 <link rel="icon" type="image/x-icon" href="../Resources/assets/favicon.ico" />
 <link href="../Resources/css/admin.styles.css" rel="stylesheet" />
+<script type="text/javascript">
+function viewdetail(orderid){
+	 const key = orderid;
+	$.ajax({
+		type : "post",
+		data : {orderid : key},
+		url : "${path}/order_servlet/adminDetailOrder.do",
+		success : function(res){
+			$("#view").html(res);
+		}
+	});
+}  
+
+</script>
+<style type="text/css">
+#ordertable1{
+width: 100%;
+border: 1px solid #ddd;
+color: #333;
+font-size: 15px;
+padding: 0px;
+}
+#ordertable1 th{
+background: #fbfbfb;
+padding: 15px;
+border-bottom: 1px solid #ddd;
+text-align: left;
+}
+#ordertable1 td{
+padding: 15px;}
+#ordertable1 a:link{text-decoration: none; color:#959595; }
+#ordertable1 a:visited{text-decoration: none; color:#959595; }
+#ordertable1 a:hover{text-decoration: underline; color:#836e53;}
+
+</style>
 </head>
 <body>
  <main>
@@ -21,7 +56,7 @@
          <h2 class="mt-4 fw-bold">전체 상품조회</h2>
          <div class="card mb-4 mt-4">
              <div class="card-body">
-                  * 가장 최근에 등록한 상품순으로 보여집니다.
+                  * 가장 최근 주문건부터 보여집니다.
              </div>
          </div>
      </div>
@@ -31,88 +66,56 @@
           <div class="card mb-4">
               <div class="card-header fw-bold">
                   <i class="fas fa-table me-1"></i>
-                  Product Table
+                  Order Table
               </div>
               <div class="card-body">
 				
 전체 상품 : ${count }개
- 
-<form name="form1" id="form1" method="post">
- <select name="searchkey" id="searchkey">
-<c:choose>
-  <c:when test="${searchkey=='iname' }">
- 	<option value="iname" selected>상품명</option>
- 	<option value="brand">브랜드</option>
- 	<option value="big_category">대분류</option>
- 	<option value="category">중분류</option>
- </c:when> 
- <c:when test="${searchkey=='brand' }">
- 	<option value="iname" >상품명</option>
- 	<option value="brand" selected>브랜드</option>
- 	<option value="big_category">대분류</option>
- 	<option value="category">중분류</option>
- </c:when> 
- <c:when test="${searchkey=='big_category' }">
- 	<option value="iname" >상품명</option>
- 	<option value="brand" >브랜드</option>
- 	<option value="big_category" selected>대분류</option>
- 	<option value="category">중분류</option>
- </c:when> 
- <c:when test="${searchkey=='category' }">
- 	<option value="iname" >상품명</option>
- 	<option value="brand" >브랜드</option>
- 	<option value="big_category" >대분류</option>
- 	<option value="category" selected>중분류</option>
- </c:when> 
- </c:choose> 
- </select>
- <input name="search" id="search" value="${search }">
- <input type="button" value="조회" onclick="gb_search()">
-</form>
+  <!-- content -->
+  <section class="py-5">
+   <div class="justify-content-center flex-sm-column d-sm-flex align-items-center">
+    <table id="ordertable1">
+    <colgroup>
+     <col width="20%">
+     <col width="20%">
+     <col width="20%">
+     <col width="20%">
+     <col width="20%">
+    </colgroup>
+    <tr>
+    <th >주문일자[주문번호]</th>
+    <th >주문일자</th>
+    <th >결제 금액</th>
+    <th >주문상태</th>
+    <th >취소/반품</th>
+    </tr>
+    <c:forEach var="o" items="${list }">
+    <tr>
+    <td><a href="#" onclick="viewdetail('${o.orderid}')" >${o.orderid}</a></td>
+    <td>${o.order_date}</td>
+    <td><fmt:formatNumber type="number" maxFractionDigits="3" value="${o.sum_price }"/>원</td>
+    <td class="deliveryState">${o.delivery }</td>
+    <td>
+    <select id="cancelOrder" name = "cancelOrder" onchange="cancelOrder('${o.delivery }','${o.orderid }')">
+     <option value="" selected>==선택==</option>
+     <option value="return">반품신청</option>
+     <option value="cancel">취소요청</option>
+    </select>
+    </td>
+	</tr>
+    <input type ="hidden" id="hid_orderid" value="${o.orderid}">
+	</c:forEach>
+    
+  
 
-<table id="datatablesSimple" style="width:100%">
-<thead>
- <tr>
- <th>IDX</th>
- <th>이미지</th>
- <th>상품명</th>
- <th>브랜드</th>
- <th>용량</th>
- <th>원가</th>
- <th>할인가</th>
- <th>적립금</th>
- <th>대분류</th>
- <th>중분류</th>
- <th>재고</th>
- <th>게시일자</th>
- </tr>
- </thead>
- <c:forEach var = "item" items="${list }">
-  <tbody>
-  <tr>
-   <td>${item.idx }</td>
-   <td><img src="image/${item.picture }" style="width:50px;height:50px;"></td>
-   <td><a href="#" onclick="view('${item.idx }')">${item.iname }</a></td>
-   <td>${item.brand }</td>
-   <td>${item.volume }</td>
-   <td>${item.o_price }</td>
-   <td>${item.sale_price }</td>
-   <td>${item.point }</td>
-   <td>${item.big_category }</td>
-   <td>${item.category }</td>
-   <td>${item.stock }</td>
-   <td>${item.post_date }</td>
-  </tr>
-  </tbody>
- </c:forEach>
  <!-- 페이지 네비게이션 -->
  <tr>
-  <td colspan="12" align="center">
+  <td colspan="5" align="center">
    <c:if test="${page.curPage > 1}">
-    <a href="#" onclick="table('1')">[처음]</a>
+    <a href="#" onclick="table2('1')">[처음]</a>
    </c:if>
    <c:if test="${page.curBlock > 1}">
-    <a href="#" onclick="table('${page.prevPage}')">[이전]</a>
+    <a href="#" onclick="table2('${page.prevPage}')">[이전]</a>
    </c:if>
    <c:forEach var="num" begin="${page.blockStart}" end="${page.blockEnd}">
     <c:choose>
@@ -120,20 +123,26 @@
       <span style="color: red;">${num}</span>
      </c:when>
      <c:otherwise>
-      <a href="#" onclick="table('${num}')">${num}</a>
+      <a href="#" onclick="table2('${num}')">${num}</a>
      </c:otherwise>
     </c:choose>
    </c:forEach>
    <c:if test="${page.curBlock < page.totBlock}">
-    <a href="#" onclick="table('${page.nextPage}')">[다음]</a>
+    <a href="#" onclick="table2('${page.nextPage}')">[다음]</a>
    </c:if>
    <c:if test="${page.curPage < page.totPage}">
-    <a href="#" onclick="table('${page.totPage}')">[끝]</a>
+    <a href="#" onclick="table2('${page.totPage}')">[끝]</a>
    </c:if>
   </td>
  </tr>
-</table>      
+</table> 
+
+<div id="view" style="width: 100%;"></div>
+
+ 
 </div>    
+ </section>
+</div>
 </div>
 </div>
 </main>

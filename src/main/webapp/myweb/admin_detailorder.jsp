@@ -134,11 +134,6 @@ border-radius: 5px;
 <script type="text/javascript">
 $(function(){
 	itemSum();
-	
-//모달창 닫기설정
- $(".close_modal").click(function(){
-  $(".modal").fadeOut();
- });
 });
 function itemSum() {
     var str = "";
@@ -150,25 +145,6 @@ function itemSum() {
     var tot_price = sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     $(".total_sum").val(tot_price);
 }
-//개별모달창 열기
-function showmodal(index){
-	var x = index;
-	$("#modalid"+x).fadeIn();
-}
-//이미지 썸네일
-function setThumbnail(event) {
-    var reader = new FileReader();
-
-    reader.onload = function(event) {
-      var img = document.createElement("img");
-      img.setAttribute("src", event.target.result);
-      img.style.width="80px";
-      img.style.height="80px";
-      document.querySelector("div#image_container").appendChild(img);
-    };
-
-    reader.readAsDataURL(event.target.files[0]);
-  }
   
 function review(index){
 	var x = index;
@@ -216,76 +192,6 @@ function review(index){
     <td class="b ">무료</td>
     <td class="b p"><input type="text" id="total" value="
     <fmt:formatNumber type="number" maxFractionDigits="3" value="${cart.sale_price * cart.num }"/>" size="9">원</td>
-    <td class="b p">
-    
-    <button class="butt" onclick="showmodal(${vs.index})">후기 남기기</button>
-    <!-- 모달창 -->
-    <div id="modalid${vs.index }" class="modal">
-  	<div class="modal_content">
-  	<div id="reviewtitle">후기 남기기
-    <div class="close_modal">X</div>
-  	</div>
-    	<!--폼영역  -->
-     <form name="form${vs.index }" id="form${vs.index }"enctype="multipart/form-data" action="${path }/review_servlet/review.do" method="post">
-      <table id="reviewtable">
-      <tr>
-      <td colspan="2"><img src="image/${cart.picture }" style="width: 70px;height: 70px;">
-      <input type="text" value="${cart.iname }" size="40">
-      <input type="hidden" name="p_idx" value="${cart.idx }"></td>
-      </tr>
-      <tr>
-      <td colspan="2"><hr></td>
-      </tr>
-      <tr>
-      <td colspan="2">
-      <div id="reviewstar">
-      <input type="radio" name="reviewStar" value="5" id="rate1"><label
-			for="rate1">★</label>
-		<input type="radio" name="reviewStar" value="4" id="rate2"><label
-			for="rate2">★</label>
-		<input type="radio" name="reviewStar" value="3" id="rate3"><label
-			for="rate3">★</label>
-		<input type="radio" name="reviewStar" value="2" id="rate4"><label
-			for="rate4">★</label>
-		<input type="radio" name="reviewStar" value="1" id="rate5"><label
-			for="rate5">★</label>
-		  </div></td></tr><tr>
-       <td colspan="2"><input  id="title" name="title" size="40" placeholder="제목을 입력해주세요."></td>
-      </tr>
-       <tr>
-       <td>연령대 <select name="age">
-        <option value="10대">10대</option>
-        <option value="20대" selected>20대</option>
-        <option value="30대">30대</option>
-        <option value="40대">40대</option>
-        <option value="50대">50대</option>
-       </select></td>
-       <td>성별
-        <input type="radio" name="gender" value="woman" id="woman"><label for = "woman">여</label>
-        <input type="radio" name="gender" value="man" id="man"><label for = "man">남</label>
-       </td>
-       </tr>
-       <tr>
-       <td colspan="2">
-       <textarea id="reviewContents" name="content" placeholder="좋은 수강평을 남겨주시면 Perfumetherapy에 큰 힘이 됩니다!"></textarea></td>
-       </tr>
-       <tr>
-       <td colspan="2">
-       <input type="file" id = "image" name="image" onchange="setThumbnail(event);"/>
-       <div id="image_container"></div>
-       </td>
-       </tr>
-       <tr>
-  		<td colspan="2" align="center">
-   		<input type="button" value="확인" id="btnSave" onclick="review('${vs.index }')">
-  		</td>
-  		</tr>
-      </table>
-     </form>
-    </div>
-    </div>
-    
-    </td>
     </tr>
     </c:forEach>
     <tr >

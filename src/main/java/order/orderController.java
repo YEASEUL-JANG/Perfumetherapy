@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import items.Pager;
 import items.wishDTO;
 import order.dao.OrderDAO;
 import order.dto.CartDTO;
@@ -398,6 +399,35 @@ public class orderController extends HttpServlet {
 			}
 		}else if(uri.indexOf("deleteAllwish.do") != -1 ){
 			dao.deleteAllwish();
+		}else if(uri.indexOf("adminOrder.do") != -1 ){
+			//레코드 갯수 계산
+			int count=dao.count();
+			//페이지 나누기를 위한 처리
+			int curPage=1;
+			//숫자 처리는 null포인트 익셉션이 잘 일어나기 때문에 if문 처리해주는게 좋다.
+			if(request.getParameter("curPage") != null) {
+				curPage=Integer.parseInt(request.getParameter("curPage"));
+			}
+			Pager pager=new Pager(count, curPage);
+			int start=pager.getPageBegin();
+			int end=pager.getPageEnd();
+
+			List<OrderDTO> list = dao.allorder(start,end);
+			request.setAttribute("list", list);
+			request.setAttribute("count", list.size());
+			request.setAttribute("page", pager);
+			String page="/myweb/admin_allorderlist.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response);
+		}else if(uri.indexOf("adminDetailOrder.do") != -1 ){
+			String orderid = request.getParameter("orderid");
+			System.out.println(orderid);
+			List<OrderdetailDTO> list = dao.admindetailorder(orderid);
+			request.setAttribute("list", list);
+			request.setAttribute("orderid", orderid);
+			String page="/myweb/admin_detailorder.jsp";
+			RequestDispatcher rd=request.getRequestDispatcher(page);
+			rd.forward(request, response); 
 		}
 			
 		

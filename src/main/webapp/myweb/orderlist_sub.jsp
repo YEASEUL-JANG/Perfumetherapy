@@ -29,12 +29,10 @@ text-align: left;
 }
 #ordertable1 td{
 padding: 15px;}
-
+#ordertable1 a:link{text-decoration: none; color:#959595; }
+#ordertable1 a:visited{text-decoration: none; color:#959595; }
+#ordertable1 a:hover{text-decoration: underline; color:#836e53;}
 </style>
-<script type="text/javascript">
-
-
-</script>
 </head>
 <body>
 

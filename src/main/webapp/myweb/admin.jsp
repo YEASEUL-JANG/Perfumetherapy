@@ -86,6 +86,19 @@ function view(idx){
 		}
 	});
 }
+function allorder(){
+	$.ajax({
+		type : "post",
+		url : "${path}/order_servlet/adminOrder.do",
+		success : function(res){
+			$("#insert").children().remove();
+			$("#insert").html(res);
+			$("#view").html("");
+		}
+	});
+}
+
+
 </script>
 </head>
  <body class="sb-nav-fixed">
@@ -149,7 +162,7 @@ function view(idx){
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="login.html">전체주문현황</a>
+                                            <a class="nav-link" href="#" onclick="allorder()">전체주문현황</a>
                                             <a class="nav-link" href="register.html">주문취소</a>
                                             <a class="nav-link" href="password.html">반품신청</a>
                                         </nav>
@@ -179,14 +192,16 @@ function view(idx){
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
-                        Start Bootstrap
+                        Perfumetherapy Admin
                     </div>
                 </nav>
             </div>
-            <div id="insert" style="width:100%;">
+          
             
-            </div>
-        </div>
+           <div id="layoutSidenav_content">
+          <div id="insert" style="width:100%;"></div>
+      </div><!--내용페이지  -->
+   </div><!-- 전체페이지 -->
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>

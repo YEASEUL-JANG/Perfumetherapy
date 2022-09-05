@@ -77,7 +77,7 @@ function insertcomment2(num,index){
 </script>
 <style type="text/css">
 .comment{
-display: none;}
+display: none;width: 100%;}
 .modal{ 
   position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.7); top:0; left:0; 
   display:none;
@@ -118,8 +118,22 @@ float: right;
   background-color: #fff;
   background-clip: border-box;
 }
+.butt{
+padding: 3px;
+width: 70px;
+border: 1px solid #222;
+border-radius: 6px;}
+#reviewtable1 td{
+padding: 5px;}
+#photoreview a:link{text-decoration: none; color:#959595; }
+#photoreview a:visited{text-decoration: none; color:#959595; }
+#photoreview a:hover{text-decoration: underline; color:#836e53; }
+
 #commenttable2{
-width: 100%; border-radius: 10px; background:#f7f9f8; padding: 10px; margin-top: 10px;}
+width: 100%;
+border-radius: 10px; background:#f7f9f8; padding: 10px; }
+#commenttable2 td{
+padding 5px;}
 </style>
 </head>
 <body>
@@ -168,7 +182,7 @@ width: 100%; border-radius: 10px; background:#f7f9f8; padding: 10px; margin-top:
  <div class="detailreview">
  <div class="close_modal2">X</div>
    
-     <table style="width: 100%; padding: 20px;">
+     <table id="reviewtable1" style="width: 100%; padding: 20px;">
      <tr>
 		<td colspan="2" class="p" style="font-weight: bold;">
 		<img alt="" src="image/${p.itemsDTO.picture }" style="width:70px; height:70px;">
@@ -184,10 +198,10 @@ width: 100%; border-radius: 10px; background:#f7f9f8; padding: 10px; margin-top:
 		</tr>
 		
 		<tr>
-		<td colspan="2" style="border: 1px solid #c8c9ca;padding: 5px;width: 100%;">
+		<td colspan="2" style="border: 1px solid #c8c9ca;padding: 5px;width: 100%;margin: 20px;">
 		<input type="hidden" id="num2${vs.index }" value="${p.num }" > 
 		<div id="username3${vs.index }" style="display: inline;"></div> 님의 리뷰입니다.<p>
-		<table id="review_mini" style="padding-top:10px;">
+		<table id="review_mini" style="margin: 10px;">
 		<tr>
 		<th>연령대</th><td>${p.age }</td>
 		<th>성별</th><td>${p.gender }</td>
@@ -199,10 +213,11 @@ width: 100%; border-radius: 10px; background:#f7f9f8; padding: 10px; margin-top:
 		</td>
 		</tr>
 		<tr>
-		<td colspan="2" style="padding-top:10px;">${p.content }</td>
+		<td colspan="2" style="padding-top:20px;">${p.content }</td>
 		</tr>
 		<tr>
-		<td class="p"><a href="#" onclick="showcomment2('${p.num}','${vs.index }'); return false;"> 댓글 <i class="fa-solid fa-angle-down"></i> 
+		<td class="p" id="commentslide">
+		<a href="#" onclick="showcomment2('${p.num}','${vs.index }'); return false;"> 댓글 <i class="fa-solid fa-angle-down"></i> 
 		<c:if test="${p.comment_count > 0}">
 		<span style="font-weight: bold;">(${p.comment_count})</span>
 		</c:if>
@@ -211,29 +226,28 @@ width: 100%; border-radius: 10px; background:#f7f9f8; padding: 10px; margin-top:
 		<!-- 댓글영역 -->
 		<tr>
 		<td colspan="2">
+		
 		<div class="comment" id="comment2${vs.index }">
 		<!-- 댓글 쓰기 폼 -->
 		<div id="commentList2${vs.index }"></div>
 		<table id="commenttable2">
 		 <tr>
 		  <td><input id="nickname2${vs.index }" placeholder="닉네임">
-		  <button onclick="insertcomment2('${p.num}','${vs.index }')" type="button" style="width:50px;">확인</button></td>
+		  <button onclick="insertcomment2('${p.num}','${vs.index }')" type="button" style="width:50px;" 
+		  class="butt">확인</button></td>
 		 </tr>
 		 <tr>
-		  <td><textarea rows="3" cols="120" placeholder="내용을 입력하세요" 
+		  <td><textarea rows="3" style="width: 100%;" placeholder="내용을 입력하세요" 
 		  id="com_content2${vs.index }"></textarea></td>
 		 </tr>
 		</table>
 		</div>
-
-
-</td>
-</tr>
+		
+		</td>
+		</tr>
      </table>
- 
  </div>
 </div>
-  
 </c:forEach>
 
 

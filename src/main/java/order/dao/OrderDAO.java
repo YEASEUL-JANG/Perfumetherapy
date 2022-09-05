@@ -384,5 +384,41 @@ public class OrderDAO {
 			if(session != null) session.close();
 		}
 	}
+	public List<OrderDTO> allorder(int start, int end) {
+		List<OrderDTO> list = null;
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			Map<String,Object> map=new HashMap<>();
+			map.put("start", start);
+			map.put("end", end);
+			list=session.selectList("order.allorder",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		return list;
+	}
+	public int count() {
+		int result=0;
+		try(SqlSession session=MybatisManager.getInstance().openSession()){
+			result=session.selectOne("order.count");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}//finally절 생략 가능
+		return result;
+	}
+	public List<OrderdetailDTO> admindetailorder(String orderid) {
+		List<OrderdetailDTO> list = null;
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			list = session.selectList("order.admindetailorder",orderid);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		return list;
+	}
 
 }
