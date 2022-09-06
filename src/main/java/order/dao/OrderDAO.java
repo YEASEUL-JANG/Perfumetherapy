@@ -420,5 +420,66 @@ public class OrderDAO {
 		}
 		return list;
 	}
-
+	public void changeState(String orderid, String delivery) {
+		Map<String,Object> map=new HashMap<>();
+		map.put("orderid", orderid);
+		map.put("delivery", delivery);
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			session.update("order.changeState",map);
+			session.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+	}
+	public int backcount() {
+		int result=0;
+		try(SqlSession session=MybatisManager.getInstance().openSession()){
+			result=session.selectOne("order.backcount");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}//finally절 생략 가능
+		return result;
+	}
+	public int returncount() {
+		int result=0;
+		try(SqlSession session=MybatisManager.getInstance().openSession()){
+			result=session.selectOne("order.returncount");
+		}catch (Exception e) {
+			e.printStackTrace();
+		}//finally절 생략 가능
+		return result;
+	}
+	public List<OrderDTO> orderback(int start, int end) {
+		List<OrderDTO> list = null;
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			Map<String,Object> map=new HashMap<>();
+			map.put("start", start);
+			map.put("end", end);
+			list=session.selectList("order.orderback",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		return list;
+	}
+	public List<OrderDTO> orderreturn(int start, int end) {
+		List<OrderDTO> list = null;
+		SqlSession session=MybatisManager.getInstance().openSession();
+		try {
+			Map<String,Object> map=new HashMap<>();
+			map.put("start", start);
+			map.put("end", end);
+			list=session.selectList("order.orderreturn",map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		return list;
+	}
 }

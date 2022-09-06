@@ -112,6 +112,23 @@ background: #f9f9f9;
 .tot_price, .num{
 display: inline;
 }
+.butt{
+border: 1px solid #222;
+padding-left: 7px;
+padding-top: 3px;
+padding-bottom:3px;
+padding-right: 7px;
+border-radius: 3px;}
+.butt2{
+text-align: center;
+padding: 7px;
+width: 130px;
+margin: 10px;
+background: white;
+color: #222;
+font-weight: bold;
+border: 2px solid #222;
+border-radius: 5px;}
 </style>
 <script type="text/javascript">
 $(function(){
@@ -276,7 +293,7 @@ function numdown(down, price){
     <fmt:formatNumber type="number" maxFractionDigits="3" value="${like.sale_price}"/>" size="9">원</td>
     <td >
     
-    <button onclick="showmodal(${vs.index})">주문하기</button>
+    <button class="butt" onclick="showmodal(${vs.index})">주문하기</button>
     <!-- 모달창 -->
     <div id="modalid${vs.index }" class="modal">
   	<div class="modal_content">
@@ -322,7 +339,7 @@ function numdown(down, price){
     
     </td>
     </tr><tr>
-    <td class="b w"><input type="button" value="삭제" id="delete_${like.cartid}_btn" data-cartid="${like.cartid}"></td>
+    <td class="b w"><input type="button"  class="butt" value="삭제" id="delete_${like.cartid}_btn" data-cartid="${like.cartid}"></td>
     </tr>
     <script>
     $("#delete_${like.cartid}_btn").click(function () {
@@ -343,8 +360,10 @@ function numdown(down, price){
     </c:forEach>
     </table>
    	 <input type="hidden" id="totalprice" size="6">
-   	<input type="button" value="전체상품주문" onclick="orderitem('all')">
-   	<input type="button" value="선택상품주문" onclick="orderitem()">
-   	<br><input type="button" value="찜목록 비우기" onclick="deleteAllwish()">
+   	 <div align="center" style="margin-top: 30px;">
+   	<input type="button" class="butt2"value="전체상품주문" onclick="orderitem('all')">
+   	<input type="button" class="butt2"value="선택상품주문" onclick="orderitem()">
+   	</div>
+   	<div align="right"><input type="button"class="butt"value="찜목록 비우기" onclick="deleteAllwish()"></div>
 </body>
 </html>

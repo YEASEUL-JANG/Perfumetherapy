@@ -15,13 +15,25 @@
 <script type="text/javascript">
 $(function(){
 	if(${sessionScope.userid != null}){//세션아이디가 있으면
+		if(${sessionScope.userid == 'admin'}){
+			$("#adminli").show();
+			$("#loginli").hide();
+			$("#joinli").hide();
+			$("#logoutli").show();
+			$("#cartli").hide();
+			$("#orderli").hide();
+			$("#mypageli").hide();
+		}else{
+		$("#adminli").hide();
 	    $("#loginli").hide();
 		$("#joinli").hide();
 		$("#logoutli").show();
+		}
 	}else{//세션아이디가 없으면
 		$("#loginli").show();
 		$("#joinli").show();
 		$("#logoutli").hide();
+		$("#adminli").hide();
 	}
 	cartnum();
 });
@@ -97,12 +109,13 @@ function mypage(){//마이페이지 클릭 시
                         <li class="nav-item dropdown">
                          <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i></a>
                           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li id="adminli"><a class="dropdown-item" href="${path }/myweb/admin.jsp">관리자페이지</a></li>
                             <li id="loginli"><a class="dropdown-item" href="${path }/myweb/login.jsp">로그인</a></li>
                             <li id="joinli"><a class="dropdown-item" href="${path }/myweb/join.jsp">회원가입</a></li>
                             <li id="logoutli"><a class="dropdown-item" href="#" onclick="location.href='${path}/user_servlet/logout.do'">로그아웃</a></li>
-                            <li><a class="dropdown-item" href="${path }/myweb/cart.jsp">장바구니</a></li>
-                            <li><a class="dropdown-item" href="${path }/myweb/orderlist.jsp">주문조회</a></li>
-                            <li><a class="dropdown-item" href="${path }/myweb/mypage.jsp">마이페이지</a></li>
+                            <li id="cartli"><a class="dropdown-item" href="${path }/myweb/cart.jsp">장바구니</a></li>
+                            <li id="orderli"><a class="dropdown-item" href="${path }/myweb/orderlist.jsp">주문조회</a></li>
+                            <li id="mypageli"><a class="dropdown-item" href="${path }/myweb/mypage.jsp">마이페이지</a></li>
                        	  </ul>
                    		 </li>
                     </ul>

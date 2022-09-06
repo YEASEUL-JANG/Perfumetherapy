@@ -22,7 +22,7 @@ function qna(){
 		}
 	});
 }
-function list(page){
+function table3(page){
 	$.ajax({
 		type : "post",
 		url : "${path}/qna_servlet/qnalist.do",

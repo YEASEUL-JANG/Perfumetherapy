@@ -174,7 +174,6 @@ function review(index){
     <th class="a ">배송구분</th>
     <th class="a ">배송비</th>
     <th class="a ">합계</th>
-    <th class="a ">후기쓰기</th>
     </tr>
 	<c:forEach var="cart" items="${list }" varStatus="vs">
     <!--hidden data  -->

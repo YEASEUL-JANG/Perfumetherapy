@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+  <%@ include file="session_check.jsp" %>
 <html>
  <head>
 <meta charset="utf-8" />
@@ -11,7 +12,7 @@
 <script src="https://kit.fontawesome.com/fdfee59c02.js" crossorigin="anonymous"></script>
 <%@ include file="../include/header.jsp" %>
 <!-- Favicon-->
-<link rel="icon" type="image/x-icon" href="../Resources/assets/favicon.ico" />
+<link rel="icon" type="image/x-icon" href="../Resources/assets/favicon.ico.png" />
 <link href="../Resources/css/admin.styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
@@ -28,7 +29,7 @@ window.addEventListener('DOMContentLoaded', event => {
 
 });
 $(function(){
-	table('1');
+	dashboard();
 });
 function table(curPage){
 	var searchkey=$("#searchkey").val();
@@ -45,9 +46,23 @@ function table(curPage){
 		success: function(result){
 			 $("#insert").children().remove();
 			$("#insert").html(result);
+			$("#insert2").html("");
 		}
 	});
 	
+}
+function table2(page){
+	$.ajax({
+		type : "post",
+		url : "${path}/order_servlet/adminOrder.do",
+		data : {curPage:page},
+		success : function(res){
+			$("#insert").children().remove();
+			$("#insert").html(res);
+			$("#view").html("");
+			$("#insert2").html("");
+		}
+	});
 }
 function gb_search(){
 	var formdata= $("#form1").serialize();
@@ -59,6 +74,7 @@ function gb_search(){
 		success: function(result){
 			 $("#insert").children().remove();
 			$("#insert").html(result);
+			$("#insert2").html("");
 		}
 	});
 }
@@ -70,6 +86,7 @@ function add_item(){
 		success: function(result){
 			 $("#insert").children().remove();
 			$("#insert").html(result);
+			$("#insert2").html("");
 		}
 	});
 }
@@ -83,6 +100,7 @@ function view(idx){
 		success: function(result){
 			 $("#insert").children().remove();
 			$("#insert").html(result);
+			$("#insert2").html("");
 		}
 	});
 }
@@ -94,35 +112,149 @@ function allorder(){
 			$("#insert").children().remove();
 			$("#insert").html(res);
 			$("#view").html("");
+			$("#insert2").html("");
 		}
 	});
 }
-
-
+function Orderstate(index){
+	var i = index;
+	var orderid = $("#hid_orderid"+i).val();
+	var orderstate = $("#order_state"+i).val();
+	$.ajax({
+		type : "post",
+		data : {orderid : orderid,
+			delivery:orderstate},
+		url : "${path}/order_servlet/changeState.do",
+		success : function(){
+			alert("["+orderid+"] 주문건이 "+orderstate+"으로 변경되었습니다.");
+			allorder();
+		}
+	});
+}
+function orderback(){
+	$.ajax({
+		type : "post",
+		url : "${path}/order_servlet/adminOrderBack.do",
+		success : function(res){
+			$("#insert2").html("");
+			$("#insert").children().remove();
+			$("#insert").html(res);
+			$("#view").html("");
+		}
+	});
+}
+function orderreturn(){
+	$.ajax({
+		type : "post",
+		url : "${path}/order_servlet/adminOrderReturn.do",
+		success : function(res){
+			$("#insert2").html("");
+			$("#insert").children().remove();
+			$("#insert").html(res);
+			$("#view").html("");
+		}
+	});
+}
+function reviewlist(){
+	$.ajax({
+		type : "post",
+		url : "${path}/review_servlet/allReview.do",
+		success : function(res){
+			$("#insert").html("");
+			$("#insert2").html(res);
+		}
+	});
+}
+function list(page){
+	$.ajax({
+		type : "post",
+		url : "${path}/review_servlet/allReview.do",
+		data : {curPage:page},
+		success : function(res){
+			$("#insert2").children().remove();
+			$("#insert2").html(res);
+		}
+	});
+}
+function qna(){
+	$.ajax({
+		type : "post",
+		url : "${path}/qna_servlet/qnalist.do",
+		success : function(res){
+			$("#insert").html("");
+			$("#insert2").children().remove();
+			$("#insert2").html(res);
+			
+		}
+	});
+}
+function table3(page){
+	$.ajax({
+		type : "post",
+		url : "${path}/qna_servlet/qnalist.do",
+		data : {curPage:page},
+		success : function(res){
+			$("#insert").html("");
+			$("#insert2").children().remove();
+			$("#insert2").html(res);
+		}
+	});
+}
+function category(){
+	var category= $("#category_option").val();
+	$.ajax({
+		type : "post",
+		data : {category:category},
+		url : "${path}/qna_servlet/qnacategory.do",
+		success : function(res){
+			$("#insert2").html(res);
+			$("#category_option").val(category).prop("selected",true);
+		}
+	});
+}
+function dashboard(){
+	$.ajax({
+		type : "post",
+		url : "${path}/item_servlet/dashboard.do",
+		success : function(res){
+			$("#insert").html(res);
+			$("#insert2").html("");
+			
+		}
+	});
+}
+function table4(page){
+	$.ajax({
+		type : "post",
+		url : "${path}/item_servlet/dashboard.do",
+		data : {curPage:page},
+		success : function(res){
+			$("#insert").html("");
+			$("#insert2").html(res);
+		}
+	});
+}
 </script>
+<style type="text/css">
+#ulbar li:link{text-decoration: none; color: #6E6E6E;}
+#ulbar li:visited{text-decoration: none; color: #6E6E6E;}
+#ulbar li:hover{text-decoration: none; color: #6E6E6E;}
+</style>
 </head>
  <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand sb-sidenav-light">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
+            <a class="navbar-brand ps-3" href="#" onclick="dashboard()">Perfumetherapy</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-            <!-- Navbar Search-->
-            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-                </div>
-            </form>
             <!-- Navbar-->
-            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4" id="ulbar">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
-                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><a class="dropdown-item" href="${path }/myweb/index.jsp">mall</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="location.href='${path}/user_servlet/logout.do'">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -133,7 +265,7 @@ function allorder(){
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="index.html">
+                            <a class="nav-link" href="#" onclick="dashboard()">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
@@ -163,8 +295,8 @@ function allorder(){
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
                                             <a class="nav-link" href="#" onclick="allorder()">전체주문현황</a>
-                                            <a class="nav-link" href="register.html">주문취소</a>
-                                            <a class="nav-link" href="password.html">반품신청</a>
+                                            <a class="nav-link" href="#" onclick="orderback()">주문취소</a>
+                                            <a class="nav-link" href="#" onclick="orderreturn()">반품신청</a>
                                         </nav>
                                     </div>
                                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
@@ -173,21 +305,12 @@ function allorder(){
                                     </a>
                                     <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="401.html">고객리뷰</a>
-                                            <a class="nav-link" href="404.html">QnA게시판</a>
+                                            <a class="nav-link" href="#" onclick="reviewlist()">고객리뷰</a>
+                                            <a class="nav-link" href="#" onclick="qna()">QnA게시판</a>
                                         </nav>
                                     </div>
                                 </nav>
                             </div>
-                            <div class="sb-sidenav-menu-heading">Addons</div>
-                            <a class="nav-link" href="charts.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Charts
-                            </a>
-                            <a class="nav-link" href="tables.html">
-                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                Tables
-                            </a>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
@@ -198,10 +321,16 @@ function allorder(){
             </div>
           
             
-           <div id="layoutSidenav_content">
+           <div id="layoutSidenav_content" style="display: block;">
           <div id="insert" style="width:100%;"></div>
+          <div id="insert2" style="width:100%; padding: 30px;"></div>
       </div><!--내용페이지  -->
    </div><!-- 전체페이지 -->
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+ <script src="../Resources/js/scripts.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="../Resources/assets/demo/chart-area-demo.js"></script>
+        <script src="../Resources/assets/demo/chart-bar-demo.js"></script>
+        <script src="../Resources/assets/demo/chart-pie-demo.js"></script>      
 </body>
 </html>

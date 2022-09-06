@@ -14,7 +14,7 @@
 $(function(){
 	var count = Number($("#count").val());
 	console.log("count: "+count);
-	 for(let i = 0; i<count+1; i++){
+	 for(let i = 0; i<count; i++){
 		var num = $("#num"+i).val();
 		console.log(num);
 		  $.ajax({

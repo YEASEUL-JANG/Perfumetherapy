@@ -27,7 +27,7 @@ $(function(){
 	var hid_index = $("#hid_index").val();
 	//유저아이디 가져오기
 	var count = Number($("#count2").val());
-	for(let i = 0; i<count+1; i++){
+	for(let i = 0; i<count; i++){
 		var num = $("#num2"+i).val();
 		  $.ajax({
 				type : "post",
@@ -189,9 +189,9 @@ margin: 0px;
 padding: 12px;
 color: white;
 }
-#commenttable{
+.commenttable{
 width: 100%; border-radius: 10px; background:#f7f9f8; padding: 10px; margin-top: 10px;}
-#btnSearch{
+#btnSearch, #btncomment{
 padding: 5px;
 width: 50px;
 color: #222;
@@ -204,6 +204,7 @@ border: 1px solid #222;
 </style>
 </head>
 <body>
+ <main>
 <div style="font-size: 20px;">REVIEW | 전체 리뷰</div>
 <input type="hidden" value="${count }" id="count2">
 <table id="myreview">
@@ -275,10 +276,10 @@ style="width:100px; height:100px; border-radius:10px; cursor: pointer;"></c:if>
 <div class="comment" id="comment${vs.index }">
 <!-- 댓글 쓰기 폼 -->
 <div id="commentList${vs.index }"></div>
-<table id="commenttable">
+<table class="commenttable">
  <tr>
   <td><input id="nickname${vs.index }" placeholder="닉네임">
-  <button onclick="insertcomment('${re.num}','${vs.index }')" type="button" style="width:50px;">확인</button></td>
+  <button onclick="insertcomment('${re.num}','${vs.index }')" type="button" id="btncomment">확인</button></td>
  </tr>
  <tr>
   <td><textarea rows="3" cols="120" placeholder="내용을 입력하세요" 
@@ -322,5 +323,6 @@ style="width:100px; height:100px; border-radius:10px; cursor: pointer;"></c:if>
   </td>
  </tr>
 </table>
+</main>
 </body>
 </html>

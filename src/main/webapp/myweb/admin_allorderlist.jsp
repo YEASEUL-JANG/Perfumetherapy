@@ -15,6 +15,14 @@
 <link rel="icon" type="image/x-icon" href="../Resources/assets/favicon.ico" />
 <link href="../Resources/css/admin.styles.css" rel="stylesheet" />
 <script type="text/javascript">
+$(function(){
+	var count = "${count}";
+	for(let i = 0; i<count; i++){
+		var state = $("#hid_state"+i).val();
+		console.log(i+" : "+state);
+		$("#order_state"+i).val(state).prop("selected",true);
+	}
+});
 function viewdetail(orderid){
 	 const key = orderid;
 	$.ajax({
@@ -26,7 +34,6 @@ function viewdetail(orderid){
 		}
 	});
 }  
-
 </script>
 <style type="text/css">
 #ordertable1{
@@ -53,7 +60,7 @@ padding: 15px;}
 <body>
  <main>
      <div class="container-fluid px-4">
-         <h2 class="mt-4 fw-bold">전체 상품조회</h2>
+         <h2 class="mt-4 fw-bold">전체 주문조회</h2>
          <div class="card mb-4 mt-4">
              <div class="card-body">
                   * 가장 최근 주문건부터 보여집니다.
@@ -84,26 +91,34 @@ padding: 15px;}
     </colgroup>
     <tr>
     <th >주문일자[주문번호]</th>
+    <th >아이디</th>
     <th >주문일자</th>
     <th >결제 금액</th>
     <th >주문상태</th>
-    <th >취소/반품</th>
     </tr>
-    <c:forEach var="o" items="${list }">
+    <c:forEach var="o" items="${list }" varStatus="vs">
     <tr>
-    <td><a href="#" onclick="viewdetail('${o.orderid}')" >${o.orderid}</a></td>
+    <td><a href="#" onclick="viewdetail('${o.orderid}'); return false;" >${o.orderid}</a></td>
+    <td>${o.userid }</td>
     <td>${o.order_date}</td>
     <td><fmt:formatNumber type="number" maxFractionDigits="3" value="${o.sum_price }"/>원</td>
-    <td class="deliveryState">${o.delivery }</td>
     <td>
-    <select id="cancelOrder" name = "cancelOrder" onchange="cancelOrder('${o.delivery }','${o.orderid }')">
-     <option value="" selected>==선택==</option>
-     <option value="return">반품신청</option>
-     <option value="cancel">취소요청</option>
+    <input type="hidden" id="hid_state${vs.index }" value="${o.delivery }"> 
+    <select id = "order_state${vs.index }" onchange="Orderstate('${vs.index }')">
+     <option value="" >==선택==</option>
+     <option value="상품 준비중">상품 준비중</option>
+     <option value="배송 준비중">배송 준비중</option>
+     <option value="배송중">배송중</option>
+     <option value="배송 완료">배송 완료</option>
+     <option value="주문 취소중">주문 취소중</option>
+     <option value="주문취소 완료">주문취소 완료</option>
+     <option value="반품 요청중">반품 요청중</option>
+     <option value="반품 완료">반품 완료</option>
     </select>
     </td>
 	</tr>
-    <input type ="hidden" id="hid_orderid" value="${o.orderid}">
+    <input type ="hidden"  id="hid_orderid${vs.index }" value="${o.orderid}">
+    <input type="hidden" id="hid_delivery${vs.index }" name="delivery" >
 	</c:forEach>
     
   

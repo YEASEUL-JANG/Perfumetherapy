@@ -101,6 +101,25 @@ color: #A4A4A4;}
 font-size: 25px;
 padding: 25px;
 }
+.butt{
+color: #222;
+background: #FAFAFA;
+border: 1px solid  #222;
+padding-left: 7px;
+padding-top: 3px;
+padding-bottom:3px;
+padding-right: 7px;
+border-radius: 3px;}
+.butt2{
+text-align: center;
+padding: 7px;
+width: 130px;
+margin: 10px;
+background: white;
+color: #222;
+font-weight: bold;
+border: 2px solid #222;
+border-radius: 5px;}
 </style>
 <script type="text/javascript">
 $(function(){
@@ -244,9 +263,9 @@ function goorder(id){
     <td class="b w" rowspan="2">무료</td>
     <td class="b p" rowspan="2"><input type="text" id="total" value="
     <fmt:formatNumber type="number" maxFractionDigits="3" value="${cart.sale_price * cart.num }"/>" size="9">원</td>
-    <td ><input type="button" value="주문하기" onclick="goorder('${cart.cartid}')"></td>
+    <td ><input type="button"class="butt" value="주문하기" onclick="goorder('${cart.cartid}')"></td>
     </tr><tr>
-    <td class="b w"><input type="button" value="삭제" id="delete_${cart.cartid}_btn" data-cartid="${cart.cartid}"></td>
+    <td class="b w"><input type="button" class="butt"value="삭제" id="delete_${cart.cartid}_btn" data-cartid="${cart.cartid}"></td>
     </tr>
     <script>
     $("#delete_${cart.cartid}_btn").click(function () {
@@ -284,8 +303,9 @@ function goorder(id){
    	 <td class="bb total_sum2"></td>
    	 </tr>
    	</table>
-   	<input type="button" value="전체상품주문" onclick="orderitem('all')">
-   	<input type="button" value="선택상품주문" onclick="orderitem()">
-   	<br><input type="button" value="장바구니 비우기" onclick="deleteallcart()">
+   	<div align="center" style="margin-top: 20px;">
+   	<input type="button" class="butt2" value="전체상품주문" onclick="orderitem('all')">
+   	<input type="button" class="butt2" value="선택상품주문" onclick="orderitem()"></div>
+   	<div align="right" ><input type="button" class="butt" value="장바구니 비우기" onclick="deleteallcart()"></div>
 </body>
 </html>

@@ -192,4 +192,46 @@
   where orderid=#{orderid}
  </select>
  
+  <update id="changeState">
+ update p_order 
+ set delivery = #{delivery}
+ where orderid = #{orderid} 
+ </update>
+ 
+ <select id="backcount" resultType="int">
+  select count(*) from p_order
+  where delivery in('주문 취소중','주문취소 완료')
+ </select>
+ 
+ <select id="returncount" resultType="int">
+  select count(*) from p_order
+  where delivery in('반품 요청중','반품 완료')
+ </select>
+ 
+ <select id="orderback" resultType="order.dto.OrderDTO">
+   select * from (
+	  select A.*, rownum as rn 
+	  from (
+	      select *
+	      from p_order
+	      where delivery in('주문 취소중','주문취소 완료')
+	      order by orderid desc
+	  ) A
+	)
+	where rn between #{start} and #{end} 
+ </select>
+ 
+ <select id="orderreturn" resultType="order.dto.OrderDTO">
+   select * from (
+	  select A.*, rownum as rn 
+	  from (
+	      select *
+	      from p_order
+	      where delivery in('반품 요청중','반품 완료')
+	      order by orderid desc
+	  ) A
+	)
+	where rn between #{start} and #{end} 
+ </select>
+ 
  </mapper>

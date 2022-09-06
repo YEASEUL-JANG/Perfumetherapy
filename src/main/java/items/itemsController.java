@@ -252,8 +252,29 @@ public class itemsController extends HttpServlet {
 					rd.forward(request, response);
 					
 		     
+		}else if(uri.indexOf("dashboard.do") != -1 ){
+			  String searchkey="iname";
+			  String search="";
+			  //초기값 설정
+			  int count = 0;
+			  		count=dao.itemCount();
+					int curPage=1;
+					if(request.getParameter("curPage") != null) {
+						curPage = Integer.parseInt(request.getParameter("curPage"));
+					}
+					Pager pager=new Pager(count, curPage);
+					int start=pager.getPageBegin();
+					int end=pager.getPageEnd();
+					List<itemsDTO> list=dao.itemTable(start,end,searchkey, search);
+					request.setAttribute("list", list);
+					request.setAttribute("page", pager);
+					request.setAttribute("count", count);
+					request.setAttribute("searchkey", searchkey);
+					request.setAttribute("search", search);
+					String page="/myweb/admin_dashboard.jsp";
+					RequestDispatcher rd=request.getRequestDispatcher(page);
+					rd.forward(request, response);
 		}
-		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
