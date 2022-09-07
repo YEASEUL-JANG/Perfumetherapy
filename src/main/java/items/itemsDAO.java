@@ -262,4 +262,26 @@ public class itemsDAO {
 		}
 		return list;
 	}
+	public List<itemsDTO> bestlist(String category, String order) {
+		SqlSession session = MybatisManager.getInstance().openSession();
+		List<itemsDTO> list = null;
+		try {
+			Map<String,Object> map=new HashMap<>();
+				map.put("category", category);
+				map.put("order", order);
+		      list=session.selectList("items.bestlist",map);
+			for(itemsDTO dto : list) {//for문으로 처리
+				String memo= dto.getMemo(); 
+				memo=memo.replace("  ","&nbsp;&nbsp;");
+				 memo=memo.replace("<", "&lt"); 
+				 memo=memo.replace(">", "&gt");
+				 dto.setMemo(memo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(session != null) session.close();
+		}
+		return list;
+	}
 }

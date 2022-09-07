@@ -27,6 +27,12 @@ $(function(){
 	      },
 	      fCreator: "createSEditor2"
 	      });
+	   
+	   /* 관리자 접속확인 */
+		 var id = $("#adminid").val();
+		 if(id=='admin'){
+			 $("#writer").val("관리자");
+		 }
 });
 function updateReply(){
 	oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
@@ -79,6 +85,8 @@ border-bottom: 1px solid #e8e8e8;}
   <!-- content -->
   <section class="py-5">
   <div class="container px-4 px-lg-5 mt-5">
+  <!-- 히든 유저아이디 -->
+  <input type="hidden" value="${sessionScope.userid }" id="adminid">
    <div class="justify-content-center flex-sm-column d-sm-flex align-items-center">
    <h2 class="fw-bold" style="font-size: 40px;">Q&A</h2>
    <h2 class="fw-light " style="font-size: 18px; margin-top: 20px;">상품에 관한 Q&A 게시판입니다</h2></div>

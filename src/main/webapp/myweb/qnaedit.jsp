@@ -30,6 +30,7 @@ $(function(){
 	   
 	 let category = "${dto.category}";
 	 $("#category").val(category).prop("selected",true);
+	 
 });
 function updateQna(){
 	oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
@@ -94,6 +95,10 @@ border-radius: 10px;}
 #write td{
 padding: 10px;
 border-bottom: 1px solid #e8e8e8;}
+.butt{
+border: 1px solid #222;
+border-radius: 5px;
+padding: 4px 8px;}
 </style>
 </head>
 <body>
@@ -106,7 +111,8 @@ border-bottom: 1px solid #e8e8e8;}
   <div class="container px-4 px-lg-5 mt-5">
    <div class="justify-content-center flex-sm-column d-sm-flex align-items-center">
    <h2 class="fw-bold" style="font-size: 40px;">Q&A</h2>
-   <h2 class="fw-light " style="font-size: 18px; margin-top: 20px;">상품에 관한 Q&A 게시판입니다</h2></div>
+   <h2 class="fw-light " style="font-size: 18px; margin-top: 20px;">상품에 관한 Q&A 게시판입니다</h2>
+   </div>
     <!-- 게시판 글쓰기 -->
     <form name="form1"  enctype="multipart/form-data" method="post">
     <table id="write" style="width:100%;">
@@ -157,11 +163,11 @@ border-bottom: 1px solid #e8e8e8;}
     </table>
      </form>
      <div align="right" style="margin-top:20px;">
-     <button class="buttonstyle" onclick="location.href='${path }/myweb/qna.jsp';">목록</button>
+     <button class="butt"  onclick="location.href='${path }/myweb/qna.jsp';">목록</button>
      </div>
      <div align="center" style="margin-top:20px;">
-     <button id="update" onclick="updateQna()">수정하기</button>
-     <button id="delete" onclick="deleteQna('${dto.num}')">삭제하기</button>
+     <button id="update" class="butt" onclick="updateQna()">수정하기</button>
+     <button id="delete" class="butt" onclick="deleteQna('${dto.num}')">삭제하기</button>
     </div>
     </div>
     </section>

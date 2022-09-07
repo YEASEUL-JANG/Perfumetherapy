@@ -290,7 +290,7 @@ function numdown(down, price){
     <td class="b w" rowspan="2">기본배송</td>
     <td class="b w" rowspan="2">무료</td>
     <td class="b p" rowspan="2"><input type="text" id="total" value="
-    <fmt:formatNumber type="number" maxFractionDigits="3" value="${like.sale_price}"/>" size="9">원</td>
+    <fmt:formatNumber type="number" maxFractionDigits="3" value="${like.sale_price}"/>" size="3">원</td>
     <td >
     
     <button class="butt" onclick="showmodal(${vs.index})">주문하기</button>

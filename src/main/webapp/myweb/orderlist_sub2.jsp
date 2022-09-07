@@ -191,7 +191,7 @@ function review(index){
     <tr >
     <th class="a"></th>
     <th class="a ">이미지</th>
-    <th class="a col-4">상품정보</th>
+    <th class="a col-3">상품정보</th>
     <th class="a ">판매가</th>
     <th class="a ">수량</th>
     <th class="a ">적립금</th>
@@ -209,13 +209,13 @@ function review(index){
     
     <td class="b "><img src="image/${cart.picture }" style="width: 70px;height: 70px;"></td>
     <td class="b ">${cart.iname }</td>
-    <td class="b " ><fmt:formatNumber type="number" maxFractionDigits="3" value="${cart.sale_price }"/>원</td>
-    <td class="b " ><input type="text" id="num" style="max-width: 1rem" value="${cart.num }" ></td>
+    <td class="b " style="width: 120px;"><fmt:formatNumber type="number" maxFractionDigits="3" value="${cart.sale_price }"/>원</td>
+    <td class="b " style="width: 80px;"><input type="text" id="num" style="max-width: 1rem" value="${cart.num }" ></td>
     <td class="b " ><fmt:formatNumber type="number" maxFractionDigits="3" value="${cart.point }"/>원</td>
     <td class="b " >기본배송</td>
-    <td class="b ">무료</td>
+    <td class="b" style="width: 80px;">무료</td>
     <td class="b p"><input type="text" id="total" value="
-    <fmt:formatNumber type="number" maxFractionDigits="3" value="${cart.sale_price * cart.num }"/>" size="9">원</td>
+    <fmt:formatNumber type="number" maxFractionDigits="3" value="${cart.sale_price * cart.num }"/>" size="3">원</td>
     <td class="b p">
     
     <button class="butt" onclick="showmodal(${vs.index})">후기 남기기</button>

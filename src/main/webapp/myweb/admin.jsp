@@ -8,6 +8,10 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>관리자 페이지</title>
+<!-- 폰트 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
 <script src="../include/jquery-3.3.1.min.js"></script>
 <script src="https://kit.fontawesome.com/fdfee59c02.js" crossorigin="anonymous"></script>
 <%@ include file="../include/header.jsp" %>
@@ -16,7 +20,6 @@
 <link href="../Resources/css/admin.styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 <script type="text/javascript">
-
 window.addEventListener('DOMContentLoaded', event => {
     const sidebarToggle = document.body.querySelector('#sidebarToggle');
     if (sidebarToggle) {
@@ -236,9 +239,13 @@ function table4(page){
 }
 </script>
 <style type="text/css">
-#ulbar li:link{text-decoration: none; color: #6E6E6E;}
-#ulbar li:visited{text-decoration: none; color: #6E6E6E;}
-#ulbar li:hover{text-decoration: none; color: #6E6E6E;}
+*{font-family: 'Noto Serif KR', serif;}
+.nav-link:link{text-decoration: none; color: #6E6E6E;}
+.nav-link:visited{text-decoration: none; color: #6E6E6E;}
+.nav-link:hover{text-decoration: none; color: #6E6E6E;}
+.btnlink:link{text-decoration: none; color: #6E6E6E;}
+.btnlink:visited{text-decoration: none; color: #6E6E6E;}
+.btnlink:hover{text-decoration: none; color: #6E6E6E;}
 </style>
 </head>
  <body class="sb-nav-fixed">
@@ -246,12 +253,14 @@ function table4(page){
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" href="#" onclick="dashboard()">Perfumetherapy</a>
             <!-- Sidebar Toggle-->
-            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            <button class="btn btnlink btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!" >
+            <i class="fas fa-bars"></i></button>
             <!-- Navbar-->
-            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4" id="ulbar">
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <a class="nav-link dropdown-toggle" class="menu" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" >
                         <li><a class="dropdown-item" href="${path }/myweb/index.jsp">mall</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href="#" onclick="location.href='${path}/user_servlet/logout.do'">Logout</a></li>

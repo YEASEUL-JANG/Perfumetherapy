@@ -262,7 +262,7 @@ function goorder(id){
     <td class="b w" rowspan="2">기본배송</td>
     <td class="b w" rowspan="2">무료</td>
     <td class="b p" rowspan="2"><input type="text" id="total" value="
-    <fmt:formatNumber type="number" maxFractionDigits="3" value="${cart.sale_price * cart.num }"/>" size="9">원</td>
+    <fmt:formatNumber type="number" maxFractionDigits="3" value="${cart.sale_price * cart.num }"/>" size="3">원</td>
     <td ><input type="button"class="butt" value="주문하기" onclick="goorder('${cart.cartid}')"></td>
     </tr><tr>
     <td class="b w"><input type="button" class="butt"value="삭제" id="delete_${cart.cartid}_btn" data-cartid="${cart.cartid}"></td>
@@ -285,9 +285,9 @@ function goorder(id){
     </script>
     </c:forEach>
     <tr >
-    <td class="c" colspan="6"></td>
-    <td class="c" colspan="5">상품구매금액 <input class="total_sum" size="6">원
-    +배송비 0(무료) = 합계 : <input class="total_sum" id="total_price" size="6">원</td>
+    <td class="c" colspan="5"></td>
+    <td class="c" colspan="6">상품구매금액 <input class="total_sum" size="3">원
+    +배송비 0(무료) = 합계 : <input class="total_sum" id="total_price" size="3">원</td>
     </tr>
     </table>
    	

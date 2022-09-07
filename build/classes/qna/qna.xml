@@ -44,12 +44,12 @@
  </select>
   
   <insert id="insert">
-    insert into p_qna(num,category,writer,title,content,filename,filesize,passwd,ref,re_step,re_level) 
+    insert into p_qna(num,category,writer,title,content,filename,filesize,passwd,ref,re_step,re_level,picture) 
 values
 ( (select nvl(max(num)+1,1) from p_qna),#{category},
  #{writer},#{title},
  #{content},#{filename},#{filesize},#{passwd},
- (select nvl(max(num)+1,1) from p_qna) ,1,0)
+ (select nvl(max(num)+1,1) from p_qna) ,1,0,#{picture})
   </insert>
   
    <!-- 조회수 증가 처리 -->
@@ -92,12 +92,12 @@ values
  <insert id="reply">
   insert into p_qna  
 		  (num,writer,title,passwd,category,ref
-		  ,re_step,re_level,content,filename,filesize)
+		  ,re_step,re_level,content,filename,filesize,picture)
 		values
 		  ( (select nvl(max(num)+1,1) from p_qna)
 		    ,#{writer},#{title}, #{passwd}, #{category}
 		    , #{ref}, #{re_step}, #{re_level}
-		    , #{content}, #{filename}, #{filesize} )	
+		    , #{content}, #{filename}, #{filesize}, #{picture} )	
  </insert>
   
  <update id="update">

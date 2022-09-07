@@ -11,6 +11,7 @@
   <result column="title" property="title"/>
   <result column="content" property="content"/>
   <result column="review_count" property="review_count"/>
+  <result column="comment_count" property="comment_count"/>
   <result column="image_file" property="image_file"/>
   <result column="reg_date" property="reg_date"/>
   <collection property="itemsDTO" resultMap="itemsDTO"/>
@@ -39,7 +40,8 @@
     select A.*, rownum as rn
     from (
         select a.num, a.username, a.age, a.gender, a.idx, a.review_star, a.title, a.content, a.review_count,
-		a.image_file, a.reg_date, b.iname, b.picture, b.volume
+		a.image_file, a.reg_date,(select count(*) from review_comment where board_num=a.num) comment_count,
+		 b.iname, b.picture, b.volume
 		from p_review a
 		full outer join p_items b
 		on (a.idx = b.idx)
@@ -49,8 +51,11 @@
  </select>
  
  <select id="searchList" resultMap="ReviewDTO">
- select a.num, a.username, a.age, a.gender, a.idx, a.review_star, a.title, a.content, a.review_count,
-		a.image_file, a.reg_date, b.iname, b.picture, b.volume
+ select a.num, a.username, a.age, a.gender, a.idx, a.review_star, a.title, 
+ a.content, a.review_count,
+		a.image_file, a.reg_date,
+		(select count(*) from review_comment where board_num=a.num) comment_count,
+		 b.iname, b.picture, b.volume
 		from p_review a
 		full outer join p_items b
 		on (a.idx = b.idx)
@@ -107,19 +112,20 @@
 	from (
     select A.*, rownum as rn
     from (
-        select a.num, a.username, a.age, a.gender, a.idx, a.review_star, a.title, a.content, a.review_count,
-		a.image_file, a.reg_date, b.iname, b.picture, b.volume
+        select a.num, a.username, a.age, a.gender, a.idx, a.review_star, a.title, a.content, 
+		a.image_file, a.reg_date,(select count(*) from review_comment where board_num=a.num) comment_count, b.iname, b.picture, b.volume
 		from p_review a
 		full outer join p_items b
 		on (a.idx = b.idx)
-		where a.num is not null
-        order by num desc) A
+        where a.num is not null
+		order by a.num desc) A
 	) where rn between #{start} and #{end}
  </select>
  
  <select id="searchAll" resultMap="ReviewDTO">
  select a.num, a.username, a.age, a.gender, a.idx, a.review_star, a.title, a.content, a.review_count,
-		a.image_file, a.reg_date, b.iname, b.picture, b.volume
+		a.image_file, a.reg_date,(select count(*) from review_comment where board_num=a.num) comment_count,
+		 b.iname, b.picture, b.volume
 		from p_review a
 		full outer join p_items b
 		on (a.idx = b.idx)
@@ -141,7 +147,8 @@
     select A.*, rownum as rn
     from (
         select a.num, a.username, a.age, a.gender, a.idx, a.review_star, a.title, a.content, a.review_count,
-		a.image_file, a.reg_date, b.iname, b.picture, b.volume
+		a.image_file, a.reg_date,(select count(*) from review_comment where board_num=a.num) comment_count,
+		 b.iname, b.picture, b.volume
 		from p_review a
 		full outer join p_items b
 		on (a.idx = b.idx)

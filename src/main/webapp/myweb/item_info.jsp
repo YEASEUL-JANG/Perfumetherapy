@@ -36,10 +36,6 @@ margin: 10px;
 <script type="text/javascript">
 function updateItem(){
 if(confirm("정보를 수정하시겠습니까?")){
- var fileCheck = document.getElementById("picture").value;
- if(!fileCheck){
-	 alert("사진을 첨부하세요."); return;
- }
  document.form1.action="${path}/item_servlet/update.do";
  document.form1.submit();
  alert("수정이 완료되었습니다.");

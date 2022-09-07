@@ -142,7 +142,13 @@ public class itemsController extends HttpServlet {
 			dto.setIdx(idx);
 			dto.setIname(iname);
 			dto.setO_price(o_price);
-			dto.setPicture(picture);
+			if(picture == null || picture.trim().equals("")) {
+				itemsDTO dto2 = dao.viewItem(idx);
+				String p_name = dto2.getPicture();
+				dto.setPicture(p_name);
+			}else {
+				dto.setPicture(picture);
+			}
 			dto.setSale_price(sale_price);
 			dto.setStock(stock);
 			dto.setPoint(point);
@@ -272,6 +278,15 @@ public class itemsController extends HttpServlet {
 					request.setAttribute("searchkey", searchkey);
 					request.setAttribute("search", search);
 					String page="/myweb/admin_dashboard.jsp";
+					RequestDispatcher rd=request.getRequestDispatcher(page);
+					rd.forward(request, response);
+		}else if(uri.indexOf("bestList.do") != -1 ){
+			String category=request.getParameter("category");
+			String order=request.getParameter("order");
+			System.out.println("category : "+category+", order : "+order);
+					List<itemsDTO> list=dao.bestlist(category,order);
+					request.setAttribute("list", list);
+					String page="/myweb/best_item.jsp";
 					RequestDispatcher rd=request.getRequestDispatcher(page);
 					rd.forward(request, response);
 		}

@@ -123,7 +123,7 @@ function likeit(idx){
        <br>
        
        
-        <p class="total-price fw-bold">총 상품금액 : <input name="total" id="total" name="total_price" value="${item.sale_price }" readonly size="6">원</p>
+        <p class="total-price fw-bold">총 상품금액 : <input name="total" id="total" name="total_price" value="${item.sale_price }" readonly size="3">원</p>
        
        <form name="orderform" method ="post" action="${path }/order_servlet/addcart.do">
        <input type="hidden" value="" name="yesorno" id="yesorno">

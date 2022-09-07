@@ -159,4 +159,21 @@
 	order by ${category} ${order}
  </select>
  
+ <select id="bestlist" resultType="items.itemsDTO">
+  select * from (
+	  select A.*, rownum as rn 
+	  from (
+	     select b.idx, b.iname,b.picture, b.sale_price, b.point, b.volume, b.o_price, b.memo, a.count
+        from (select idx,count(*) count from p_detailorder group by idx ) A left join p_items B
+        on A.idx = B.idx
+        ORDER BY A.COUNT DESC
+	  ) A
+	)
+	where rn between 1 and 12
+	order by ${category} ${order}
+ </select>
+ 
+ 
+ 
+ 
 </mapper>

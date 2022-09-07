@@ -117,6 +117,9 @@ margin: 8px;
 #category a:link{text-decoration: none; color:#959595; }
 #category a:visited{text-decoration: none; color:#959595; }
 #category a:hover{text-decoration: none; color:#836e53; font-weight: bold;}
+#result a:link{text-decoration: none; color:#959595; }
+#result a:visited{text-decoration: none; color:#959595; }
+#result a:hover{text-decoration: none; color:#836e53; font-weight: bold;}
 </style>
 </head>
 <body>

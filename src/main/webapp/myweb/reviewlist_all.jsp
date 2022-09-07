@@ -264,21 +264,23 @@ style="width:100px; height:100px; border-radius:10px; cursor: pointer;"></c:if>
 </tr>
 <tr>
 <td class="p">
-<a href="#" onclick="showcomment('${re.num}','${vs.index }'); return false;"> 댓글 <i class="fa-solid fa-angle-down"></i> 
+<a href="#" onclick="showcomment('${re.num}','${vs.index }'); return false;"> 댓글
 <c:if test="${re.comment_count > 0}">
 <span style="font-weight: bold;">(${re.comment_count})</span>
 </c:if>
+ <i class="fa-solid fa-angle-down"></i> 
+
 </a></td>
 </tr>
 <tr>
-<td colspan="2">
+<td colspan="3">
 
 <div class="comment" id="comment${vs.index }">
 <!-- 댓글 쓰기 폼 -->
 <div id="commentList${vs.index }"></div>
 <table class="commenttable">
  <tr>
-  <td><input id="nickname${vs.index }" placeholder="닉네임">
+  <td><input id="nickname${vs.index }" placeholder="닉네임" value="퍼퓸테라피">
   <button onclick="insertcomment('${re.num}','${vs.index }')" type="button" id="btncomment">확인</button></td>
  </tr>
  <tr>

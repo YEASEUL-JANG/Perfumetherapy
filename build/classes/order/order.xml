@@ -16,7 +16,7 @@
  
  <select id="orderlist" resultType="order.dto.OrderDTO">
   select * from p_order
-  where userid= #{userid} and delivery in('상품 준비중','배송중','배송 완료')
+  where userid= #{userid} and delivery in('상품 준비중','배송중','배송 완료','배송 준비중')
  </select>
  
  <select id="cancellist" resultType="order.dto.OrderDTO">

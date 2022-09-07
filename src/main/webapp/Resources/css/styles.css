@@ -62,11 +62,7 @@ overflow:hidden;
 	98% {left:200%;}
 	100% {left:0%;}
 }
-#header{
-	display: flex;
-    justify-content: center;
-    margin: 20px 0px;
-}
+
 #footer{
 	bottom:0;
 }

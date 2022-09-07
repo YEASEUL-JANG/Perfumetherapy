@@ -158,6 +158,15 @@ public class QnaDAO {
 		try {
 			session=MybatisManager.getInstance().openSession();
 			list=session.selectList("qna.commentList", num);
+			for(QnaCommentDTO dto : list) {
+				String content = dto.getContent();
+				content=content.replace("<", "&lt");
+				content=content.replace(">", "&gt");
+				content=content.replace("\n", "<br>");
+				content=content.replace("  ", "&nbsp;&nbsp;");
+				dto.setContent(content);
+			} 
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

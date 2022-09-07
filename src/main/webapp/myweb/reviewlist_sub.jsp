@@ -309,14 +309,15 @@ style="width:100px; height:100px; border-radius:10px; cursor: pointer;"></c:if>
 </tr>
 <tr>
 <td class="p">
-<a href="#" onclick="showcomment('${re.num}','${vs.index }'); return false;"> 댓글 <i class="fa-solid fa-angle-down"></i> 
+<a href="#" onclick="showcomment('${re.num}','${vs.index }'); return false;"> 댓글
 <c:if test="${re.comment_count > 0}">
 <span style="font-weight: bold;">(${re.comment_count})</span>
-</c:if>
+</c:if> <i class="fa-solid fa-angle-down"></i> 
+
 </a></td>
 </tr>
 <tr>
-<td colspan="2">
+<td colspan="3">
 
 <div class="comment" id="comment${vs.index }">
 <!-- 댓글 쓰기 폼 -->

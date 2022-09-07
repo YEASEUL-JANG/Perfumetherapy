@@ -211,6 +211,7 @@ public class reviewController extends HttpServlet {
 			String page="/myweb/comment_list.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
 			rd.forward(request, response);
+			
 		}else if(url.indexOf("comment_add.do") != -1) {
 			ReviewCommentDTO dto = new ReviewCommentDTO();
 			int board_num=Integer.parseInt(request.getParameter("board_num"));

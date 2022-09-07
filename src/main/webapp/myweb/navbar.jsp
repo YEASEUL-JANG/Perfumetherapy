@@ -7,11 +7,18 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>navbar</title>
+<!-- 폰트 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
 <script src="../include/jquery-3.3.1.min.js"></script>
 <script src="https://kit.fontawesome.com/fdfee59c02.js" crossorigin="anonymous"></script>
 <%@ include file="../include/header.jsp" %>
 <!-- Favicon-->
 <link href="../Resources/css/styles.css" rel="stylesheet" />
+<style type="text/css">
+*{font-family: 'Noto Serif KR', serif;}
+</style>
 <script type="text/javascript">
 $(function(){
 	if(${sessionScope.userid != null}){//세션아이디가 있으면
@@ -56,14 +63,20 @@ function mypage(){//마이페이지 클릭 시
 </script>
 </head>
     <!-- 메뉴바-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navbar">
         <div class="container px-4 px-lg-5">
             <a class="navbar-brand" href="index.jsp">Perfumetherapy</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="${path }/myweb/best20.jsp">Best 20</a></li>
+                    <li class="nav-item dropdown">
+                    <a class="nav-link active dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">About</a>
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="${path }/myweb/about.jsp">Brand Story</a></li>
+                        <li><a class="dropdown-item" href="${path }/myweb/map.jsp">오시는 길</a></li>
+                       </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="${path }/myweb/best12.jsp">Best 12</a></li>
                     <li class="nav-item"><a class="nav-link" href="${path }/myweb/list_new.jsp">9월 신상</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">For Her</a>

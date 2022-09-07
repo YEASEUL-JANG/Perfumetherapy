@@ -128,6 +128,7 @@ public class qnaController extends HttpServlet {
 			}
 			QnaDTO dto = new QnaDTO();
 			dto.setWriter(writer);
+			dto.setPicture(" ");
 			dto.setPasswd(passwd);
 			dto.setCategory(category);
 			dto.setContent(content);
@@ -216,7 +217,7 @@ public class qnaController extends HttpServlet {
 		}else if(url.indexOf("reply.do") != -1) {
 			int num=Integer.parseInt(request.getParameter("num"));
 			QnaDTO dto=dao.view(num);
-			dto.setContent(dto.getContent()+"\n===================게시물 내용===================\n\n");
+			dto.setContent("[ Original Message ]<p>"+dto.getContent());
 			request.setAttribute("dto", dto);
 			String page="/myweb/qnareply.jsp";
 			RequestDispatcher rd=request.getRequestDispatcher(page);
@@ -234,6 +235,7 @@ public class qnaController extends HttpServlet {
 			String passwd=request.getParameter("passwd");
 			dto.setWriter(writer);
 			dto.setCategory(category);
+			dto.setPicture(" ");
 			dto.setTitle(title);
 			dto.setContent(content);
 			dto.setPasswd(passwd);
