@@ -165,10 +165,10 @@ function check(){
                      <option value="pink" class="c-woman">플로럴|화이트플로럴</option>
                      <option value="white" class="c-woman">머스크|앰버</option>
                      <option value="gold" class="c-woman">스위트|바닐라</option>
+                     <option value="green" class="c-man">시트러스|그린</option>
                      <option value="brown" class="c-man">우디|베티버</option>
                      <option value="red" class="c-man">웜스파이시|통카빈</option>
                      <option value="white" class="c-man">머스크|앰버</option>
-                     <option value="purple" class="c-man">라벤더|워터리</option>
                   </select>
                  </td>
                   </tr>

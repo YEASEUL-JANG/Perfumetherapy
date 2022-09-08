@@ -171,9 +171,30 @@
 	)
 	where rn between 1 and 12
 	order by ${category} ${order}
+ </select> 
+ 
+ <select id="lookforCount" resultType="int">
+ 	select count(*)
+   	from p_items
+	 where big_category like #{big_category}
+ and category like #{category}
+ and ( iname like #{keyword} or brand like #{keyword} or memo like #{keyword})
+ and (sale_price between #{start_price} and #{end_price})
  </select>
  
- 
- 
- 
+ <select id="lookForItem" resultType="items.itemsDTO">
+  select * from (
+	  select A.*, rownum as rn 
+	  from (
+	     select *
+	     from p_items
+		 where big_category like #{big_category}
+ and category like #{category}
+ and ( iname like #{keyword} or brand like #{keyword} or memo like #{keyword})
+ and (sale_price between #{start_price} and #{end_price})
+	  ) A
+	)
+	where rn between #{start} and #{end}
+	order by ${cate} ${order}
+ </select>
 </mapper>

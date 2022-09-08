@@ -18,6 +18,47 @@
 <link href="../Resources/css/styles.css" rel="stylesheet" />
 <style type="text/css">
 *{font-family: 'Noto Serif KR', serif;}
+.modal{ 
+  position:absolute; width:100%; height:100%; 
+  background: rgba(255,255,255,0.8); top:0; left:0; 
+  display:none;
+}
+.close_modal{
+text-align: right; 
+cursor: pointer;
+font-size: 40px;
+color: #333;
+padding-right: 20px;
+font-weight: lighter;
+display: inline;
+float: right;
+}
+.modal_content{
+  width:600px; height:100px;
+  position:relative; top:50%; left:50%;
+  margin-top:-50px; margin-left:-300px;
+  text-align:center;
+  box-sizing:border-box; padding:0px;
+  line-height:23px; 
+}
+.modal_content #s_item{
+width: 80%;
+font-size: 25px;
+text-align: center;
+display: inline;
+background: none;
+border: none;
+padding: 15px;
+border-radius: 25px;}
+.modal_content a:link{text-decoration: none; color: #333; font-size: 30px;}
+.modal_content a:visited{text-decoration: none; color: #333; font-size: 30px;}
+.modal_content a:hover{text-decoration: none; color: #333; font-size: 30px;}
+#s_text{
+display: inline;
+background: #e8e8e8;
+font-size: 15px;
+border-radius: 25px;
+padding: 10px 20px;}
 </style>
 <script type="text/javascript">
 $(function(){
@@ -43,6 +84,11 @@ $(function(){
 		$("#adminli").hide();
 	}
 	cartnum();
+	
+	//모달창 닫기
+	$(".close_modal").click(function(){
+		  $(".modal").fadeOut();
+		 });
 });
 function cartnum(){
 	$.ajax({
@@ -60,12 +106,23 @@ function mypage(){//마이페이지 클릭 시
 		location.href="mypage.jsp";
 	}
 }
+function showmodal(){
+	$("#searchitem").fadeIn();
+}
+function itemsearch(){
+	 const item = $("#s_item").val();
+	 if(item == ''){
+		 alert("찾으시는 키워드를 입력하세요"); return;
+	 }
+	 location.href="${path}/lookforitem.jsp?keyword="+item;
+			 
+}
 </script>
 </head>
     <!-- 메뉴바-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navbar">
         <div class="container px-4 px-lg-5">
-            <a class="navbar-brand" href="index.jsp">Perfumetherapy</a>
+            <a class="navbar-brand" href="${path }/myweb/index.jsp">Perfumetherapy</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
@@ -119,6 +176,7 @@ function mypage(){//마이페이지 클릭 시
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item"><a class="nav-link" href="${path }/myweb/review.jsp">고객리뷰</a></li>
                         <li class="nav-item"><a class="nav-link" href="${path }/myweb/qna.jsp">Q&A</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" onclick="showmodal()"><i class="fa-solid fa-magnifying-glass"></i></a></li>
                         <li class="nav-item dropdown">
                          <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user"></i></a>
                           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -137,6 +195,18 @@ function mypage(){//마이페이지 클릭 시
                         Cart
                         <span class="badge bg-dark text-white ms-1 rounded-pill"><div id="cartnum"></div></span>
                     </button>
+                <!--전체검색 모달창 -->
+                <div id="searchitem" class="modal">
+				 <div class="close_modal">X</div>
+				 <div class="modal_content">
+				   <form name="s_item" action="${path }/item_servlet/lookingforItem.do" method="post">
+				    <input type="search" id="s_item" name="s_item"><a href="#" onclick="itemsearch()">
+				     <i class="fa-solid fa-magnifying-glass"></i></a>
+				    <hr><br>
+				    <div id="s_text" align="center"># 찾으시는 상품을 검색하세요.</div>
+				   </form>
+				 </div>
+				</div>
                 
                 <form name = "mypageform" method="post">
                  <input type="hidden" value="${sessionScope.userid }" id="id" name="id">

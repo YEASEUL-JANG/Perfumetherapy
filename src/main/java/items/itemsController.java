@@ -289,6 +289,55 @@ public class itemsController extends HttpServlet {
 					String page="/myweb/best_item.jsp";
 					RequestDispatcher rd=request.getRequestDispatcher(page);
 					rd.forward(request, response);
+					
+		}else if(uri.indexOf("lookingforItem.do") != -1 ){
+			String keyword = request.getParameter("keyword");
+			String category = request.getParameter("category");
+			String big_category = request.getParameter("big_category");
+			String cate = request.getParameter("cate");
+			String order = request.getParameter("order");
+			int start_price = Integer.parseInt(request.getParameter("start_price"));
+			int end_price = Integer.parseInt(request.getParameter("end_price"));
+			if(category == null||category.equals("n")||category.equals("all")) {
+				category = "";
+			}
+			if(big_category == null|| big_category.equals("n")|| big_category.equals("all")) {
+				big_category = "";
+			}
+			if(keyword == null) {
+				keyword = "";
+			}
+			System.out.println("keyword : "+keyword);
+			System.out.println("category : "+category);
+			System.out.println("big_category : "+big_category);
+			System.out.println("start_price : "+start_price);
+			System.out.println("end_price : "+end_price);
+			System.out.println("cate : "+cate);
+			System.out.println("order : "+order);
+			 int count = 0;
+		  		count=dao.lookforCount(keyword,category,big_category,
+		  				start_price,end_price);
+				int curPage=1;
+				if(request.getParameter("curPage") != null) {
+					curPage = Integer.parseInt(request.getParameter("curPage"));
+				}
+				Pager pager=new Pager(count, curPage);
+				int start=pager.getPageBegin();
+				int end=pager.getPageEnd();
+				List<itemsDTO> list=dao.lookForItem(start,end,
+						keyword, category, big_category,
+						start_price, end_price,cate, order);
+				request.setAttribute("list", list);
+				request.setAttribute("page", pager);
+				request.setAttribute("count", count);
+				request.setAttribute("keyword", keyword);
+				request.setAttribute("big_category", big_category);
+				request.setAttribute("category", category);
+				request.setAttribute("start_price", start_price);
+				request.setAttribute("end_price", end_price);
+				String page="/myweb/lookforitem_sub.jsp";
+				RequestDispatcher rd=request.getRequestDispatcher(page);
+				rd.forward(request, response);
 		}
 	}
 

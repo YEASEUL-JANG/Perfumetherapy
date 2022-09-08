@@ -284,4 +284,47 @@ public class itemsDAO {
 		}
 		return list;
 	}
+	public int lookforCount(String keyword, String category, String big_category,
+			int start_price, int end_price) {
+		SqlSession session=MybatisManager.getInstance().openSession();
+		Map<String,Object> map=new HashMap<>();
+		map.put("big_category","%"+big_category+"%");
+		map.put("keyword", "%"+keyword+"%");
+		map.put("category", "%"+category+"%");
+		map.put("start_price",start_price);
+		map.put("end_price", end_price);
+		int count=session.selectOne("items.lookforCount",map);
+		session.close();
+		return count;
+	}
+	public List<itemsDTO> lookForItem(int start, int end, String keyword, String category, String big_category,
+			int start_price, int end_price, String cate, String order) {
+		SqlSession session=MybatisManager.getInstance().openSession();
+		List<itemsDTO> list = null;
+		Map<String,Object> map=new HashMap<>();
+		map.put("start", start);
+		map.put("end", end);
+		map.put("big_category","%"+big_category+"%");
+		map.put("keyword", "%"+keyword+"%");
+		map.put("category", "%"+category+"%");
+		map.put("start_price",start_price);
+		map.put("end_price", end_price);
+		map.put("cate", cate);
+		map.put("order", order);
+		 list=session.selectList("items.lookForItem", map);
+		for(itemsDTO dto : list) {
+			String iname = dto.getIname();
+			String brand=dto.getBrand();
+			String memo = dto.getMemo();
+			//키워드 색칠
+				brand=brand.replace(keyword, "<span style='color:red'>"+keyword+"</span>");
+				iname=iname.replace(keyword, "<span style='color:red'>"+keyword+"</span>");
+				memo=memo.replace(keyword, "<span style='color:red'>"+keyword+"</span>");
+			dto.setIname(iname);
+			dto.setBrand(brand);
+			dto.setMemo(memo);
+		}
+		session.close();
+		return list;
+	}
 }
