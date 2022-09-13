@@ -29,5 +29,6 @@ function detail(){
 <body>
 <input type="hidden" name="idx" id="hidden" value="<%=idx %>">
 <div id="result" style="width: 100%;"></div>
+<!--  -->
 </body>
 </html>

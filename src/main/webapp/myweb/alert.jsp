@@ -13,6 +13,5 @@ location.href='${path}/${url}';
 </script>
 </head>
 <body>
-
 </body>
 </html>

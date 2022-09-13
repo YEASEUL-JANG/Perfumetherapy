@@ -84,11 +84,9 @@ margin-top: 60px;
    </div>
    </div>
  </section>
- 
  <!-- Footer-->
   <footer>
   <jsp:include page="footer.jsp"></jsp:include>
   </footer>
- 
 </body>
 </html>
