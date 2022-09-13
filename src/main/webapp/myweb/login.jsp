@@ -76,7 +76,7 @@ function login(){
 }
 $(function(){
 //카카오 로그인
-Kakao.init('5e359570435fbf94d807196bc24a1998');
+Kakao.init('a8b6d5eb31d962b41730ae629a461855');
 $("#btn-kakao-login").click(function(){
 	Kakao.Auth.login({
 		scope: 'profile_nickname, account_email, gender',
@@ -162,7 +162,7 @@ $("#btn-kakao-login").click(function(){
     </tr>
    </table>
     <script type="text/javascript">
-    var naver_id_login = new naver_id_login("z9TSFU31MJvcPVkoCVQT", "http://localhost/myproject/myweb/naverLogin.jsp");
+    var naver_id_login = new naver_id_login("pH7As85Gi4hn1mMdklpk", "http://localhost/myproject/myweb/naverLogin.jsp");
   	var state = naver_id_login.getUniqState();
   	naver_id_login.setButton("green", 3,60);
   	naver_id_login.setDomain("http://localhost/myproject/myweb/login.jsp");

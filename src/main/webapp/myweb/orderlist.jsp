@@ -110,16 +110,14 @@ function viewdetail(orderid){
 	});
 }  
 function cancelOrder(delivery, orderid){
-	alert(delivery);
-	alert(orderid);
 	var demand = $("#cancelOrder").val();
 	if(demand=="return"){
-		if(delivery!="배송 완료"){
-			alert(delivery+"인 상태에서는 반품진행이 불가합니다.");
-		}else{
+		if(delivery=="배송 완료"){
 			if(confirm("반품을 진행하시겠습니까?")){
-			location.href="${path}/order_servlet/takeback.do?orderid="+orderid;
-			}
+				location.href="${path}/order_servlet/takeback.do?orderid="+orderid;
+				}
+		}else{
+			alert(delivery+"인 상태에서는 반품진행이 불가합니다.");
 		}
 	}else if(demand=="cancel"){
 		if(delivery=="상품 준비중"){

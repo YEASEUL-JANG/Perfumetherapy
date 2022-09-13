@@ -27,10 +27,10 @@ opacity: 0.5;
 .jb-wrap:hover .jb-text{
 visibility: visible;
 opacity: 1!important;}
+#pagenav a:link{text-decoration: none; color:#959595; }
+#pagenav a:visited{text-decoration: none; color:#959595; }
+#pagenav a:hover{text-decoration: underline; color:#836e53; }
 </style>
-<script type="text/javascript">
-
-</script>
 <!-- Favicon-->
 <link rel="icon" type="image/x-icon" href="../Resources/assets/favicon.ico" />
 <link href="../Resources/css/styles.css" rel="stylesheet" />

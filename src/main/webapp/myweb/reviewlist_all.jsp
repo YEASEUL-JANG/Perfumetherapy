@@ -28,11 +28,11 @@ $(function(){
 	//유저아이디 가져오기
 	var count = Number($("#count2").val());
 	for(let i = 0; i<count; i++){
-		var num = $("#num2"+i).val();
+		var num2 = $("#num2"+i).val();
 		  $.ajax({
 				type : "post",
 				url : "${path}/review_servlet/username2.do",
-				data : {num:num},
+				data : {num:num2},
 				success : function(res){
 					$("#username2"+i).html(res);
 				}

@@ -17,16 +17,19 @@
  <select id="orderlist" resultType="order.dto.OrderDTO">
   select * from p_order
   where userid= #{userid} and delivery in('상품 준비중','배송중','배송 완료','배송 준비중')
+  order by orderid desc
  </select>
  
  <select id="cancellist" resultType="order.dto.OrderDTO">
   select * from p_order
   where userid= #{userid} and delivery in('주문 취소중','주문취소 완료')
+  order by orderid desc
  </select>
  
  <select id="returnlist" resultType="order.dto.OrderDTO">
   select * from p_order
   where userid= #{userid} and delivery in('반품 요청중', '반품 완료')
+  order by orderid desc
  </select>
  
  <insert id="addcartItem">

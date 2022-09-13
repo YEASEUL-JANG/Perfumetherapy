@@ -114,7 +114,7 @@ function itemsearch(){
 	 if(item == ''){
 		 alert("찾으시는 키워드를 입력하세요"); return;
 	 }
-	 location.href="${path}/lookforitem.jsp?keyword="+item;
+	 location.href="${path}/myweb/lookforitem.jsp?keyword="+item;
 			 
 }
 </script>

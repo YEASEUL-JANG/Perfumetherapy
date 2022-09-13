@@ -131,7 +131,7 @@ values
          ,(select count(*) from qna_comment 
            where qna_num=num) comment_count, show
     				from p_qna
-    				where writer = #{userid}
+    				where writer in (#{userid},'관리자')
     				order by ref desc, re_step asc) A
 	) where rn between #{start} and #{end}
  </select>

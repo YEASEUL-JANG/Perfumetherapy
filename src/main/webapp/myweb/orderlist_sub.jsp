@@ -54,7 +54,7 @@ padding: 15px;}
     <th >주문상태</th>
     <th >취소/반품</th>
     </tr>
-    <c:forEach var="o" items="${list }">
+    <c:forEach var="o" items="${list }" >
     <tr>
     <td><a href="#" onclick="viewdetail('${o.orderid}')" >${o.orderid}</a></td>
     <td>${o.order_date}</td>

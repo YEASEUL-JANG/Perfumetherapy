@@ -12,7 +12,7 @@
 </head>
 <body>
 <script type="text/javascript">
-  var naver_id_login = new naver_id_login("z9TSFU31MJvcPVkoCVQT", "http://localhost/myproject/myweb/naverLogin.jsp");
+  var naver_id_login = new naver_id_login("pH7As85Gi4hn1mMdklpk", "http://localhost/myproject/myweb/naverLogin.jsp");
   // 네이버 사용자 프로필 조회
   naver_id_login.get_naver_userprofile("naverSignInCallback()");
   // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
